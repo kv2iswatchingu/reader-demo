@@ -1,0 +1,18 @@
+<div>
+  <select
+    class="ui-select"
+    [ngClass]="{'placeholder': !value}"
+    [value]="value"
+    (change)="onChange($event)"
+  >
+    <option value="" disabled selected hidden>
+      {{ placeholder }}
+    </option>
+    @for(opt of options; track options){
+      <option [value]="opt.value">
+        {{ opt.label }}
+      </option>
+    }
+    
+  </select>
+</div>

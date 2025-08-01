@@ -1,0 +1,14 @@
+.ui-checkbox {
+  display: inline-block;
+  label {
+    cursor: pointer;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  input[type="checkbox"]:disabled + span {
+    color: #ccc;
+    cursor: not-allowed;
+  }
+}

@@ -1,0 +1,18 @@
+<div
+  [ngClass]="[
+    'btn',
+    'btn-' + themeType,
+    'btn-' + modeType,
+    customClass,
+    disabled ? 'disabled' : ''
+  ]"
+  (click)="onClick($event)"
+  #btnDiv
+>
+  <ng-content></ng-content>
+  <span
+    *ngIf="ripple"
+    class="ripple-effect"
+    [ngStyle]="{ left: rippleX + 'px', top: rippleY + 'px' }"
+  ></span>
+</div>

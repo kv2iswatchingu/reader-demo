@@ -1,0 +1,9 @@
+<div class="collapse">
+  <div class="collapse-header" (click)="toggle()">
+    <ng-content select="[collapse-title]"></ng-content>
+    <span class="collapse-arrow">{{ expanded ? '▲' : '▼' }}</span>
+  </div>
+  <div class="collapse-content" [class.expanded]="expanded">
+    <ng-content></ng-content>
+  </div>
+</div>

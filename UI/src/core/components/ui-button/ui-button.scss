@@ -1,0 +1,88 @@
+.btn {
+  position: relative;
+  overflow: hidden;
+  outline: none;
+  border: none;
+  padding: 0.5em 1.2em;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+  min-width: fit-content;
+
+  &.btn-primary {
+    background: #1976d2;
+    color: #fff;
+    &:hover { background: #1565c0; }
+    &:active { background: #0d47a1; }
+  }
+  &.btn-success {
+    background: #43a047;
+    color: #fff;
+    &:hover { background: #388e3c; }
+    &:active { background: #1b5e20; }
+  }
+  &.btn-warning {
+    background: #ffa000;
+    color: #fff;
+    &:hover { background: #ff8f00; }
+    &:active { background: #ff6f00; }
+  }
+  &.btn-error {
+    background: #e53935;
+    color: #fff;
+    &:hover { background: #c62828; }
+    &:active { background: #b71c1c; }
+  }
+
+  &.btn-text {
+    background: transparent;
+    color: inherit;
+    box-shadow: none;
+    &:hover { background: rgba(0,0,0,0.04); }
+    &:active { background: rgba(0,0,0,0.08); }
+  }
+  &.btn-icon {
+    background: transparent;
+    padding: 0.35em;
+    color: black;
+    border-radius: 50%;
+    aspect-ratio: 1/1;
+    &:hover { background: rgba(0,0,0,0.08); }
+    &:active { background: rgba(0,0,0,0.16); }
+  }
+  &.btn-circle {
+    border-radius: 50%;
+    width: 2.5em;
+    height: 2.5em;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    &:hover { background: rgba(0,0,0,0.08); }
+    &:active { background: rgba(0,0,0,0.16); }
+  }
+
+  &.disabled {
+    opacity: 0.6;
+    pointer-events: none;
+  }
+
+  .ripple-effect {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    background: rgba(255,255,255,0.3);
+    border-radius: 50%;
+    pointer-events: none;
+    transform: translate(-50%, -50%) scale(0);
+    animation: ripple-anim 0.4s linear;
+    z-index: 1;
+  }
+}
+
+@keyframes ripple-anim {
+  to {
+    transform: translate(-50%, -50%) scale(2.5);
+    opacity: 0;
+  }
+}

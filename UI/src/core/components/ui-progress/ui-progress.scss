@@ -1,0 +1,16 @@
+.ui-progress{
+    width: 100%;
+    height: 6px;
+    background-color: #ddd;
+    border-radius: 4px;
+    &-inner{
+        width: 100%;
+        height: 100%;
+    }
+    &-bg{
+        width: auto;
+        height: 100%;
+        background-color:deepskyblue;
+        border-radius: 4px;
+    }
+}

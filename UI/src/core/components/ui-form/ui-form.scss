@@ -1,0 +1,19 @@
+.ui-form {
+  margin: 0 auto;
+  padding: 1em;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px #0001;
+  .ui-form-actions {
+    text-align: right;
+  }
+  .ui-form-submit {
+    padding: 6px 24px;
+    background: #1976D2;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    &:hover { background: #1565c0; }
+    &:active { background: #0d47a1; }
+  }
+}

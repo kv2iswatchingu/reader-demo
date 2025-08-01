@@ -1,0 +1,8 @@
+<form class="ui-form" (ngSubmit)="onSubmit()" #formRef="ngForm">
+  <ng-content></ng-content>
+  @if( hideSubmit == false){
+    <div class="ui-form-actions">
+      <button type="submit" class="ui-form-submit">提交</button>
+    </div>
+  }
+</form>

@@ -1,0 +1,24 @@
+<div class="ui-input-wrapper">
+  <input
+    class="ui-input"
+    [class.number]="type === 'number'"
+    [class.text]="type === 'text'"
+    [type]="type"
+    [placeholder]="placeholder"
+    [value]="value"
+    (input)="onInput($event)"
+    (focus)="onFocus()"
+    (blur)="onBlur()"
+    [min]="minNumber"
+    [max]="maxNumber"
+    autocomplete="off"
+  />
+  <ul class="ui-input-dropdown"
+  *ngIf="showDropdown && options?.length">
+    <li
+      *ngFor="let opt of options"
+      (mousedown)="selectOption(opt)">
+      {{ opt.label }}
+    </li>
+  </ul>
+</div>

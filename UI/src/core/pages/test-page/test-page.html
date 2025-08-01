@@ -1,0 +1,37 @@
+<div class="explorer">
+  <div class="explorer-list">
+    <!-- <ui-button (btnClick)="loadDict('/Users/zijian/workSpace/test/01')">test
+     -->
+      <ui-button (btnClick)="getInfoByJson(tempDir + '/config.json')">test</ui-button>
+    <div class="">
+        <div class="">
+          {{ mycontent}}
+        </div>
+        <div class="">
+
+        </div>
+    </div> 
+    <!-- <table>
+      <thead>
+        <tr>
+          <th>名称</th>
+          <th>类型</th>
+          <th>大小</th>
+          <th>修改时间</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for(item of fileList;track item){
+          <tr>
+            <td>{{item.name}}</td>
+            <td>{{item.isDirectory ? '文件夹' : '文件'}}</td>
+            <td>{{item.size}}</td>
+            <td>{{item.mtime}}</td>
+          </tr>
+        }
+      </tbody>
+    </table> -->
+  </div>
+</div>
+

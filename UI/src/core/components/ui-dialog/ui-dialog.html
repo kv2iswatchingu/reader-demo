@@ -1,0 +1,30 @@
+<div class="dialog-backdrop">
+  <div class="dialog">
+    <div class="dialog-header">
+        <div class="dialog-title">{{ title }}</div>
+        <ui-button 
+          class="dialog-close"
+          modeType="icon"
+          (click)="onClose()">
+          <ui-icon name="close"></ui-icon> 
+        </ui-button>
+    </div>
+    <div class="dialog-body">
+      <ng-content></ng-content>
+    </div>
+    @if ( !noFooter ) {
+      <div class="dialog-footer">
+      <ui-button 
+          themeType="primary" 
+          (click)="onConfirm()">
+          {{ confirmText }}
+        </ui-button>
+        <ui-button 
+          themeType="error" 
+          (click)="onClose()">
+          {{ cancelText }}
+        </ui-button>
+      </div>
+    }
+  </div>
+</div>

@@ -1,0 +1,25 @@
+.collapse {
+  .collapse-header {
+    cursor: pointer;
+    padding: 0.8em;
+    background: #f5f5f5;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: bold;
+  }
+  .collapse-content {
+    background: #eee;
+    max-height: 0;
+    overflow: hidden;
+    transition: all 0.3s;
+  }
+  .collapse-content.expanded {
+    max-height: 500px;
+    background-color: #eee;
+  }
+  .collapse-arrow {
+    font-size: 0.9em;
+    color: #888;
+  }
+}

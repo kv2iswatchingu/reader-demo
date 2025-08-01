@@ -1,0 +1,11 @@
+<div class="ui-checkbox">
+    <label>
+    <input
+      type="checkbox"
+      [checked]="checked"
+      [disabled]="disabled"
+      (change)="onChange($event)"
+    />
+    <span>{{ label }}</span>
+  </label>
+</div>
