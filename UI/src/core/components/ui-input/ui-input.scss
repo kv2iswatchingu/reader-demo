@@ -1,5 +1,6 @@
 .ui-input-wrapper {
  position: relative;
+ height: 100%;
   .ui-input {
     flex: 1;
     padding: 0.25em 0.5em;
@@ -8,6 +9,12 @@
     font-size: 0.8em;
     outline: none;
     background: #fff;
+    height: 100%;
+    font-family: none;
+  }
+  .disabled{
+    background-color: transparent;
+    border: 1px solid transparent;
   }
 }
 .ui-input-dropdown {
@@ -30,7 +37,7 @@
   width: 80px;
 }
 .text{
-  width: fit-content;
-  min-width: 120px;
-  max-width: 200px;
+  width: 100%;
+  min-width: 50px;
+  max-width: 250px;
 }

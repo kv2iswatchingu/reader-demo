@@ -9,4 +9,5 @@ contextBridge.exposeInMainWorld("versions", {
 contextBridge.exposeInMainWorld("electronAPI", {
   writeIn: (filePath, content) => ipcRenderer.invoke("write-in", filePath, content),
   readOut: (filePath) => ipcRenderer.invoke("read-out", filePath),
+  floderImage: (targetPath) => ipcRenderer.invoke("floder-image", targetPath),
 });

@@ -1,5 +1,9 @@
 <div class="dialog-backdrop">
-  <div class="dialog">
+  <div 
+    class="dialog"
+    [style.width.px]="dialogWidth"
+    [style.height.px]="dialogHeight"
+    >
     <div class="dialog-header">
         <div class="dialog-title">{{ title }}</div>
         <ui-button 

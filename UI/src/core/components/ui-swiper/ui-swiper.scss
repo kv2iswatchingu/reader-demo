@@ -1,0 +1,39 @@
+.carousel{
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16/5;
+    margin: auto;
+}
+.carousel-ImageFrame{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background-color: #ffeeee;
+}
+.carousel-img{
+    width: 100%;
+    height: 100%;
+    object-fit:contain;
+}
+.carousel-btnFrame{
+    position: absolute;
+    width: 100%;
+    margin: auto;
+    display: flex;
+    justify-content:center;
+    bottom: 1rem;
+}
+.carousel-btn{
+    //position: relative;
+    width: 2.5rem;
+    height: 0.75rem;
+    border: none;
+    background-color: #cccccc99;
+    border-radius: 1rem;
+    padding: 0;
+    cursor: pointer;
+    margin-left: 2rem;
+}
+.carousel-btn:hover{
+    background-color: #eeeeee99;
+}

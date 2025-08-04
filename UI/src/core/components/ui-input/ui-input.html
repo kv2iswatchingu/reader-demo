@@ -3,6 +3,7 @@
     class="ui-input"
     [class.number]="type === 'number'"
     [class.text]="type === 'text'"
+    [class.disabled]="readOnly"
     [type]="type"
     [placeholder]="placeholder"
     [value]="value"
@@ -12,6 +13,7 @@
     [min]="minNumber"
     [max]="maxNumber"
     autocomplete="off"
+    [readOnly]="readOnly"
   />
   <ul class="ui-input-dropdown"
   *ngIf="showDropdown && options?.length">

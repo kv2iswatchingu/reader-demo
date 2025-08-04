@@ -16,13 +16,15 @@ export class UiInput {
   @Input() minNumber: number | undefined;
   @Input() maxNumber: number | undefined;
   @Output() valueChange = new EventEmitter<any>();
-  @Input() options: { label: string, value: any }[] = []; // 新增
+  @Input() options: { label: string, value: any }[] = [];
+  @Input() disabled: boolean = false;
+  @Input() readOnly: boolean = false;
 
   showDropdown = false;
 
 
   onInput(val: any) {
-   this.value = val.target ? val.target.value : val; // 兼容 $event 直接传递
+   this.value = val.target ? val.target.value : val;
   this.valueChange.emit(this.value);
   this.showDropdown = Array.isArray(this.options) && this.options.length > 0;
   }

@@ -1,0 +1,30 @@
+<div class="carousel">
+    @defer(on viewport){
+        @for (item of bannerData; track $index) {
+            <div 
+                class="carousel-ImageFrame"
+                [@carousel]="$index == currentIndex ? 'show' : 'hide'"
+                >
+                <img 
+                    class="carousel-img"
+                    [src]="item.imageUrl" 
+                    alt="{{item.imageUrl}}">
+            </div> 
+        }
+        <div class="carousel-btnFrame">
+            @for (item of bannerData; track $index) {
+                <button 
+                    class="carousel-btn"
+                    (click)="changeCurrent($index)">
+                </button>
+            }
+        </div>
+    }@placeholder {
+        <p>nothing here</p>
+    }@loading (minimum 1s){
+        <p>wait ^</p>
+    }
+
+    
+    
+</div>

@@ -1,6 +1,7 @@
 .reader-homepage{
     display: flex;
-    height: 100vh;
+    height: 100%;
+    min-height: 100vh;
     &-operator{
         width: 10%;
         padding: 1em;
@@ -16,12 +17,21 @@
         padding: 1em;
         background-color: #DFE
     }   
+    &-dialog{
+        &-inner{}
+        &-image{}
+        &-tool{}
+    }
 }
 
 .info{
     &-cover{
         width: 100%;
         height: auto;
+        &-edit{
+            cursor: pointer;
+            border: 4px dashed orange;
+        }
     }
     &-start{
         margin:0.5em;
@@ -43,9 +53,13 @@
         margin: 0.5em 0;
         display: flex;
         align-items: center;
+        position: relative;
+        flex-wrap: wrap;
+        row-gap: 6px;
     }
     &-label{
         margin-right: 1em;
+        width: 36px;
     }
     
     &-author{
@@ -54,19 +68,97 @@
         font-size: 0.8em;
         display: block;
         border-radius: 4px;
+        height: 30px;
+        min-width: 80px;
+        text-align: center;
+        &-edit{
+            width: 250px;
+            height: 30px;
+            font-size: 1em;
+
+        }
     } 
     &-description{
         word-break: break-all;
         line-height: normal;
         width: 250px;
     }
-    
+    &-rank{
+        position: absolute;
+        top: 0;
+        left: 0;
+        pointer-events: none;
+    }
+    &-star{
+        color: yellow;
+    }
+    &-starborder{
+        z-index: 1;
+    }
 
 }
 .button-tag{
     border: #DDD 1px solid;
     width: fit-content;
-    font-size: 0.6em;
+    min-width: 50px;
+    font-size: 0.8em;
     border-radius: 4px;
-    margin-left: 0.7em;
+    margin-right: 0.5em;
+    height: 30px;
+    display: block;
+    text-align: center;
+    &-container{
+        position: relative;
+    }
+    &-close{
+        font-size: 12px;
+        height: 12px;
+        width: 12px;
+        cursor: pointer;
+        position: absolute;
+        right: 2px;
+        top: -3px;
+        background-color: red;
+        border-radius: 50%;
+        color: #FFF;
+    }
+    &-add{
+        height: 30px;
+        &-icon{
+            width: 20px;
+            height: 20px;
+            font-size: 20px;
+        }
+        &-input{
+            width: 80px;
+            height: 30px;
+        }   
+    }
+}
+.select-cover{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5em;
+    &-item{
+        width: 150px;
+        height: 210px;
+        object-fit: cover;
+        border-radius: 4px;
+        &-active{
+            border: 2px solid orange;
+        }
+    }
+    &-name{
+        font-size: 0.8em;
+        max-width: 150px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        text-align: center;
+    }
+}
+
+
+.mat-icon-active{
+    cursor: pointer;
 }

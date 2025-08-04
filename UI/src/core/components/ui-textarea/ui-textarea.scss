@@ -1,0 +1,19 @@
+.ui-textarea-wrapper {
+    .ui-textarea{
+        font-family: none;
+        width: 100%;
+        padding: 0;
+        border: 1px solid #eee;
+        border-radius: 4px; 
+        font-size: 1em;
+        overflow: hidden;
+    }
+    .noDrop{
+        resize: none;
+    }
+    .readOnly{
+        padding: 0;
+        background-color: transparent;
+        border: 1px solid transparent;
+    }
+}

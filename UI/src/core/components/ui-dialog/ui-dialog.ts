@@ -15,6 +15,8 @@ export class UiDialog {
   @Input() noFooter: boolean = false;
   @Output() confirm = new EventEmitter<void>();
   @Output() close = new EventEmitter<void>();
+  @Input() dialogWidth: number = 400;
+  @Input() dialogHeight: number = 300;
 
   confirmText: string = '确定';
   cancelText: string = '取消';

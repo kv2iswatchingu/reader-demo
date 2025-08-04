@@ -1,0 +1,15 @@
+<div class="ui-textarea-wrapper">
+    <textarea
+        [id]="name"
+        class="ui-textarea"
+        [class.noDrop]="noDrop"
+        [class.readOnly]="readOnly"
+        [cols]="cols"
+        [rows]="rows"
+        [readOnly]="readOnly"
+        [placeholder]="placeholder"
+        [(value)]="value"
+        (input)="onInput($event)"
+        
+    ></textarea>
+</div>

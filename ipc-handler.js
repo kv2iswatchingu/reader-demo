@@ -25,6 +25,20 @@ function registerIpcHandlers() {
       return { success: false, message: e.message };
     }
   });
+  //返回当前文件夹内的所有图片内容，不包含子文件夹与config文件
+  ipcMain.handle('floder-image', async (event,targetPath) => {
+    try {
+      const all = fs.readdirSync(targetPath, { withFileTypes: true });
+      // 只返回图片文件（可根据需要扩展图片类型）
+      const images = all
+        .filter(dirent => dirent.isFile() && /\.(png|jpe?g|gif|bmp|webp)$/i.test(dirent.name))
+        .map(dirent => dirent.name)
+        .sort((a, b) => a.localeCompare(b, undefined, { numeric: true }));
+      return { success: true, images };
+    } catch (e) {
+      return { success: false, message: e.message };
+    }
+  })
 
 
   // ipcMain.handle("select-files", async () => {
