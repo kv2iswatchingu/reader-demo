@@ -158,12 +158,14 @@
         <ui-dialog
             [title]="config ? config.name : floderName"
             (close)="readMode = false"
-            [dialogHeight]="1200"
-            [dialogWidth]="1600"
+            [dialogHeight]="720"
+            [dialogWidth]="1280"
             [noFooter]="true">
             <div class="reader-dialog-inner">
                 <div class="reader-dialog-image">
-                    <ui-swiper [bannerData]="coverList">
+                    <ui-swiper 
+                        [dirPath]="filePath"
+                        [swiperData]="coverList">
                     </ui-swiper>
                 </div>
                 <div class="reader-dialog-tool">

@@ -1,30 +1,67 @@
-<div class="carousel">
-    @defer(on viewport){
-        @for (item of bannerData; track $index) {
-            <div 
-                class="carousel-ImageFrame"
-                [@carousel]="$index == currentIndex ? 'show' : 'hide'"
-                >
-                <img 
-                    class="carousel-img"
-                    [src]="item.imageUrl" 
-                    alt="{{item.imageUrl}}">
-            </div> 
-        }
-        <div class="carousel-btnFrame">
-            @for (item of bannerData; track $index) {
-                <button 
-                    class="carousel-btn"
-                    (click)="changeCurrent($index)">
-                </button>
-            }
-        </div>
-    }@placeholder {
-        <p>nothing here</p>
-    }@loading (minimum 1s){
-        <p>wait ^</p>
+<div 
+    class="ui-swiper"
+    (wheel)="onWheel($event)" 
+    (mousedown)="onMouseDown($event)" 
+    (mouseup)="onMouseUp($event)" 
+    (mousemove)="onMouseMove($event)"
+    (mouseenter)="showArrows()"
+    (mousemove)="showArrows()"
+    (mouseleave)="hideArrowsAfterDelay()"
+    >
+    <ui-button 
+        class="ui-swiper-arrow left" 
+        [style.display]="arrowsVisible ? 'block' : 'none'"
+        (click)="prev()">
+        &lt;
+    </ui-button>
+    @for (image of swiperData; track image;let index = $index) {
+        <div 
+            class="ui-swiper-imageframe"
+            [class.active]="index === currentIndex"
+            [class.inactive]="index !== currentIndex">
+            <img 
+                class="ui-swiper-image"
+                [src]="dirPath + '/' + image"
+                [style.transform]="'scale(' + zoom + ') translate(' + (index === currentIndex ? offsetX : 0) + 'px,' + (index === currentIndex ? offsetY : 0) + 'px)'"
+                draggable="false"
+            />
+        </div> 
     }
+    <ui-button 
+        class="ui-swiper-arrow right" 
+        [style.display]="arrowsVisible ? 'block' : 'none'"
+        (click)="next()">
+        &gt;
+    </ui-button>
 
+   
+    @if( zoom !== 1 ) {
+        <div class="ui-swiper-tools">
+            <ui-button (click)="resetZoom()">恢复缩放</ui-button>
+        </div>
+    }
     
-    
+
+    <!-- <div class="ui-swiper-btnframe">
+        @for (image of swiperData; track $index) {
+            <ui-button 
+                class="ui-swiper-btn"
+                [class.active]="$index === currentIndex"
+                (click)="changeCurrent($index)">
+            </ui-button>
+        }
+    </div> -->
+</div>
+<div class="ui-swiper-filmstrip">
+    <div class="ui-swiper-filmstrip-inner">
+        @for (image of swiperData; track image; let index = $index) {
+            <img 
+                class="ui-swiper-thumb"
+                [class.active]="index === currentIndex"
+                [src]="dirPath + '/' + image"
+                (click)="changeCurrent(index)"
+                draggable="false"
+            />
+        }
+    </div>
 </div>

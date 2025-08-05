@@ -27,6 +27,8 @@ export class UiDialog {
   onClose() {
     this.close.emit();
   }
-
+  /**
+   * SLASH!
+   */
   
 }
