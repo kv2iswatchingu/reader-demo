@@ -160,17 +160,16 @@
             (close)="readMode = false"
             [dialogHeight]="720"
             [dialogWidth]="1280"
+            [darkmode]="darkmode"
             [noFooter]="true">
-            <div class="reader-dialog-inner">
-                <div class="reader-dialog-image">
-                    <ui-swiper 
-                        [dirPath]="filePath"
-                        [swiperData]="coverList">
-                    </ui-swiper>
-                </div>
-                <div class="reader-dialog-tool">
-
-                </div>
+            <div 
+                class="reader-dialog-inner"
+                [style.background-color]="darkmode ? '#333' : '#FFF'">
+                <ui-viewer
+                    (darkmodeChange)="darkmodeChange($event)"
+                    [dirPath]="filePath"
+                    [viewerData]="coverList">
+                </ui-viewer>
             </div>
         </ui-dialog>
     }

@@ -1,0 +1,111 @@
+<div 
+    class="ui-viewer"
+    (wheel)="onWheel($event)" 
+    (mousedown)="onMouseDown($event)" 
+    (mouseup)="onMouseUp($event)" 
+    (mousemove)="onMouseMove($event)"
+    (mouseenter)="showHiddens()"
+    (mousemove)="showHiddens()"
+    (mouseleave)="hideArrowsAfterDelay()"
+    >
+    <ui-button 
+        class="ui-viewer-arrow left" 
+        modeType="icon"
+        [style.display]="toolsVisible ? 'block' : 'none'"
+        (click)="prev()">
+        <mat-icon [class.ui-viewer-icon]="darkmode">chevron_left</mat-icon>
+    </ui-button>
+    @for (image of viewerData; track image;let index = $index) {
+        <div 
+            class="ui-viewer-imageframe"
+            [class.active]="index === currentIndex"
+            [class.inactive]="index !== currentIndex">
+            <img 
+                class="ui-viewer-image"
+                [src]="dirPath + '/' + image"
+                [style.transform]="'scale(' + zoom + ') translate(' + (index === currentIndex ? offsetX : 0) + 'px,' + (index === currentIndex ? offsetY : 0) + 'px)'"
+                draggable="false"
+            />
+        </div> 
+    }
+    <ui-button 
+        class="ui-viewer-arrow right"
+        modeType="icon" 
+        [style.display]="toolsVisible ? 'block' : 'none'"
+        (click)="next()">
+        <mat-icon [class.ui-viewer-icon]="darkmode">chevron_right</mat-icon>
+    </ui-button>
+
+   
+    
+    <div 
+        class="ui-viewer-tools"
+        [style.display]="toolsVisible ? 'flex' : 'none'">
+        <ui-button modeType="icon">
+            <mat-icon class="ui-viewer-icon">fullscreen</mat-icon>
+        </ui-button>
+        <ui-button modeType="icon">
+            <mat-icon class="ui-viewer-icon">fullscreen_exit</mat-icon>
+        </ui-button>
+        <ui-button modeType="icon">
+            <mat-icon class="ui-viewer-icon">play_circle_outline</mat-icon>
+        </ui-button>
+        <ui-button modeType="icon">
+            <mat-icon class="ui-viewer-icon">pause_circle_outline</mat-icon>
+        </ui-button>
+        <ui-button modeType="icon">
+            <mat-icon class="ui-viewer-icon">turned_in</mat-icon>
+        </ui-button>
+        <ui-button modeType="icon">
+            <mat-icon class="ui-viewer-icon">turned_in_not</mat-icon>
+        </ui-button>
+        @if( darkmode ) {
+            <ui-button modeType="icon" (btnClick)="toggleDarkmode()">
+                <mat-icon class="ui-viewer-icon">brightness_4</mat-icon>
+            </ui-button>
+        }@else {
+            <ui-button modeType="icon" (btnClick)="toggleDarkmode()">
+                <mat-icon class="ui-viewer-icon">brightness_5</mat-icon>
+            </ui-button>
+        }
+        
+        
+        @if( zoom !== 1 ) {
+            <ui-button (click)="resetZoom()" modeType="icon">
+                <mat-icon class="ui-viewer-icon">photo_library</mat-icon>
+            </ui-button>
+        }
+    </div>
+    
+    
+
+    <!-- <div class="ui-viewer-btnframe">
+        @for (image of viewerData; track $index) {
+            <ui-button 
+                class="ui-viewer-btn"
+                [class.active]="$index === currentIndex"
+                (click)="changeCurrent($index)">
+            </ui-button>
+        }
+    </div> -->
+</div>
+<div class="ui-viewer-filmstrip" [style.background-color]="darkmode ? '#333' : '#FFF'">
+    <div class="ui-viewer-filmstrip-inner">
+        @for (image of viewerData; track image; let index = $index) {
+            <div class="ui-viewer-thumbframe">
+                <img 
+                    class="ui-viewer-thumb"
+                    [class.active]="index === currentIndex"
+                    [src]="dirPath + '/' + image"
+                    (click)="changeCurrent(index)"
+                    draggable="false"
+                />
+                <div class="ui-viewer-thumb-index">
+                    {{index + 1 }}
+                </div>
+            </div>
+            
+        }
+    </div>
+</div>
+<!--  some useful function -->

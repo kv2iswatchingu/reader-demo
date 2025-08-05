@@ -4,20 +4,26 @@
     [style.width.px]="dialogWidth"
     [style.height.px]="dialogHeight"
     >
-    <div class="dialog-header">
-        <div class="dialog-title">{{ title }}</div>
+    <div 
+      class="dialog-header"
+      [class.darkmode]="darkmode"
+      >
+        <div class="dialog-title" [style.color]="darkmode ? '#FFF' : '#333'">{{ title }}</div>
         <ui-button 
           class="dialog-close"
           modeType="icon"
           (click)="onClose()">
-          <ui-icon name="close"></ui-icon> 
+          <mat-icon [style.color]="darkmode ? '#FFF' : '#333'">close</mat-icon>
         </ui-button>
     </div>
-    <div class="dialog-body">
+    <div 
+      class="dialog-body" 
+      [class.darkmode]="darkmode">
       <ng-content></ng-content>
     </div>
     @if ( !noFooter ) {
-      <div class="dialog-footer">
+      <div class="dialog-footer"
+      [class.darkmode]="darkmode">
       <ui-button 
           themeType="primary" 
           (click)="onConfirm()">

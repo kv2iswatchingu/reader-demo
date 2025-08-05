@@ -19,9 +19,10 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1em;
+  padding: 0.5em 1em;
   border-bottom: 1px solid #eee;
   font-weight: bold;
+  height: 40px;
 }
 .dialog-title {
   font-size: 1.1em;
@@ -34,7 +35,9 @@
 }
 .dialog-body {
   padding: 1em;
+  height: 100%;
 }
+
 .dialog-footer {
   display: flex;
   justify-content: flex-end;
@@ -53,4 +56,9 @@
 }
 .dialog-btn:hover {
   background: #1565c0;
+}
+.darkmode{
+  background-color: #333;
+  color:#FFF;
+  border-bottom: 1px solid #666;
 }

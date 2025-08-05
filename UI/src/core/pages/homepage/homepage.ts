@@ -5,11 +5,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { UiTextarea } from '../../components/ui-textarea/ui-textarea';
 import { UiInput } from '../../components/ui-input/ui-input';
 import { UiDialog } from '../../components/ui-dialog/ui-dialog';
-import { UiSwiper } from "../../components/ui-swiper/ui-swiper";
+import { UiViewer } from '../../components/ui-viewer/ui-viewer';
 
 @Component({
   selector: 'app-homepage',
-  imports: [CommonModule, UiButton, MatIconModule, UiTextarea, UiInput, UiDialog, UiSwiper],
+  imports: [CommonModule, UiButton, MatIconModule, UiTextarea, UiInput, UiDialog, UiViewer],
   templateUrl: './homepage.html',
   styleUrl: './homepage.scss',
 })
@@ -34,8 +34,10 @@ export class Homepage {
   coverList: string[] = [];
   currentCover: string = '';
   currentAddTag: string = '';
+  darkmode: boolean = true;
   //
   readMode: boolean = false;
+
   
   ngOnInit() {
     this.readJson();
@@ -76,6 +78,9 @@ export class Homepage {
     }
   }
 
+  darkmodeChange(event: boolean) {
+    this.darkmode = event;
+  }
   getFloderName(){
       const match = this.filePath.match(/([^\\/]+)\.(\w+)$/);
       if (match) {

@@ -1,27 +1,31 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { UiButton } from '../ui-button/ui-button';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
-  selector: 'ui-swiper',
-  imports: [UiButton],
-  templateUrl: './ui-swiper.html',
-  styleUrl: './ui-swiper.scss',
+  selector: 'ui-viewer',
+  imports: [UiButton,MatIcon],
+  templateUrl: './ui-viewer.html',
+  styleUrls: ['./ui-viewer.scss'],
 })
-export class UiSwiper {
+export class UiViewer {
   @Input() dirPath:string = '';
-  @Input() swiperData:string[] = [];
+  @Input() viewerData:string[] = [];
+  @Output() darkmodeChange = new EventEmitter<boolean>();
 
   currentIndex = 0;
   zoom = 1;
   offsetX = 0;
   offsetY = 0;
+  toolsVisible = true;
+  darkmode = true
   private dragStartX: number | null = null;
   private dragStartY: number | null = null;
   private dragging = false;
   private lastOffsetX = 0;
   private lastOffsetY = 0;
-  arrowsVisible = true;
   private arrowTimer: any = null;
+
 
 
   prev() {
@@ -33,7 +37,7 @@ export class UiSwiper {
     this.lastOffsetY = 0;
   }
   next() {
-    if (this.currentIndex < this.swiperData.length - 1) this.currentIndex++;
+    if (this.currentIndex < this.viewerData.length - 1) this.currentIndex++;
     this.zoom = 1;
     this.offsetX = 0;
     this.offsetY = 0;
@@ -48,17 +52,17 @@ export class UiSwiper {
     this.lastOffsetX = 0;
     this.lastOffsetY = 0;
   }
-  showArrows() {
-    this.arrowsVisible = true;
+  showHiddens() {
+    this.toolsVisible = true;
     if (this.arrowTimer) clearTimeout(this.arrowTimer);
     this.arrowTimer = setTimeout(() => {
-      this.arrowsVisible = false;
+      this.toolsVisible = false;
     }, 5000);
   }
   hideArrowsAfterDelay() {
     if (this.arrowTimer) clearTimeout(this.arrowTimer);
     this.arrowTimer = setTimeout(() => {
-      this.arrowsVisible = false;
+      this.toolsVisible = false;
     }, 5000);
   }
   resetZoom() {
@@ -68,7 +72,10 @@ export class UiSwiper {
     this.lastOffsetX = 0;
     this.lastOffsetY = 0;
   }
-  
+  toggleDarkmode(){
+    this.darkmode = !this.darkmode;
+    this.darkmodeChange.emit(this.darkmode);
+  }
 
   // 鼠标滚轮缩放
   onWheel(event: WheelEvent) {
@@ -108,7 +115,7 @@ export class UiSwiper {
       const dx = event.clientX - this.dragStartX;
       if (Math.abs(dx) > 50) {
         if (dx > 0 && this.currentIndex > 0) this.prev();
-        else if (dx < 0 && this.currentIndex < this.swiperData.length - 1) this.next();
+        else if (dx < 0 && this.currentIndex < this.viewerData.length - 1) this.next();
       }
     }
     this.dragStartX = null;
