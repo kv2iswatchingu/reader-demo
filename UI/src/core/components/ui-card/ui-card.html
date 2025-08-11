@@ -1,33 +1,60 @@
-<div 
-    class="ui-card" 
-    [class.ui-card-active]="cardActive"
-    (click)="onCardClick($event)"
-    (dblclick)="onCardDblClick($event)">
-    @if( cardData){
-        @if(detailMode){
-            <div>            
-                <mat-icon>
-                    @if( cardData.isDirectory){}
-                    @if( cardData.isImage){}
-                    @if( cardData.isJson){}
-                </mat-icon>
-                <div>{{ cardData.name }}</div>
-                <div>{{ cardData.size }}</div>
-                <div>{{ cardData.mtime }}</div>
-                <div>{{ cardData.birthtime }}</div>
-            </div>
-        }
-        @else {
-            <div>
-                <mat-icon>
-                   @if( cardData.isDirectory){}
-                    @if( cardData.isImage){}
-                    @if( cardData.isJson){}
-                </mat-icon>
-            </div>
-            <div>
+
+@if( cardData){
+    @if(detailMode){
+        <div 
+            class="ui-card-detail"
+            (click)="onCardClick($event)"
+            [class.disabled]="disabled"
+            (dblclick)="onCardDblClick($event)">            
+            @if( cardData.isDirectory){ 
+                <mat-icon class="ui-card-detail-icon icon-folder">folder</mat-icon>  
+            }
+            @if( cardData.isImage){ 
+                <mat-icon class="ui-card-detail-icon icon-image">photo</mat-icon>
+            }
+            @if( cardData.isJson){ 
+                <mat-icon class="ui-card-detail-icon icon-config">perm_data_setting </mat-icon>
+            }
+            <div>{{ cardData.name }}</div>
+            <div>{{ cardData.size }}</div>
+            <div>{{ cardData.mtime }}</div>
+            <div>{{ cardData.birthtime }}</div>
+            @if(ripple){
+                <span
+                    class="ripple-effect"
+                    [ngStyle]="{ left: rippleX + 'px', top: rippleY + 'px' }"
+                ></span>
+            }
+        </div>
+        
+    }
+    @else {
+        <div 
+            class="ui-card-meta"
+            [class.disabled]="disabled"
+            (click)="onCardClick($event)"
+            (dblclick)="onCardDblClick($event)">
+            @if( cardData.isDirectory){ 
+                <mat-icon class="ui-card-meta-icon icon-folder">folder</mat-icon>  
+            }
+            @if( cardData.isImage){ 
+                <!-- <mat-icon class="ui-card-meta-icon icon-image">photo</mat-icon> -->
+                 <img class="ui-card-meta-image" [src]="cardData.path" draggable="false">
+            }
+            @if( cardData.isJson){ 
+                <mat-icon class="ui-card-meta-icon icon-config">perm_data_setting </mat-icon>
+            }
+            <div class="ui-card-meta-text">
                 {{ cardData.name }}
             </div>
-        }
-    }    
-</div>
+            @if(ripple){
+                <span
+                    class="ripple-effect"
+                    [ngStyle]="{ left: rippleX + 'px', top: rippleY + 'px' }"
+                ></span>
+            }
+        </div>
+        
+        
+    }
+}    

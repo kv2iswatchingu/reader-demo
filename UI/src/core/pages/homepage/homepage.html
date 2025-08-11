@@ -13,9 +13,10 @@
                 search
             </div>
         </div>
-        <div class="reader-homepage-content">
+        <div 
+            class="reader-homepage-content">
             @for( file of mainTest;track file;let index = $index){
-                <div>
+                <!-- <div>
                     <div>
                         {{ file.name }}
                     </div>
@@ -32,7 +33,13 @@
                         {{ file.isJson }}
                     </div>
                 </div>
-                
+                 -->
+                <ui-card
+                    [cardData]="file"
+                    [disabled]="editConfig || addConfig"
+                    (cardDbClick)="openFolder(file)"
+                    >
+                </ui-card>    
             }
         </div>
     </div>
@@ -42,9 +49,13 @@
             <div class="empty-info">
                 <div class="empty-info-header">
                     @if(addConfig){
+                        <ui-button class="empty-info-btn" modeType="icon" (btnClick)="cancelAddConfig()">
+                            <mat-icon>close</mat-icon>
+                        </ui-button>
                         <ui-button class="empty-info-btn" modeType="icon" (btnClick)="writeJson()">
                             <mat-icon>save</mat-icon>
                         </ui-button>
+                        
                     }@else {
                         <ui-button class="empty-info-btn" modeType="icon" (btnClick)="initAddConfig()">
                             <mat-icon>add</mat-icon>

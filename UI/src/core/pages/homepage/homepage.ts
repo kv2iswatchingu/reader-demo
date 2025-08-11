@@ -7,10 +7,11 @@ import { UiInput } from '../../components/ui-input/ui-input';
 import { UiDialog } from '../../components/ui-dialog/ui-dialog';
 import { UiViewer } from '../../components/ui-viewer/ui-viewer';
 import { MainpathService } from '../../services/mainpath.service';
+import { CardType, UICard } from "../../components/ui-card/ui-card";
 
 @Component({
   selector: 'app-homepage',
-  imports: [CommonModule, UiButton, MatIconModule, UiTextarea, UiInput, UiDialog, UiViewer],
+  imports: [CommonModule, UiButton, MatIconModule, UiTextarea, UiInput, UiDialog, UiViewer, UICard],
   templateUrl: './homepage.html',
   styleUrl: './homepage.scss',
 })
@@ -45,13 +46,13 @@ export class Homepage {
   constructor(private mainPathService: MainpathService) {}
 
   ngOnInit() {
-    this.floderName = this.getFloderName();
     this.mainPathService.mainPath$.subscribe((path) => {
       if (path) {
         this.filePath = path;
       }
     });
     this.getAllbyDir(this.filePath);
+    this.floderName = this.getFloderName();
     this.readJson();  
   }
   async getAllbyDir(dir:string){
@@ -92,6 +93,21 @@ export class Homepage {
       this.coverList = result.images;
     }
   }
+
+  openFolder(file: CardType) {
+    if(file.isDirectory == true){
+      this.filePath = file.path;
+      this.floderName = this.getFloderName();
+      this.getAllbyDir(this.filePath);
+      this.readJson();
+    }
+    if(file.isJson == true){
+      this.editConfig = true;
+    }
+    
+  }
+
+
 
   darkmodeChange(event: boolean) {
     this.darkmode = event;
@@ -155,7 +171,10 @@ export class Homepage {
       path: '',
     }
   }
-
+  cancelAddConfig(){
+    this.addConfig = false;
+    this.config = null;
+  }
 }
 
 export interface ConfigJSON {

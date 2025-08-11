@@ -9,5 +9,5 @@ export const routes: Routes = [
   },
   {
     path:'settings',component:SettingPage
-  }
+  },
 ];

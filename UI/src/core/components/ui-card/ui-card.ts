@@ -1,24 +1,35 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, EventEmitter, Input, Output} from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 
 @Component({
   selector: 'ui-card',
-  imports: [MatIcon],
+  imports: [MatIcon,CommonModule],
   templateUrl: './ui-card.html',
   styleUrl: './ui-card.scss'
 })
 export class UICard {
   @Input() cardData: CardType | null = null;
   @Input() detailMode = false;
-  @Output() cardClick = new EventEmitter();
-  @Output() cardDbClick = new EventEmitter();
-  cardActive: boolean = false;
+  @Input() disabled = false;
+  @Output() cardDbClick = new EventEmitter<Event>();
+  
+  ripple = false;
+  rippleX = 0;
+  rippleY = 0;
 
   onCardClick(event:MouseEvent) {
-    this.cardActive = true;
-    this.cardClick.emit(event);
+    if (this.disabled) return;
+    const target = event.currentTarget as HTMLElement;
+    const rect = target.getBoundingClientRect();
+    this.rippleX = event.clientX - rect.left;
+    this.rippleY = event.clientY - rect.top;
+    this.ripple = false;
+    setTimeout(() => (this.ripple = true), 0);
+    setTimeout(() => (this.ripple = false), 400);
   }
   onCardDblClick(event:MouseEvent) {
+    if (this.disabled) return;
     this.cardDbClick.emit(event);
   }
 }

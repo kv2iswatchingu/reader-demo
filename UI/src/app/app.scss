@@ -1,6 +1,7 @@
 .app-main{
     display: flex;
-    height: 100vh;
+    min-height: 100vh;
+    height: auto;
     &-side{
         width: 10%;
         padding: 1em;
