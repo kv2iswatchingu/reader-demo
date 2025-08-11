@@ -1,0 +1,33 @@
+<div 
+    class="ui-card" 
+    [class.ui-card-active]="cardActive"
+    (click)="onCardClick($event)"
+    (dblclick)="onCardDblClick($event)">
+    @if( cardData){
+        @if(detailMode){
+            <div>            
+                <mat-icon>
+                    @if( cardData.isDirectory){}
+                    @if( cardData.isImage){}
+                    @if( cardData.isJson){}
+                </mat-icon>
+                <div>{{ cardData.name }}</div>
+                <div>{{ cardData.size }}</div>
+                <div>{{ cardData.mtime }}</div>
+                <div>{{ cardData.birthtime }}</div>
+            </div>
+        }
+        @else {
+            <div>
+                <mat-icon>
+                   @if( cardData.isDirectory){}
+                    @if( cardData.isImage){}
+                    @if( cardData.isJson){}
+                </mat-icon>
+            </div>
+            <div>
+                {{ cardData.name }}
+            </div>
+        }
+    }    
+</div>

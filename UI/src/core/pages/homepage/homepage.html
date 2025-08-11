@@ -1,165 +1,205 @@
 <div class="reader-homepage">
-    <div class="reader-homepage-operator">
-        operator
-    </div>
-
     <div class="reader-homepage-main">
         
         <div class="reader-homepage-tools">
             <div>
-
+                sort/back/home/show
             </div>
-            
-            <!-- <ui-button (btnClick)="writeJson()">
-
-            </ui-button> -->
+            <div>
+                {{ filePath }}
+                <!-- input with breadcurmb -->
+            </div>
+            <div>
+                search
+            </div>
         </div>
         <div class="reader-homepage-content">
-
+            @for( file of mainTest;track file;let index = $index){
+                <div>
+                    <div>
+                        {{ file.name }}
+                    </div>
+                    <div>
+                        {{ file.size }}
+                    </div>
+                    <div>
+                        {{ file.isDirectory }}
+                    </div>
+                    <div>
+                        {{ file.isImage }}
+                    </div>
+                    <div>
+                        {{ file.isJson }}
+                    </div>
+                </div>
+                
+            }
         </div>
     </div>
     
     <div class="reader-homepage-info">
-       @if (config) {
-        <div>
-            <img 
-                class="info-cover"
-                [class.info-cover-edit]="editConfig"    
-                [src]="filePath + '/' + config.cover" 
-                (click)="selectCover()"
-            />
-            @if(editingCover){
-                <ui-dialog
-                    [title]="selectCoverLabel"
-                    (close)="editingCover = false"
-                    [dialogHeight]="600"
-                    [dialogWidth]="800"
-                    [noFooter]="true"
-                    >
-                    <div class="select-cover">
-                        @for(image of coverList;track image;let index = $index){
-                            <img 
-                                class="select-cover-item"
-                                [class.select-cover-item-active]="currentCover === image"
-                                [src]="filePath + '/' + image" 
-                                (click)="currentCover = image" 
-                                (dblclick)="changeCover(image)"
-                            />
-                            <div class="select-cover-name">{{image}}</div>
-                        }
+        @if( !config || addConfig ) {
+            <div class="empty-info">
+                <div class="empty-info-header">
+                    @if(addConfig){
+                        <ui-button class="empty-info-btn" modeType="icon" (btnClick)="writeJson()">
+                            <mat-icon>save</mat-icon>
+                        </ui-button>
+                    }@else {
+                        <ui-button class="empty-info-btn" modeType="icon" (btnClick)="initAddConfig()">
+                            <mat-icon>add</mat-icon>
+                        </ui-button>
+                    }
+                </div>
+            </div>
+        }
+        @if (config) {
+            <div>
+                @if( !addConfig ) {
+                    <img 
+                        class="info-cover"
+                        [class.info-cover-edit]="editConfig"   
+                        [src]="filePath + '/' + config.cover" 
+                        (click)="selectCover()"
+                    />
+                    <ui-button class="info-start" themeType="success" (btnClick)="startRead()">
+                        {{ startText }}
+                    </ui-button>
+                }@else {
+                    <div class="info-cover-add" (click)="selectCover()">
+                        <mat-icon class="info-cover-add-icon">add_a_photo</mat-icon>
                     </div>
-                </ui-dialog>
-            }
-            <ui-button class="info-start" themeType="success" (btnClick)="startRead()">
-                {{ startText }}
-            </ui-button>
-            <div class="info-frame">            
-                <div>
-                    <div class="info-title">
-                        <ui-textarea
-                            name="titleTextarea"
-                            [(value)]="config.name"
-                            [readOnly]="!editConfig"
-                        >
-                        </ui-textarea>
-                    </div>
-                    <div class="info-line">
-                         <div class="info-rank">
-                            @for(stars of [].constructor(config.rank);track stars;){
-                                <mat-icon class="info-star">star</mat-icon>   
-                            }
-                        </div>
-                        @for(stars of [].constructor(10);track stars;let index = $index){
-                            <mat-icon class="info-starborder" [class.mat-icon-active]="editConfig" (click)="editRank(index)">star_border</mat-icon>
-                        }
-                       
-                    </div>
-                    <div class="info-line">
-                        <div class="info-label">
-                            {{ aurthorLabel }}
-                        </div>
-                        @if(editConfig){
-                            <ui-input
-                                class="info-author-edit"
-                                [(value)]="config.author"
-                                [readOnly]="!editConfig">
-                            </ui-input>
-                        }
-                        @else {
-                            <ui-button class="info-author " modeType="text">
-                                {{config.author}}
-                            </ui-button> 
-                        }
-                    </div>
-                    <div class="info-line">
-                        <div class="info-label">{{ tagLabel }}</div>
-                        @for (tag of config.tag; track $index) {
-                            <div class="button-tag-container">
-                                <ui-button class="button-tag" modeType="text" [disabled]="editConfig">
-                                    {{ tag }}
-                                </ui-button>
-                                @if(editConfig){
-                                    <mat-icon class="button-tag-close" (click)="removeTag($index)">close</mat-icon>
-                                }
-                            </div>                            
-                        }
-                        @if (editConfig) {
-                            @if( addingTag ) {
-                                <ui-input
-                                    class="button-tag-add-input"
-                                    [(value)]="currentAddTag">
-                                </ui-input>
-                                <ui-button class="button-tag-add" modeType="icon" [disabled]="currentAddTag == ''" (btnClick)="checkTag()">
-                                    <mat-icon class="button-tag-add-icon">check</mat-icon>
-                                </ui-button>
-                                
-                            }
-                            <ui-button class="button-tag-add" modeType="icon" [disabled]="addingTag" (btnClick)="addTag()">
-                                <mat-icon class="button-tag-add-icon">add</mat-icon>
-                            </ui-button>
-                        }
-                    </div>
-                    <div class="info-line">
-                        <div class="info-label">{{ descriptionLabel }}</div>
-                        <div class="info-description">
-                           <ui-textarea
-                                name="descriptionTextarea"
-                                [(value)]="config.description"
-                                [readOnly]="!editConfig"
+                }
+                <div class="info-frame">            
+                    <div>
+                        <div class="info-title">
+                            <ui-textarea
+                                name="titleTextarea"
+                                [(value)]="config.name"
+                                [readOnly]="!editConfig && !addConfig"
                             >
                             </ui-textarea>
                         </div>
-                    </div>
-                </div>     
-                <div>
-                    @if(editConfig == false){
-                        <ui-button modeType="icon" (btnClick)="editConfig = true">
-                            <mat-icon>create</mat-icon>
-                        </ui-button>
-                    }@else{
-                        <ui-button modeType="icon" (btnClick)="writeJson()">
-                            <mat-icon>save</mat-icon>
-                        </ui-button>
+                        <div class="info-line">
+                                <div class="info-rank">
+                                @for(stars of [].constructor(config.rank);track stars;){
+                                    <mat-icon class="info-star">star</mat-icon>   
+                                }
+                            </div>
+                            @for(stars of [].constructor(10);track stars;let index = $index){
+                                <mat-icon 
+                                    class="info-starborder" 
+                                    [class.mat-icon-active]="editConfig" 
+                                    (click)="editRank(index)">
+                                    star_border
+                                </mat-icon>
+                            }
+                            
+                        </div>
+                        <div class="info-line">
+                            <div class="info-label">
+                                {{ aurthorLabel }}
+                            </div>
+                            @if(editConfig || addConfig) {
+                                <ui-input
+                                    class="info-author-edit"
+                                    [(value)]="config.author">
+                                </ui-input>
+                            }
+                            @else {
+                                <ui-button class="info-author " modeType="text">
+                                    {{config.author}}
+                                </ui-button> 
+                            }
+                        </div>
+                        <div class="info-line">
+                            <div class="info-label">{{ tagLabel }}</div>
+                            @for (tag of config.tag; track $index) {
+                                <div class="button-tag-container">
+                                    <ui-button class="button-tag" modeType="text" [disabled]="editConfig">
+                                        {{ tag }}
+                                    </ui-button>
+                                    @if(editConfig || addConfig) {
+                                        <mat-icon class="button-tag-close" (click)="removeTag($index)">close</mat-icon>
+                                    }
+                                </div>                            
+                            }
+                            @if (editConfig || addConfig) {
+                                @if( addingTag ) {
+                                    <ui-input
+                                        class="button-tag-add-input"
+                                        [(value)]="currentAddTag">
+                                    </ui-input>
+                                    <ui-button class="button-tag-add" modeType="icon" [disabled]="currentAddTag == ''" (btnClick)="checkTag()">
+                                        <mat-icon class="button-tag-add-icon">check</mat-icon>
+                                    </ui-button>
+                                    
+                                }
+                                <ui-button class="button-tag-add" modeType="icon" [disabled]="addingTag" (btnClick)="addTag()">
+                                    <mat-icon class="button-tag-add-icon">add</mat-icon>
+                                </ui-button>
+                            }
+                        </div>
+                        <div class="info-line">
+                            <div class="info-label">{{ descriptionLabel }}</div>
+                            <div class="info-description">
+                                <ui-textarea
+                                    name="descriptionTextarea"
+                                    [(value)]="config.description"
+                                    [readOnly]="!editConfig && !addConfig"
+                                >
+                                </ui-textarea>
+                            </div>
+                        </div>
+                    </div>   
+                    @if( !addConfig ){
+                        <div>
+                            @if(editConfig == false){
+                                <ui-button modeType="icon" (btnClick)="editConfig = true">
+                                    <mat-icon>create</mat-icon>
+                                </ui-button>
+                            }@else{
+                                <ui-button modeType="icon" (btnClick)="writeJson()">
+                                    <mat-icon>save</mat-icon>
+                                </ui-button>
+                            }
+                            <ui-button modeType="icon" (btnClick)="readJson()" [disabled]="editConfig">
+                                <mat-icon>autorenew</mat-icon>
+                            </ui-button>
+                        </div> 
+                    }  
+                </div>
+            </div>
+        }
+        @if( editingCover ){
+            <ui-dialog
+                [title]="selectCoverLabel"
+                (close)="editingCover = false"
+                [dialogHeight]="'600px'"
+                [dialogWidth]="'800px'"
+                [noFooter]="true"
+                >
+                <div class="select-cover">
+                    @for(image of coverList;track image;let index = $index){
+                        <img 
+                            class="select-cover-item"
+                            [class.select-cover-item-active]="currentCover === image"
+                            [src]="filePath + '/' + image" 
+                            (click)="currentCover = image" 
+                            (dblclick)="changeCover(image)"
+                        />
+                        <div class="select-cover-name">{{image}}</div>
                     }
-                    <ui-button modeType="icon" (btnClick)="readJson()" [disabled]="editConfig">
-                        <mat-icon>autorenew</mat-icon>
-                    </ui-button>
-                </div>          
-            </div>
-        </div>
-       }
-       @else{
-            <div class="reader-homepage-empty">
-
-            </div>
-       }
+                </div>
+            </ui-dialog>
+        }
     </div>
-    @if( readMode  ){
+    @if( readMode ){
         <ui-dialog
             [title]="config ? config.name : floderName"
             (close)="readMode = false"
-            [dialogHeight]="720"
-            [dialogWidth]="1280"
+            [dialogHeight]="fullscreenflag ? '100%' : '720px'"
+            [dialogWidth]="fullscreenflag ? '100%' : '1200px'"
             [darkmode]="darkmode"
             [noFooter]="true">
             <div 
@@ -167,6 +207,7 @@
                 [style.background-color]="darkmode ? '#333' : '#FFF'">
                 <ui-viewer
                     (darkmodeChange)="darkmodeChange($event)"
+                    (fullscreenChange)="fullscreenChange($event)"
                     [dirPath]="filePath"
                     [viewerData]="coverList">
                 </ui-viewer>

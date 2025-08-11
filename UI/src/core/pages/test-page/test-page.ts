@@ -22,8 +22,6 @@ export class TestPage {
     if (result.success) {
       console.log(result.files)
       this.fileList = result.files;
-    } else {
-      alert('读取失败: ' + result.message);
     }
   }
 
@@ -34,8 +32,6 @@ export class TestPage {
     if (result.success) {
       console.log(result);
       this.mycontent = JSON.stringify(result.content);
-    } else {
-      alert('读取失败: ' + result.message);
     }
   }
 }

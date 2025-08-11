@@ -1,11 +1,35 @@
 const { ipcMain } = require("electron/main");
 const fs = require('fs');
 const path = require('path');
-
-
+const { dialog } = require('electron');
+const { BrowserWindow } = require('electron');
 
 function registerIpcHandlers() {
 
+  //返回当前文件夹内的所有文件
+  ipcMain.handle('foreach-all', async (event, dirPath) => {
+    try {
+      const files = fs.readdirSync(dirPath)
+      .filter(name => !/^\./.test(name) && name !== '.DS_Store')
+      .map(name => {
+        const fullPath = path.join(dirPath, name);
+        const stat = fs.statSync(fullPath);
+        return { 
+          name,
+          path: fullPath,
+          size: stat.size,
+          isDirectory: stat.isDirectory(),
+          isImage: stat.isFile() && /\.(png|jpe?g|gif|bmp|webp)$/i.test(name),
+          isJson: stat.isFile() && /\.json$/i.test(name),
+          birthtime: stat.birthtime,
+          mtime: stat.mtime
+        }
+      });
+      return { success: true, files };
+    } catch (e) {
+      return { success: false, message: e.message };
+    }
+  });
   //读写文件
   ipcMain.handle('write-in', async (event, filePath, content ) => {
     try {
@@ -25,6 +49,17 @@ function registerIpcHandlers() {
       return { success: false, message: e.message };
     }
   });
+  //选择主文件夹作为根目录
+  ipcMain.handle('set-main-directory', async () => {
+    const result = await dialog.showOpenDialog({
+      title: '选择主文件夹作为根目录',
+      properties: ['openDirectory']
+    });
+    if (result.canceled || result.filePaths.length === 0) {
+      return null
+    }
+    return result.filePaths[0];
+  });
   //返回当前文件夹内的所有图片内容，不包含子文件夹与config文件
   ipcMain.handle('floder-image', async (event,targetPath) => {
     try {
@@ -39,6 +74,29 @@ function registerIpcHandlers() {
       return { success: false, message: e.message };
     }
   })
+  //全屏监测方法
+  ipcMain.on('set-fullscreen', (event, flag) => {
+    try{
+      const win = BrowserWindow.getFocusedWindow();
+      if (win){
+        win.setFullScreen(!!flag);
+        if (!win._fullscreenEventBound) {
+        win.on('enter-full-screen', () => {
+          win.webContents.send('fullscreen-changed', true);
+        });
+        win.on('leave-full-screen', () => {
+          win.webContents.send('fullscreen-changed', false);
+        });
+        win._fullscreenEventBound = true;
+      }
+      } 
+     
+    }
+    catch(e){
+       return { success: false, message: e.message };
+    }
+  });
+  
 
 
   // ipcMain.handle("select-files", async () => {
@@ -55,6 +113,9 @@ function registerIpcHandlers() {
   // });
 
 
+  
+
+
 
   // //选择保存位置
   // ipcMain.handle('select-save-path', async (event, { defaultPath, filters }) => {
@@ -68,18 +129,7 @@ function registerIpcHandlers() {
 
   // });
 
-  // // 选择文件夹
-  // ipcMain.handle('select-directory', async () => {
-  //   const result = await dialog.showOpenDialog({
-  //     title: '选择输出文件夹',
-  //     properties: ['openDirectory']
-  //   });
-  //   if (result.canceled || result.filePaths.length === 0) {
-  //     return null;
-  //   }
-  //   return result.filePaths[0];
-  // });
-
+  
 
   
 
@@ -93,19 +143,6 @@ function registerIpcHandlers() {
   // });
 
 
-  //testing 文件操作
-  // 获取目录内容
- 
-  // ipcMain.handle('list-directory', async (dirPath) => {
-  //   try {
-  //     const files = fs.readdirSync(dirPath);
-  //     return { success: true, files };
-  //   } catch (e) {
-  //     return { success: false, message: e.message };
-  //   }
-  // });
-
-  
 
   // // 删除文件/文件夹
   // ipcMain.handle('remove-path', async (event, targetPath) => {

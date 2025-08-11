@@ -15,8 +15,8 @@ export class UiDialog {
   @Input() noFooter: boolean = false;
   @Output() confirm = new EventEmitter<void>();
   @Output() close = new EventEmitter<void>();
-  @Input() dialogWidth: number = 400;
-  @Input() dialogHeight: number = 300;
+  @Input() dialogWidth: string = '400px';
+  @Input() dialogHeight: string = '300px';
   @Input() darkmode: boolean = false;
 
   confirmText: string = '确定';
@@ -26,10 +26,9 @@ export class UiDialog {
     this.confirm.emit();
   }
   onClose() {
+    // @ts-ignore
+    window.electronAPI?.setFullscreen?.(false);
     this.close.emit();
   }
-  /**
-   * SLASH!
-   */
   
 }

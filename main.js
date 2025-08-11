@@ -6,6 +6,7 @@ const createWindow = () => {
   const win = new BrowserWindow({
     width: 1600,
     height: 900,
+    maximizable: false, // 禁用最大化按钮（Windows）
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       enableRemoteModule: true

@@ -2,18 +2,13 @@
     display: flex;
     height: 100%;
     min-height: 100vh;
-    &-operator{
-        width: 10%;
-        padding: 1em;
-        background-color: #DDD;
-    }
     &-main{
-        width: 65%;
+        width: 72.5%;
         padding: 1em;
         background-color: #EEE;
     }
     &-info{
-        width: 25%;
+        width: 27.5%;
         padding: 1em;
         background-color: #DFE
     }   
@@ -26,6 +21,20 @@
         &-edit{
             cursor: pointer;
             border: 4px dashed orange;
+        }
+        &-add{
+            width: 100%;
+            height: auto;
+            aspect-ratio: 3/4;
+            position: relative;
+            cursor: pointer;
+            border: 4px dashed orange;
+            &-icon{
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+            }
         }
     }
     &-start{
@@ -75,7 +84,6 @@
     } 
     &-description{
         word-break: break-all;
-        line-height: normal;
         width: 250px;
     }
     &-rank{
@@ -154,10 +162,18 @@
 }
 .reader-dialog{
     &-inner{
-        height: 580px;
+        height: 100%;
         background-color: #333;
     }
-    
+}
+.empty-info{
+    &-header{
+        display: flex;
+        justify-content: flex-end;
+    }
+    &-btn{
+        width: fit-content;
+    }
 }
 
 

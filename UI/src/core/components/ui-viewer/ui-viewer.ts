@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { UiButton } from '../ui-button/ui-button';
 import { MatIcon } from '@angular/material/icon';
 
@@ -12,11 +12,15 @@ export class UiViewer {
   @Input() dirPath:string = '';
   @Input() viewerData:string[] = [];
   @Output() darkmodeChange = new EventEmitter<boolean>();
+  @Output() fullscreenChange = new EventEmitter<boolean>();
+  @ViewChild('filmstripInner') filmstripInner!: ElementRef<HTMLDivElement>;
+  
 
   currentIndex = 0;
   zoom = 1;
   offsetX = 0;
   offsetY = 0;
+  fullscreenflag: boolean = false;
   toolsVisible = true;
   darkmode = true
   private dragStartX: number | null = null;
@@ -26,8 +30,13 @@ export class UiViewer {
   private lastOffsetY = 0;
   private arrowTimer: any = null;
 
-
-
+  ngOnInit() {
+    // @ts-ignore
+    window.electronAPI?.onFullscreenChanged?.((isFullscreen: boolean) => {
+      this.fullscreenflag = isFullscreen;
+      this.fullscreenChange.emit(this.fullscreenflag);
+    });
+  }
   prev() {
     if (this.currentIndex > 0) this.currentIndex--;
     this.zoom = 1;
@@ -76,6 +85,13 @@ export class UiViewer {
     this.darkmode = !this.darkmode;
     this.darkmodeChange.emit(this.darkmode);
   }
+  fullscreen() {
+    this.fullscreenflag = !this.fullscreenflag;
+    // @ts-ignore
+    window.electronAPI.setFullscreen(this.fullscreenflag);
+  }
+
+
 
   // 鼠标滚轮缩放
   onWheel(event: WheelEvent) {
@@ -139,4 +155,27 @@ export class UiViewer {
       this.offsetY = newOffsetY;
     }
   }
+
+  // 鼠标拖动滑动
+  private filmDragStartX: number | null = null;
+  private filmDragStartScroll: number = 0;
+  private filmDragging = false;
+
+  onFilmstripMouseDown(event: MouseEvent) {
+    this.filmDragStartX = event.clientX;
+    this.filmDragStartScroll = this.filmstripInner.nativeElement.scrollLeft;
+    this.filmDragging = true;
+    this.filmstripInner.nativeElement.style.cursor = 'grabbing';
+  }
+  onFilmstripMouseMove(event: MouseEvent) {
+    if (!this.filmDragging || this.filmDragStartX === null) return;
+    const dx = event.clientX - this.filmDragStartX;
+    this.filmstripInner.nativeElement.scrollLeft = this.filmDragStartScroll - dx;
+  }
+  onFilmstripMouseUp(event: MouseEvent) {
+    this.filmDragging = false;
+    this.filmstripInner.nativeElement.style.cursor = 'grab';
+    this.filmDragStartX = null;
+  }
+
 }

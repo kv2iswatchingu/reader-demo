@@ -36,17 +36,10 @@
         <mat-icon [class.ui-viewer-icon]="darkmode">chevron_right</mat-icon>
     </ui-button>
 
-   
-    
     <div 
         class="ui-viewer-tools"
         [style.display]="toolsVisible ? 'flex' : 'none'">
-        <ui-button modeType="icon">
-            <mat-icon class="ui-viewer-icon">fullscreen</mat-icon>
-        </ui-button>
-        <ui-button modeType="icon">
-            <mat-icon class="ui-viewer-icon">fullscreen_exit</mat-icon>
-        </ui-button>
+        
         <ui-button modeType="icon">
             <mat-icon class="ui-viewer-icon">play_circle_outline</mat-icon>
         </ui-button>
@@ -59,6 +52,22 @@
         <ui-button modeType="icon">
             <mat-icon class="ui-viewer-icon">turned_in_not</mat-icon>
         </ui-button>
+        
+        @if (fullscreenflag) {
+            <ui-button modeType="icon" (btnClick)="fullscreen()">
+                <mat-icon class="ui-viewer-icon">
+                    fullscreen_exit
+                </mat-icon>
+            </ui-button>
+
+        }@else{
+            <ui-button modeType="icon" (btnClick)="fullscreen()">
+                <mat-icon class="ui-viewer-icon">
+                    fullscreen
+                </mat-icon>        
+            </ui-button>
+        }
+
         @if( darkmode ) {
             <ui-button modeType="icon" (btnClick)="toggleDarkmode()">
                 <mat-icon class="ui-viewer-icon">brightness_4</mat-icon>
@@ -77,8 +86,6 @@
         }
     </div>
     
-    
-
     <!-- <div class="ui-viewer-btnframe">
         @for (image of viewerData; track $index) {
             <ui-button 
@@ -90,7 +97,13 @@
     </div> -->
 </div>
 <div class="ui-viewer-filmstrip" [style.background-color]="darkmode ? '#333' : '#FFF'">
-    <div class="ui-viewer-filmstrip-inner">
+    <div 
+        class="ui-viewer-filmstrip-inner"
+        #filmstripInner
+        (mousedown)="onFilmstripMouseDown($event)"
+        (mousemove)="onFilmstripMouseMove($event)"
+        (mouseup)="onFilmstripMouseUp($event)"
+        (mouseleave)="onFilmstripMouseUp($event)">
         @for (image of viewerData; track image; let index = $index) {
             <div class="ui-viewer-thumbframe">
                 <img 
@@ -104,7 +117,6 @@
                     {{index + 1 }}
                 </div>
             </div>
-            
         }
     </div>
 </div>
