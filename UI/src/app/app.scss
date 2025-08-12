@@ -2,17 +2,8 @@
     display: flex;
     min-height: 100vh;
     height: auto;
-    &-side{
-        width: 10%;
-        padding: 1em;
-        min-width: 80px;
-        background-color: #DDD;
-        &-item{
-            margin: 0.5em;
-        }   
-    }
     &-content{
-        width: 90%;
+        width: 100%;
         background: #F3F4F5;
     }
 }

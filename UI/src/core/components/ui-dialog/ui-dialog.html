@@ -18,7 +18,8 @@
     </div>
     <div 
       class="dialog-body" 
-      [class.darkmode]="darkmode">
+      [class.darkmode]="darkmode"
+      [class.has-footer]="!noFooter">
       <ng-content></ng-content>
     </div>
     @if ( !noFooter ) {

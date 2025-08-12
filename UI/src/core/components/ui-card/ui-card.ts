@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output} from '@angular/core';
+import { Component, EventEmitter, input, Input, Output} from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 
 @Component({
@@ -12,6 +12,8 @@ export class UICard {
   @Input() cardData: CardType | null = null;
   @Input() detailMode = false;
   @Input() disabled = false;
+  @Input() selected = false;
+  @Output() cardClick = new EventEmitter<Event>();
   @Output() cardDbClick = new EventEmitter<Event>();
   
   ripple = false;
@@ -20,6 +22,7 @@ export class UICard {
 
   onCardClick(event:MouseEvent) {
     if (this.disabled) return;
+    this.cardClick.emit(event);
     const target = event.currentTarget as HTMLElement;
     const rect = target.getBoundingClientRect();
     this.rippleX = event.clientX - rect.left;
@@ -38,9 +41,13 @@ export interface CardType  {
   name: string,
   path: string,
   size: number,
+  sizeText: string,
   isDirectory: boolean,
   isImage: boolean,
+  isVideo: boolean,
   isJson: boolean,
   birthtime: Date,
-  mtime: Date
+  birthtimeText: string,
+  mtime: Date,
+  mtimeText: string
 }

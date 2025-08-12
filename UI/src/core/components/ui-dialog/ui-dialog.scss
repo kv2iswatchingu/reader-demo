@@ -41,8 +41,9 @@
   display: flex;
   justify-content: flex-end;
   gap: 1em;
-  padding: 1em;
+  padding: 0.45em;
   border-top: 1px solid #eee;
+  height: 45px;
 }
 .dialog-btn {
   padding: 0.4em 1.2em;
@@ -60,4 +61,7 @@
   background-color: #333;
   color:#FFF;
   border-bottom: 1px solid #666;
+}
+.has-footer{
+  height: calc(100% - 85px);
 }

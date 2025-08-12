@@ -26,7 +26,7 @@ export class UiDialog {
     this.confirm.emit();
   }
   onClose() {
-    // @ts-ignore
+    //@ts-ignore
     window.electronAPI?.setFullscreen?.(false);
     this.close.emit();
   }

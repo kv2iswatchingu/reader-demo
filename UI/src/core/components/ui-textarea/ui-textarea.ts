@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'ui-textarea',
@@ -16,15 +16,25 @@ export class UiTextarea {
   @Input() noDrop: boolean = true;
   @Output() valueChange = new EventEmitter<string>();
 
+  constructor(private cdr: ChangeDetectorRef) {}
+
+  ngAfterViewInit() {
+    const textarea = document.getElementById(this.name);
+    if(textarea){
+      textarea.style.height = 'auto'; 
+      textarea.style.height = (textarea.scrollHeight) + 'px';
+    }
+    this.cdr.detectChanges();
+  }
+
   onInput(event: Event) {
     const textarea = document.getElementById(this.name);
     if(textarea){
       textarea.addEventListener('input', () => {
-        textarea.style.height = 'auto'; // 先重置高度，以便根据内容重新计算
-        textarea.style.height = (textarea.scrollHeight) + 'px'; // 设置高度为滚动高度
+        textarea.style.height = 'auto';
+        textarea.style.height = (textarea.scrollHeight) + 'px';
       });
     }
-    
     const newValue = (event.target as HTMLTextAreaElement).value;
     this.value = newValue;
     this.valueChange.emit(newValue);

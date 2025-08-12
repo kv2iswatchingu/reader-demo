@@ -39,20 +39,27 @@
     <div 
         class="ui-viewer-tools"
         [style.display]="toolsVisible ? 'flex' : 'none'">
-        
-        <ui-button modeType="icon">
-            <mat-icon class="ui-viewer-icon">play_circle_outline</mat-icon>
+        @if( autoPlay){
+            <ui-button modeType="icon" (btnClick)="stopAutoPlay()">
+                <mat-icon class="ui-viewer-icon">pause_circle_outline</mat-icon>
+            </ui-button>
+        }@else {
+            <ui-button modeType="icon" (btnClick)="startAutoPlay()">
+                <mat-icon class="ui-viewer-icon">play_circle_outline</mat-icon>
+            </ui-button>
+        }
+         <ui-button modeType="icon" (btnClick)="setDelay()">
+            @if( autoPlayDelay < 9000 ){
+                <mat-icon class="ui-viewer-icon">add_alarm</mat-icon>
+            }@else {
+                <mat-icon class="ui-viewer-icon">alarm_off</mat-icon>
+            }
         </ui-button>
-        <ui-button modeType="icon">
-            <mat-icon class="ui-viewer-icon">pause_circle_outline</mat-icon>
-        </ui-button>
-        <ui-button modeType="icon">
-            <mat-icon class="ui-viewer-icon">turned_in</mat-icon>
-        </ui-button>
-        <ui-button modeType="icon">
-            <mat-icon class="ui-viewer-icon">turned_in_not</mat-icon>
-        </ui-button>
-        
+        <!-- <ui-button modeType="icon" [disabled]="true"> -->
+        <div style="padding: 0.35em;">
+            <mat-icon class="ui-viewer-icon">filter_{{autoPlayDelay / 1000}}</mat-icon>
+        </div>
+        <!-- </ui-button> -->
         @if (fullscreenflag) {
             <ui-button modeType="icon" (btnClick)="fullscreen()">
                 <mat-icon class="ui-viewer-icon">
@@ -67,7 +74,6 @@
                 </mat-icon>        
             </ui-button>
         }
-
         @if( darkmode ) {
             <ui-button modeType="icon" (btnClick)="toggleDarkmode()">
                 <mat-icon class="ui-viewer-icon">brightness_4</mat-icon>
@@ -77,24 +83,12 @@
                 <mat-icon class="ui-viewer-icon">brightness_5</mat-icon>
             </ui-button>
         }
-        
-        
         @if( zoom !== 1 ) {
             <ui-button (click)="resetZoom()" modeType="icon">
                 <mat-icon class="ui-viewer-icon">photo_library</mat-icon>
             </ui-button>
         }
     </div>
-    
-    <!-- <div class="ui-viewer-btnframe">
-        @for (image of viewerData; track $index) {
-            <ui-button 
-                class="ui-viewer-btn"
-                [class.active]="$index === currentIndex"
-                (click)="changeCurrent($index)">
-            </ui-button>
-        }
-    </div> -->
 </div>
 <div class="ui-viewer-filmstrip" [style.background-color]="darkmode ? '#333' : '#FFF'">
     <div 

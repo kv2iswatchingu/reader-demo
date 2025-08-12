@@ -6,7 +6,6 @@ import { UiTextarea } from '../../components/ui-textarea/ui-textarea';
 import { UiInput } from '../../components/ui-input/ui-input';
 import { UiDialog } from '../../components/ui-dialog/ui-dialog';
 import { UiViewer } from '../../components/ui-viewer/ui-viewer';
-import { MainpathService } from '../../services/mainpath.service';
 import { CardType, UICard } from "../../components/ui-card/ui-card";
 
 @Component({
@@ -22,13 +21,18 @@ export class Homepage {
   tagLabel: string = '标签:';
   descriptionLabel: string = '简介:';
   selectCoverLabel: string = '选择封面';
+  deleteConfigText: string = '删除配置文件?';
   
 
   ///
-  filePath = '/Users/zijian/workSpace/test/01';
-  
+  rootPath: string = ''
+  filePath: string = this.rootPath;
+  detailMode:boolean = false;
   floderName: string = '';
   mainTest:any = [];
+
+  ///
+  searchStr: string = '';
   ///
   config: ConfigJSON | null = null;
   addConfig: boolean = false;
@@ -40,20 +44,50 @@ export class Homepage {
   currentAddTag: string = '';
   darkmode: boolean = true;
   fullscreenflag: boolean = false;
+  deleteConfigDialog: boolean = false;
+  configFilePath: string = '';
+  imageViewerPath:string = '';
   //
   readMode: boolean = false;
 
-  constructor(private mainPathService: MainpathService) {}
+
+  get breadCrumbList():{ name: string, fullPath:string}[]{
+    const parts = this.filePath.replace(this.rootPath, '').split('/').filter(Boolean);
+    let current = this.rootPath;
+    const result = [{
+      name: this.rootPath.split('/').filter(Boolean).pop() || this.rootPath,
+      fullPath: this.rootPath
+    }];
+    for (const part of parts) {
+      current = current.endsWith('/') ? current + part : current + '/' + part;
+      result.push({ name: part, fullPath: current });
+    }
+    return result;
+  }
+
+  constructor(private cdr: ChangeDetectorRef) {}
 
   ngOnInit() {
-    this.mainPathService.mainPath$.subscribe((path) => {
-      if (path) {
-        this.filePath = path;
-      }
-    });
-    this.getAllbyDir(this.filePath);
+    this.imageViewerPath = '';
+    this.rootPath = localStorage.getItem('rootPath') || '';
+    this.filePath = this.rootPath;
+    this.init();
+  }
+  init(){
     this.floderName = this.getFloderName();
-    this.readJson();  
+    this.configFilePath = this.filePath;
+    this.getAllbyDir(this.filePath);
+    this.readJson();
+  }
+  async setMainPath() {
+    //@ts-ignore
+    const result = await window.electronAPI.setMainPath();
+    if(result){
+      this.rootPath= result;
+      this.filePath = this.rootPath;
+      localStorage.setItem('rootPath', this.rootPath);
+    }
+    this.init();
   }
   async getAllbyDir(dir:string){
     //@ts-ignore
@@ -62,14 +96,13 @@ export class Homepage {
       this.mainTest = result.files;
     }
   }
-
   async writeJson() {
     if (!this.config) return;
     this.editConfig = false;
     this.addConfig = false;
-    this.config.path = this.filePath;
+    this.config.path = this.configFilePath;
     //@ts-ignore
-    const result = await window.electronAPI.writeIn(this.filePath + '/config.json',this.config );
+    const result = await window.electronAPI.writeIn(this.configFilePath + '/config.json',this.config );
     if(result.success){
       this.readJson();
     }
@@ -77,7 +110,7 @@ export class Homepage {
   async readJson() {
     //@ts-ignore
     const result = await window.electronAPI.readOut(
-      this.filePath + '/config.json'
+      this.configFilePath + '/config.json'
     );
     if (result.success) {
       this.config = result.content;
@@ -88,26 +121,64 @@ export class Homepage {
   }
   async openImages(){
     //@ts-ignore
-    const result = await window.electronAPI.floderImage(this.filePath);
+    const result = await window.electronAPI.floderImage(this.configFilePath);
     if(result.success){
       this.coverList = result.images;
+      console.log(this.coverList);
+    }else{
+      alert(result.message);
     }
   }
-
-  openFolder(file: CardType) {
-    if(file.isDirectory == true){
-      this.filePath = file.path;
-      this.floderName = this.getFloderName();
-      this.getAllbyDir(this.filePath);
+  async showConfig(file: CardType) {
+    this.imageViewerPath = '';
+    this.config = null;
+    this.cdr.detectChanges();
+    if(file.isDirectory){
+      this.configFilePath = file.path;
+      //@ts-ignore
+      const result = await window.electronAPI.readOut(
+        file.path + '/config.json'
+      );
+      if (result.success) {
+        this.config = result.content;
+        //this.editFormdata = result.content;
+      } else {
+        this.config = null;
+      }
+    }else if(file.isImage){
+      this.imageViewerPath = file.path;
+      this.configFilePath = this.filePath;
+      this.readJson();
+    }else{
+      this.configFilePath = this.filePath;
       this.readJson();
     }
-    if(file.isJson == true){
-      this.editConfig = true;
-    }
-    
   }
-
-
+  go2RootPath() {
+    this.filePath = this.rootPath;
+    this.init();
+  }
+  go2Path(targetPath: string) {
+    if(targetPath !== this.filePath){
+      this.filePath = targetPath;
+      this.init();
+    }
+  }
+  openFolder(file: CardType) {
+    this.imageViewerPath = '';
+    if(file.isDirectory == true){
+      this.filePath = file.path;
+      this.init();
+    }
+    if(file.name === 'config.json'){
+      this.editConfig = true;
+    } 
+    if(file.isImage){
+      //
+      this.imageViewerPath = file.path;
+      this.configFilePath = this.filePath;
+    }
+  }
 
   darkmodeChange(event: boolean) {
     this.darkmode = event;
@@ -174,6 +245,17 @@ export class Homepage {
   cancelAddConfig(){
     this.addConfig = false;
     this.config = null;
+  }
+  async deleteConfig(){
+    this.deleteConfigDialog = false;
+    //@ts-ignore
+    const result = await window.electronAPI.removeFile(this.configFilePath + '/config.json');
+    if(result){
+      this.config = null;
+      this.init();
+    }else{
+      alert('删除失败');
+    }
   }
 }
 

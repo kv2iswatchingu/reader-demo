@@ -22,7 +22,11 @@ export class UiViewer {
   offsetY = 0;
   fullscreenflag: boolean = false;
   toolsVisible = true;
-  darkmode = true
+  darkmode = true;
+  autoPlay = false;
+  autoPlayInterval: any = null;
+  autoPlayDelay = 4000;
+
   private dragStartX: number | null = null;
   private dragStartY: number | null = null;
   private dragging = false;
@@ -90,7 +94,43 @@ export class UiViewer {
     // @ts-ignore
     window.electronAPI.setFullscreen(this.fullscreenflag);
   }
-
+  startAutoPlay() {
+    if (this.autoPlayInterval) return;
+    this.autoPlay = true;
+    this.autoPlayInterval = setInterval(() => {
+      if (this.currentIndex < this.viewerData.length - 1) {
+        this.next();
+      } else {
+        this.currentIndex = 0; // 循环播放
+        this.zoom = 1;
+        this.offsetX = 0;
+        this.offsetY = 0;
+        this.lastOffsetX = 0;
+        this.lastOffsetY = 0;
+      }
+    }, this.autoPlayDelay);
+  }
+  stopAutoPlay() {
+    this.autoPlay = false;
+    if (this.autoPlayInterval) {
+      clearInterval(this.autoPlayInterval);
+      this.autoPlayInterval = null;
+    }
+  }
+  setDelay(){
+    if(this.autoPlayDelay < 9000 ){
+      this.autoPlayDelay += 1000;
+    }else{
+      this.autoPlayDelay = 1000
+    }
+    if (this.autoPlay) {
+      this.stopAutoPlay();
+      this.startAutoPlay();
+    }
+  }
+  ngOnDestroy() {
+    this.stopAutoPlay();
+  }
 
 
   // 鼠标滚轮缩放

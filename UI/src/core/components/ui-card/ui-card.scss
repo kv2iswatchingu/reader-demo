@@ -7,12 +7,35 @@
         cursor: pointer;
         overflow: hidden;
         position: relative;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 0.5em;
         &-icon{
             width: 24px;
             height: 24px;
             font-size: 24px;
         }
-
+        &-name{
+            width: fit-content;
+            margin-left: 0.5em;
+            min-width: 70%;
+        }
+        &-size{
+            width: 80px;
+            margin-left: 1em;
+        }
+        &-mtime{
+            width: 40%;
+            margin-left: 2em;
+        }
+        &-btime{
+            width: 40%;
+            margin-left: 2em;
+        }
+        &-selected{
+            background-color: #ff9d00;
+            box-shadow: 0 2px 8px #0003;
+        }
     }
     &-meta{
         width: 155px;
@@ -45,18 +68,31 @@
             overflow: hidden;
             white-space: nowrap;
             text-overflow: ellipsis;
+            padding: 0.35em;
+        }
+        &-selected{
+            background-color: #ff9d00;
+            box-shadow: 0 2px 8px #0003;
         }
     }
 }
 
-.icon-folder{
-    color: #ebde25;
-}
-.icon-image{
-    color: #56c1ff;
-}
-.icon-config{
-    color: #afafaf;
+.icon{
+    &-folder{
+        color: #ebde25;
+    }
+    &-image{
+        color: #56c1ff;
+    }
+    &-config{
+        color: #afafaf;
+    }
+    &-file{
+        color: #00a494
+    }
+    &-video{
+        color: #000dc4;
+    }
 }
 .disabled{
     cursor: not-allowed;
@@ -65,13 +101,24 @@
 .ripple-effect {
     position: absolute;
     width: 250px;
-    height: 2500px;
-    background: rgba(242, 220, 140, 0.3);
+    height: 250px;
+    background: #ff504a4d;
     border-radius: 50%;
     pointer-events: none;
     transform: translate(-50%, -50%) scale(0);
     animation: ripple-anim 0.4s linear;
     z-index: 1;
+    &-detail{
+        position: absolute;
+        width: 2000px;
+        height: 2000px;
+        background: #ff504a4d;
+        border-radius: 50%;
+        pointer-events: none;
+        transform: translate(-50%, -50%) scale(0);
+        animation: ripple-anim 1s ease-out;
+        z-index: 1;
+    }
 }
 
 @keyframes ripple-anim {

@@ -3,25 +3,36 @@
     @if(detailMode){
         <div 
             class="ui-card-detail"
+            [class.ui-card-detail-selected]="selected"
             (click)="onCardClick($event)"
             [class.disabled]="disabled"
-            (dblclick)="onCardDblClick($event)">            
-            @if( cardData.isDirectory){ 
-                <mat-icon class="ui-card-detail-icon icon-folder">folder</mat-icon>  
-            }
-            @if( cardData.isImage){ 
-                <mat-icon class="ui-card-detail-icon icon-image">photo</mat-icon>
-            }
-            @if( cardData.isJson){ 
-                <mat-icon class="ui-card-detail-icon icon-config">perm_data_setting </mat-icon>
-            }
-            <div>{{ cardData.name }}</div>
-            <div>{{ cardData.size }}</div>
-            <div>{{ cardData.mtime }}</div>
-            <div>{{ cardData.birthtime }}</div>
+            (dblclick)="onCardDblClick($event)">    
+            <div style="display: flex;width: 70%; align-items: center">
+                 @if( cardData.isDirectory){ 
+                    <mat-icon class="ui-card-detail-icon icon-folder">folder</mat-icon>  
+                }
+                @else if( cardData.isImage){ 
+                    <mat-icon class="ui-card-detail-icon icon-image">photo</mat-icon>
+                }
+                @else if( cardData.isJson){ 
+                    <mat-icon class="ui-card-detail-icon icon-config">perm_data_setting </mat-icon>
+                }
+                @else if (cardData.isVideo) {
+                    <mat-icon class="ui-card-detail-icon icon-video">movie</mat-icon>
+                }@else {
+                    <mat-icon class="ui-card-detail-icon icon-file">insert_drive_file</mat-icon>
+                }
+                <div class="ui-card-detail-name">{{ cardData.name }}</div>
+                <div class="ui-card-detail-size">{{ cardData.sizeText }}</div>
+            </div>        
+            <div style="display: flex; width: 30%; align-items: center;">
+                <div class="ui-card-detail-mtime">{{ cardData.mtimeText }}</div>
+                <div class="ui-card-detail-btime">{{ cardData.birthtimeText }}</div>
+            </div>
+           
             @if(ripple){
                 <span
-                    class="ripple-effect"
+                    class="ripple-effect-detail"
                     [ngStyle]="{ left: rippleX + 'px', top: rippleY + 'px' }"
                 ></span>
             }
@@ -32,17 +43,21 @@
         <div 
             class="ui-card-meta"
             [class.disabled]="disabled"
+            [class.ui-card-meta-selected]="selected"
             (click)="onCardClick($event)"
             (dblclick)="onCardDblClick($event)">
             @if( cardData.isDirectory){ 
                 <mat-icon class="ui-card-meta-icon icon-folder">folder</mat-icon>  
             }
-            @if( cardData.isImage){ 
-                <!-- <mat-icon class="ui-card-meta-icon icon-image">photo</mat-icon> -->
-                 <img class="ui-card-meta-image" [src]="cardData.path" draggable="false">
+            @else if( cardData.isImage){ 
+                <img class="ui-card-meta-image" [src]="cardData.path" draggable="false">
             }
-            @if( cardData.isJson){ 
+            @else if( cardData.isJson){ 
                 <mat-icon class="ui-card-meta-icon icon-config">perm_data_setting </mat-icon>
+            }@else if (cardData.isVideo) {
+                <mat-icon class="ui-card-meta-icon icon-video">movie</mat-icon>
+            }@else {
+                <mat-icon class="ui-card-meta-icon icon-file">insert_drive_file</mat-icon>
             }
             <div class="ui-card-meta-text">
                 {{ cardData.name }}

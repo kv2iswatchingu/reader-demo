@@ -18,11 +18,15 @@ function registerIpcHandlers() {
           name,
           path: fullPath,
           size: stat.size,
+          sizeText: formatSize(stat.size),
           isDirectory: stat.isDirectory(),
           isImage: stat.isFile() && /\.(png|jpe?g|gif|bmp|webp)$/i.test(name),
-          isJson: stat.isFile() && /\.json$/i.test(name),
+          isVideo: stat.isFile() && /\.(mp4|mkv|avi|mov|wmv|flv)$/i.test(name),
+          isJson: stat.isFile() && /^config\.json$/i.test(name),
           birthtime: stat.birthtime,
-          mtime: stat.mtime
+          birthtimeText: formatDate(stat.birthtime),
+          mtime: stat.mtime,
+          mtimeText: formatDate(stat.mtime)
         }
       });
       return { success: true, files };
@@ -45,6 +49,15 @@ function registerIpcHandlers() {
       const content = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
       //console.log(content,"1q");
       return { success: true, content };
+    } catch (e) {
+      return { success: false, message: e.message };
+    }
+  });
+  // 删除文件
+  ipcMain.handle('remove-file', async (event, filePath) => {
+    try {
+      fs.unlinkSync(filePath);
+      return { success: true };
     } catch (e) {
       return { success: false, message: e.message };
     }
@@ -132,15 +145,7 @@ function registerIpcHandlers() {
   
 
   
-
-  // ipcMain.handle('remove-file', async (event, filePath) => {
-  //   try {
-  //     fs.unlinkSync(filePath);
-  //     return { success: true };
-  //   } catch (e) {
-  //     return { success: false, message: e.message };
-  //   }
-  // });
+  
 
 
 
@@ -189,6 +194,19 @@ function registerIpcHandlers() {
   
 
 
+}
+
+function formatSize(size) {
+  if (size < 1024) return size + ' B';
+  if (size < 1024 * 1024) return (size / 1024).toFixed(1) + ' KB';
+  if (size < 1024 * 1024 * 1024) return (size / 1024 / 1024).toFixed(1) + ' MB';
+  return (size / 1024 / 1024 / 1024).toFixed(1) + ' GB';
+}
+
+function formatDate(date) {
+  return date instanceof Date
+    ? date.toLocaleString('zh-CN', { hour12: false })
+    : '';
 }
 
 module.exports = { registerIpcHandlers };
