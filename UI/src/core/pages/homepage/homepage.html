@@ -4,25 +4,35 @@
         <div class="reader-homepage-tools">
             <div class="tools-operator">
                 <div class="tools-operator-btngroup">
-                    <ui-button class="tools-operator-btn" modeType="icon" (btnClick)="go2RootPath()">
-                        <mat-icon>home</mat-icon>
-                    </ui-button>
-                    <ui-button class="tools-operator-btn" modeType="icon" (btnClick)="init()">
-                        <mat-icon>refresh</mat-icon>
-                    </ui-button>
-                    @if( detailMode ){
-                        <ui-button class="tools-operator-btn" modeType="icon" (btnClick)="detailMode = false">
-                            <mat-icon>view_comfy</mat-icon>
+                    <div class="tools-operator-btngroup-left">
+                        <ui-button class="tools-operator-btn" modeType="icon" (btnClick)="go2RootPath()">
+                            <mat-icon>home</mat-icon>
                         </ui-button>
-                    }@else{
-                        <ui-button class="tools-operator-btn" modeType="icon" (btnClick)="detailMode = true" >
-                            <mat-icon>list</mat-icon>
+                        <ui-button class="tools-operator-btn" modeType="icon" (btnClick)="init()">
+                            <mat-icon>refresh</mat-icon>
                         </ui-button>
-                    }
-                    <ui-button class="tools-operator-btn" modeType="icon" >
-                        <mat-icon>sort</mat-icon>
-                    </ui-button>
-                    <!-- <mat-icon>sort_by_alpha</mat-icon> -->
+                        @if( detailMode ){
+                            <ui-button class="tools-operator-btn" modeType="icon" (btnClick)="detailMode = false">
+                                <mat-icon>view_comfy</mat-icon>
+                            </ui-button>
+                        }@else{
+                            <ui-button class="tools-operator-btn" modeType="icon" (btnClick)="detailMode = true" >
+                                <mat-icon>list</mat-icon>
+                            </ui-button>
+                        }
+                        <ui-button class="tools-operator-btn" modeType="icon" (btnClick)="showsort = !showsort" >
+                            <mat-icon>sort</mat-icon>
+                        </ui-button>
+                    </div>
+                   
+                    <div class="tools-operator-sort" [class.tools-operator-sort-active]="showsort">
+                        @for ( option of sortOptions; track option; let i = $index) {
+                            <ui-button class="tools-operator-btn" modeType="icon" (btnClick)="sortBy(option.value)">
+                                <mat-icon>{{ option.icon }}</mat-icon>
+                            </ui-button>
+                        }
+                    </div>
+                    <!--  -->
                     
                 </div>
                 <div class="tools-operator-search">
@@ -54,6 +64,8 @@
                 }
             </div>
         </div>
+
+
         <div 
             class="reader-homepage-content"
             [class.reader-homepage-content-detail]="detailMode"
@@ -67,6 +79,16 @@
                     (cardClick)="showConfig(file)"
                     (cardDbClick)="openFolder(file)">
                 </ui-card>    
+            }
+            @if ( showImgSingle ) {
+                <ui-dialog
+                    [title]="imageViewerPath"
+                    (close)="showImgSingle = false"
+                    [dialogHeight]="'720px'"
+                    [dialogWidth]="'1200px'"
+                    [noFooter]="true">
+                        <img class="single-img" [src]="imageViewerPath" />
+                </ui-dialog>
             }
         </div>
     </div>

@@ -16,7 +16,6 @@ export class UiTextarea {
   @Input() noDrop: boolean = true;
   @Output() valueChange = new EventEmitter<string>();
 
-  constructor(private cdr: ChangeDetectorRef) {}
 
   ngAfterViewInit() {
     const textarea = document.getElementById(this.name);
@@ -24,7 +23,6 @@ export class UiTextarea {
       textarea.style.height = 'auto'; 
       textarea.style.height = (textarea.scrollHeight) + 'px';
     }
-    this.cdr.detectChanges();
   }
 
   onInput(event: Event) {

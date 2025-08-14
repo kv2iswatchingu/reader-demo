@@ -31,7 +31,15 @@ export class Homepage {
   floderName: string = '';
   mainTest:any = [];
 
+  showImgSingle: boolean = false;
   ///
+  showsort: boolean = false;
+  sortOptions = [
+    { value: 'name', label: '名称', icon:'sort_by_alpha' },
+    { value: 'mtime', label: '修改时间', icon:'update' },
+    { value: 'birthtime', label: '创建时间', icon:'date_range' },
+    { value: 'size', label: '大小', icon:'storage' },
+  ]
   searchStr: string = '';
   ///
   config: ConfigJSON | null = null;
@@ -177,6 +185,7 @@ export class Homepage {
       //
       this.imageViewerPath = file.path;
       this.configFilePath = this.filePath;
+      this.showImgSingle = true;
     }
   }
 
@@ -245,6 +254,18 @@ export class Homepage {
   cancelAddConfig(){
     this.addConfig = false;
     this.config = null;
+  }
+  sortBy(value: string) {
+    this.mainTest.sort((a: { [x: string]: number; }, b: { [x: string]: number; }) => {
+      if (a[value] > b[value]) {
+        return 1;
+      } else if (a[value] < b[value]) {
+        return -1;
+      } else {
+        return 0;
+      }
+    })
+
   }
   async deleteConfig(){
     this.deleteConfigDialog = false;
