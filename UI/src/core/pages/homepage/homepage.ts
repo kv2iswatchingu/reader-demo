@@ -22,7 +22,7 @@ export class Homepage {
   descriptionLabel: string = '简介:';
   selectCoverLabel: string = '选择封面';
   deleteConfigText: string = '删除配置文件?';
-  
+
 
   ///
   rootPath: string = ''
@@ -30,7 +30,6 @@ export class Homepage {
   detailMode:boolean = false;
   floderName: string = '';
   mainTest:any = [];
-
   showImgSingle: boolean = false;
   ///
   showsort: boolean = false;
@@ -57,6 +56,11 @@ export class Homepage {
   imageViewerPath:string = '';
   //
   readMode: boolean = false;
+  //
+  showMenu = false;
+  menuX = 0;
+  menuY = 0;
+  menuItem: any = null;
 
 
   get breadCrumbList():{ name: string, fullPath:string}[]{
@@ -80,7 +84,12 @@ export class Homepage {
     this.rootPath = localStorage.getItem('rootPath') || '';
     this.filePath = this.rootPath;
     this.init();
+     document.addEventListener('mousedown', this.onGlobalClick, true);
   }
+  ngOnDestroy() {
+    document.removeEventListener('mousedown', this.onGlobalClick, true);
+  }
+
   init(){
     this.floderName = this.getFloderName();
     this.configFilePath = this.filePath;
@@ -132,7 +141,6 @@ export class Homepage {
     const result = await window.electronAPI.floderImage(this.configFilePath);
     if(result.success){
       this.coverList = result.images;
-      console.log(this.coverList);
     }else{
       alert(result.message);
     }
@@ -156,6 +164,10 @@ export class Homepage {
     }else if(file.isImage){
       this.imageViewerPath = file.path;
       this.configFilePath = this.filePath;
+      this.readJson();
+    }else if(file.isJson){
+      const filePath = file.path.replace('/config.json', '');
+      this.configFilePath = filePath;
       this.readJson();
     }else{
       this.configFilePath = this.filePath;
@@ -278,6 +290,91 @@ export class Homepage {
       alert('删除失败');
     }
   }
+
+  async search(){
+    if(this.searchStr === '') return;
+    //@ts-ignore
+    const result = await window.electronAPI.searchFile(this.filePath,{
+      filename: this.searchStr
+    });
+
+    if(result.success){
+      this.mainTest = result.result;
+      
+    }else{
+      alert(result.message);
+    }
+  }
+
+  async searchByConfig(str: string, type: string){
+    let configArr: ConfigJSON[] = [];
+    let fileArr: CardType[] = [];
+    //@ts-ignore
+    const result = await window.electronAPI.searchFile(this.rootPath,{filename: 'config.json'});
+    if(result.success){
+      const files = result.result;
+      for(const file of files){
+        //@ts-ignore
+        const content = await window.electronAPI.readOut(file.path);
+        if(content.success){
+          configArr.push(content.content);
+        }else{
+          alert(content.message);
+        }
+      }
+      if(type == 'author'){
+        const res = configArr.filter((item) => item.author === str );
+        if(res){
+          for(const item of res){
+            //@ts-ignore
+            const result = await window.electronAPI.readDir(item.path)
+            if(result.success){
+              fileArr.push(result.file);
+            }
+            else{
+              alert(result.message);
+            }
+          }
+          this.mainTest = fileArr;
+        }
+      }
+      else if(type == 'tag'){
+        const res = configArr.filter((item) => item.tag.includes(str) );
+        if(res){
+          for(const item of res){
+            //@ts-ignore
+            const result = await window.electronAPI.readDir(item.path)
+            if(result.success){
+              fileArr.push(result.file);
+            }
+            else{
+              alert(result.message);
+            }
+          }
+          this.mainTest = fileArr;
+        }
+      }
+    }else{
+      alert(result.message);
+    }
+  }
+
+  onRightClick(event: MouseEvent, item:any) {
+    event.preventDefault();
+    this.showMenu = true;
+    this.menuX = event.clientX;
+    this.menuY = event.clientY;
+    this.menuItem = item;
+  }
+
+  onGlobalClick = (event: MouseEvent) => {
+    if (!this.showMenu) return;
+    const menu = document.querySelector('.context-menu');
+    if (menu && menu.contains(event.target as Node)) {
+      return;
+    }
+    this.showMenu = false;
+  };
 }
 
 export interface ConfigJSON {

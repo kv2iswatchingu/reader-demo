@@ -3,10 +3,12 @@ const fs = require('fs');
 const path = require('path');
 const { dialog } = require('electron');
 const { BrowserWindow } = require('electron');
+const fastglob = require('fast-glob');
 
 function registerIpcHandlers() {
 
   //返回当前文件夹内的所有文件
+
   ipcMain.handle('foreach-all', async (event, dirPath) => {
     try {
       const files = fs.readdirSync(dirPath)
@@ -15,7 +17,7 @@ function registerIpcHandlers() {
         const fullPath = path.join(dirPath, name);
         const stat = fs.statSync(fullPath);
         return { 
-          name,
+          name: name,
           path: fullPath,
           size: stat.size,
           sizeText: formatSize(stat.size),
@@ -34,6 +36,34 @@ function registerIpcHandlers() {
       return { success: false, message: e.message };
     }
   });
+  //根据path读取此文件夹本身，返回其信息
+  ipcMain.handle('read-dir', async (event, dirPath) => {
+    try {
+      const stat = fs.statSync(dirPath);
+      if (!stat.isDirectory()) {
+        return { success: false, message: '路径不是文件夹' };
+      }
+      return {
+        success: true,
+        file: {
+          name: path.basename(dirPath),
+          path: dirPath,
+          size: stat.size,
+          sizeText: formatSize(stat.size),
+          isDirectory: stat.isDirectory(),
+          isImage: stat.isFile() && /\.(png|jpe?g|gif|bmp|webp)$/i.test(path.basename(dirPath)),
+          isVideo: stat.isFile() && /\.(mp4|mkv|avi|mov|wmv|flv)$/i.test(path.basename(dirPath)),
+          isJson: stat.isFile() && /^config\.json$/i.test(path.basename(dirPath)),
+          birthtime: stat.birthtime,
+          birthtimeText: formatDate(stat.birthtime),
+          mtime: stat.mtime,
+          mtimeText: formatDate(stat.mtime)
+        }
+      };
+  } catch (e) {
+    return { success: false, message: e.message };
+  }
+  });
   //读写文件
   ipcMain.handle('write-in', async (event, filePath, content ) => {
     try {
@@ -47,7 +77,6 @@ function registerIpcHandlers() {
   ipcMain.handle('read-out', async (event, filePath) => {
     try {
       const content = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
-      //console.log(content,"1q");
       return { success: true, content };
     } catch (e) {
       return { success: false, message: e.message };
@@ -57,6 +86,20 @@ function registerIpcHandlers() {
   ipcMain.handle('remove-file', async (event, filePath) => {
     try {
       fs.unlinkSync(filePath);
+      return { success: true };
+    } catch (e) {
+      return { success: false, message: e.message };
+    }
+  });
+  // 删除文件/文件夹
+  ipcMain.handle('remove-path', async (event, targetPath) => {
+    try {
+      const stat = fs.statSync(targetPath);
+      if (stat.isDirectory()) {
+        fs.rmdirSync(targetPath, { recursive: true });
+      } else {
+        fs.unlinkSync(targetPath);
+      }
       return { success: true };
     } catch (e) {
       return { success: false, message: e.message };
@@ -87,6 +130,43 @@ function registerIpcHandlers() {
       return { success: false, message: e.message };
     }
   })
+  //返回当前根目录下所有文件夹及其子文件夹的的某个文件（默认cofig.json）
+  ipcMain.handle('search-file', async (event,dirpath,options) => {
+    try{
+      const { filename } = options;
+      let result = [];
+      const patterns = [
+        `${dirpath.replace(/\\/g, '/')}/**/*${filename}*`,
+      ];
+      const files = await fastglob(patterns, { 
+        onlyFiles: false,
+        caseSensitiveMatch: false,
+        deep: 10,
+        absolute: true, 
+      });
+      for (const file of files) {
+        const stat = fs.statSync(file);
+        const fileInfo = {
+          path: file,
+          name: path.basename(file),
+          size: stat.size,
+          sizeText: formatSize(stat.size),
+          isDirectory: stat.isDirectory(),
+          isImage: stat.isFile() && /\.(png|jpe?g|gif|bmp|webp)$/i.test(path.basename(file)),
+          isVideo: stat.isFile() && /\.(mp4|mkv|avi|mov|wmv|flv)$/i.test(path.basename(file)),
+          isJson: stat.isFile() && /^config\.json$/i.test(path.basename(file)),
+          birthtime: stat.birthtime,
+          birthtimeText: formatDate(stat.birthtime),
+          mtime: stat.mtime,
+          mtimeText: formatDate(stat.mtime)
+        }
+        result.push(fileInfo);
+      }
+      return { success: true, result };
+    }catch(e){
+      return { success: false, message: e.message };
+    }
+  })
   //全屏监测方法
   ipcMain.on('set-fullscreen', (event, flag) => {
     try{
@@ -109,100 +189,37 @@ function registerIpcHandlers() {
        return { success: false, message: e.message };
     }
   });
-  
-
-
-  // ipcMain.handle("select-files", async () => {
-  //   const result = await dialog.showOpenDialog({
-  //     properties: ["openFile","multiSelections"],
-  //     filters: [
-  //       { name: "所有文件", extensions: ["*"] },
-  //     ],
-  //   });
-  //   if (result.canceled || result.filePaths.length === 0) {
-  //     return null;
-  //   }
-  //   return result.filePaths;
-  // });
-
-
-  
-
-
-
-  // //选择保存位置
-  // ipcMain.handle('select-save-path', async (event, { defaultPath, filters }) => {
-  //   const result = await dialog.showSaveDialog({
-  //     title: '选择保存位置',
-  //     defaultPath,
-  //     filters
-  //   });
-  //   if (result.canceled) return null;
-  //   return result.filePath;
-
-  // });
-
-  
-
-  
-  
-
-
-
-  // // 删除文件/文件夹
-  // ipcMain.handle('remove-path', async (event, targetPath) => {
-  //   try {
-  //     const stat = fs.statSync(targetPath);
-  //     if (stat.isDirectory()) {
-  //       fs.rmdirSync(targetPath, { recursive: true });
-  //     } else {
-  //       fs.unlinkSync(targetPath);
-  //     }
-  //     return { success: true };
-  //   } catch (e) {
-  //     return { success: false, message: e.message };
-  //   }
-  // });
-
-  // // 重命名/移动
-  // ipcMain.handle('move-path', async (event, { oldPath, newPath }) => {
-  //   try {
-  //     fs.renameSync(oldPath, newPath);
-  //     return { success: true };
-  //   } catch (e) {
-  //     return { success: false, message: e.message };
-  //   }
-  // });
-
-  // // 复制
-  // ipcMain.handle('copy-path', async (event, { srcPath, destPath }) => {
-  //   try {
-  //     const stat = fs.statSync(srcPath);
-  //     if (stat.isDirectory()) {
-  //       // 递归复制目录
-  //       fs.cpSync(srcPath, destPath, { recursive: true });
-  //     } else {
-  //       fs.copyFileSync(srcPath, destPath);
-  //     }
-  //     return { success: true };
-  //   } catch (e) {
-  //     return { success: false, message: e.message };
-  //   }
-  // });
-
-  //OVERRIDE
-  
-
-
+  // 重命名/移动/粘贴
+  ipcMain.handle('move-path', async (event, { oldPath, newPath }) => {
+    try {
+      fs.renameSync(oldPath, newPath);
+      return { success: true };
+    } catch (e) {
+      return { success: false, message: e.message };
+    }
+  });
+  // 复制
+  ipcMain.handle('copy-path', async (event, { srcPath, destPath }) => {
+    try {
+      const stat = fs.statSync(srcPath);
+      if (stat.isDirectory()) {
+        // 递归复制目录
+        fs.cpSync(srcPath, destPath, { recursive: true });
+      } else {
+        fs.copyFileSync(srcPath, destPath);
+      }
+      return { success: true };
+    } catch (e) {
+      return { success: false, message: e.message };
+    }
+  });
 }
-
 function formatSize(size) {
   if (size < 1024) return size + ' B';
   if (size < 1024 * 1024) return (size / 1024).toFixed(1) + ' KB';
   if (size < 1024 * 1024 * 1024) return (size / 1024 / 1024).toFixed(1) + ' MB';
   return (size / 1024 / 1024 / 1024).toFixed(1) + ' GB';
 }
-
 function formatDate(date) {
   return date instanceof Date
     ? date.toLocaleString('zh-CN', { hour12: false })

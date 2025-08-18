@@ -20,7 +20,6 @@ export class TestPage {
     // @ts-ignore
     const result = await window.electronAPI.listDirectory(dirPath);
     if (result.success) {
-      console.log(result.files)
       this.fileList = result.files;
     }
   }
@@ -30,7 +29,6 @@ export class TestPage {
     // @ts-ignore
     const result = await window.electronAPI.listJson(dirPath)
     if (result.success) {
-      console.log(result);
       this.mycontent = JSON.stringify(result.content);
     }
   }

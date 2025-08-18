@@ -1,6 +1,5 @@
 <div class="reader-homepage">
     <div class="reader-homepage-main">
-        
         <div class="reader-homepage-tools">
             <div class="tools-operator">
                 <div class="tools-operator-btngroup">
@@ -36,8 +35,8 @@
                     
                 </div>
                 <div class="tools-operator-search">
-                    <ui-input [(value)]="searchStr" placeholder="搜索"></ui-input>
-                    <ui-button class="tools-operator-btn" modeType="icon" >
+                    <ui-input style="width: 300px;" [(value)]="searchStr" [placeholder]="'在' + filePath + '内搜索'"></ui-input>
+                    <ui-button class="tools-operator-btn" modeType="icon" (btnClick)="search()">
                         <mat-icon>search</mat-icon>
                     </ui-button>
                 </div>
@@ -65,7 +64,6 @@
             </div>
         </div>
 
-
         <div 
             class="reader-homepage-content"
             [class.reader-homepage-content-detail]="detailMode"
@@ -77,7 +75,8 @@
                     [disabled]="editConfig || addConfig"
                     [selected]="file.path === configFilePath || imageViewerPath === file.path"
                     (cardClick)="showConfig(file)"
-                    (cardDbClick)="openFolder(file)">
+                    (cardDbClick)="openFolder(file)"
+                    (contextmenu)="onRightClick($event,file)">
                 </ui-card>    
             }
             @if ( showImgSingle ) {
@@ -90,6 +89,14 @@
                         <img class="single-img" [src]="imageViewerPath" />
                 </ui-dialog>
             }
+            <div *ngIf="showMenu" [style.top.px]="menuY" [style.left.px]="menuX" class="context-menu">
+                <ui-button modeType="text">剪切</ui-button>
+                <ui-button modeType="text">复制</ui-button>
+                <ui-button modeType="text">粘贴</ui-button>
+                <ui-button modeType="text">重命名</ui-button>
+                <ui-button modeType="text">删除</ui-button>
+                
+            </div>
         </div>
     </div>
     
@@ -200,7 +207,7 @@
                                         </ui-input>
                                     }
                                     @else {
-                                        <ui-button class="info-author " modeType="text">
+                                        <ui-button class="info-author " modeType="text" (btnClick)="searchByConfig(config.author, 'author')">
                                             {{config.author}}
                                         </ui-button> 
                                     }
@@ -209,7 +216,7 @@
                                     <div class="info-label">{{ tagLabel }}</div>
                                     @for (tag of config.tag; track $index) {
                                         <div class="button-tag-container">
-                                            <ui-button class="button-tag" modeType="text" [disabled]="editConfig">
+                                            <ui-button class="button-tag" modeType="text" [disabled]="editConfig" (btnClick)="searchByConfig(tag, 'tag')">
                                                 {{ tag }}
                                             </ui-button>
                                             @if(editConfig || addConfig) {
