@@ -1,10 +1,11 @@
 import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { UiButton } from '../ui-button/ui-button';
 import { MatIcon } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'ui-viewer',
-  imports: [UiButton,MatIcon],
+  imports: [UiButton,MatIcon, MatTooltipModule],
   templateUrl: './ui-viewer.html',
   styleUrls: ['./ui-viewer.scss'],
 })
@@ -35,6 +36,7 @@ export class UiViewer {
   private arrowTimer: any = null;
 
   ngOnInit() {
+    window.addEventListener('keydown', this.onKeyDown);
     // @ts-ignore
     window.electronAPI?.onFullscreenChanged?.((isFullscreen: boolean) => {
       this.fullscreenflag = isFullscreen;
@@ -129,6 +131,7 @@ export class UiViewer {
     }
   }
   ngOnDestroy() {
+    window.removeEventListener('keydown', this.onKeyDown);
     this.stopAutoPlay();
   }
 
@@ -217,5 +220,14 @@ export class UiViewer {
     this.filmstripInner.nativeElement.style.cursor = 'grab';
     this.filmDragStartX = null;
   }
-
+  onKeyDown = (event: KeyboardEvent) => {
+    if (!this.toolsVisible) return;
+    if (event.key === 'ArrowLeft') {
+      this.prev();
+      event.preventDefault();
+    } else if (event.key === 'ArrowRight') {
+      this.next();
+      event.preventDefault();
+    }
+};
 }

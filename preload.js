@@ -16,8 +16,11 @@ contextBridge.exposeInMainWorld("electronAPI", {
   removePath: (filePath) => ipcRenderer.invoke("remove-path",filePath),
   movePath: (oldPath,newPath) => ipcRenderer.invoke("move-path",oldPath,newPath),
   copyPath: (srcPath,destPath) => ipcRenderer.invoke("copy-path",srcPath,destPath),
+  existsPath: (filePath) => ipcRenderer.invoke("exists-path",filePath),
+  createFolder: (filePath) => ipcRenderer.invoke("create-folder",filePath),
   setMainPath: () => ipcRenderer.invoke("set-main-directory"),
   floderImage: (targetPath) => ipcRenderer.invoke("floder-image", targetPath),
   setFullscreen: (flag) => ipcRenderer.send('set-fullscreen', flag),
   onFullscreenChanged: (callback) => ipcRenderer.on('fullscreen-changed', (event, isFullscreen) => callback(isFullscreen)),
+  statPath: (filePath) => ipcRenderer.invoke("stat-path",filePath),
 });

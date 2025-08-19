@@ -4,45 +4,51 @@
             <div class="tools-operator">
                 <div class="tools-operator-btngroup">
                     <div class="tools-operator-btngroup-left">
-                        <ui-button class="tools-operator-btn" modeType="icon" (btnClick)="go2RootPath()">
+                        <ui-button class="tools-operator-btn" modeType="icon" (btnClick)="go2RootPath()" matTooltip="返回根目录">
                             <mat-icon>home</mat-icon>
                         </ui-button>
-                        <ui-button class="tools-operator-btn" modeType="icon" (btnClick)="init()">
+                        <ui-button class="tools-operator-btn" modeType="icon" (btnClick)="init()" matTooltip="刷新">
                             <mat-icon>refresh</mat-icon>
                         </ui-button>
                         @if( detailMode ){
-                            <ui-button class="tools-operator-btn" modeType="icon" (btnClick)="detailMode = false">
+                            <ui-button class="tools-operator-btn" modeType="icon" (btnClick)="detailMode = false" matTooltip="切换至图标模式">
                                 <mat-icon>view_comfy</mat-icon>
                             </ui-button>
                         }@else{
-                            <ui-button class="tools-operator-btn" modeType="icon" (btnClick)="detailMode = true" >
+                            <ui-button class="tools-operator-btn" modeType="icon" (btnClick)="detailMode = true" matTooltip="切换至详细模式">
                                 <mat-icon>list</mat-icon>
                             </ui-button>
                         }
-                        <ui-button class="tools-operator-btn" modeType="icon" (btnClick)="showsort = !showsort" >
+                        <ui-button class="tools-operator-btn" modeType="icon" (btnClick)="paste()" [disabled]="clipboard == null" matTooltip="粘贴">
+                            <mat-icon>file_copy</mat-icon>
+                        </ui-button>
+                        <ui-button class="tools-operator-btn" modeType="icon" (btnClick)="newFolder()" matTooltip="新建文件夹">
+                            <mat-icon>create_new_folder</mat-icon>
+                        </ui-button>
+                        <ui-button class="tools-operator-btn" modeType="icon" (btnClick)="showsort = !showsort" matTooltip="排序">
                             <mat-icon>sort</mat-icon>
                         </ui-button>
                     </div>
                    
                     <div class="tools-operator-sort" [class.tools-operator-sort-active]="showsort">
                         @for ( option of sortOptions; track option; let i = $index) {
-                            <ui-button class="tools-operator-btn" modeType="icon" (btnClick)="sortBy(option.value)">
+                            <ui-button class="tools-operator-btn" modeType="icon" (btnClick)="sortBy(option.value)" [matTooltip]="option.label">
                                 <mat-icon>{{ option.icon }}</mat-icon>
                             </ui-button>
                         }
                     </div>
-                    <!--  -->
+                    
                     
                 </div>
                 <div class="tools-operator-search">
-                    <ui-input style="width: 300px;" [(value)]="searchStr" [placeholder]="'在' + filePath + '内搜索'"></ui-input>
-                    <ui-button class="tools-operator-btn" modeType="icon" (btnClick)="search()">
+                    <ui-input style="width: 250px;" [(value)]="searchStr" [placeholder]="'在' + filePath + '内搜索'"></ui-input>
+                    <ui-button class="tools-operator-btn" modeType="icon" (btnClick)="search()" matTooltip="搜索">
                         <mat-icon>search</mat-icon>
                     </ui-button>
                 </div>
             </div>
             <div class="tools-breadcrumb">
-                <ui-button class="tools-operator-btn" modeType="icon" (btnClick)="setMainPath()">
+                <ui-button class="tools-operator-btn" modeType="icon" (btnClick)="setMainPath()" matTooltip="设置主目录">
                     <mat-icon>settings</mat-icon>
                 </ui-button>
                 @for (crumb of breadCrumbList; track crumb.fullPath; let i = $index) {
@@ -78,6 +84,7 @@
                     (cardDbClick)="openFolder(file)"
                     (contextmenu)="onRightClick($event,file)">
                 </ui-card>    
+                
             }
             @if ( showImgSingle ) {
                 <ui-dialog
@@ -90,11 +97,10 @@
                 </ui-dialog>
             }
             <div *ngIf="showMenu" [style.top.px]="menuY" [style.left.px]="menuX" class="context-menu">
-                <ui-button modeType="text">剪切</ui-button>
-                <ui-button modeType="text">复制</ui-button>
-                <ui-button modeType="text">粘贴</ui-button>
-                <ui-button modeType="text">重命名</ui-button>
-                <ui-button modeType="text">删除</ui-button>
+                <ui-button modeType="text" (btnClick)="cut()">剪切</ui-button>
+                <ui-button modeType="text" (btnClick)="copy()">复制</ui-button>
+                <ui-button modeType="text" (btnClick)="renaming()">重命名</ui-button>
+                <ui-button modeType="text" (btnClick)="delete()">删除</ui-button>
                 
             </div>
         </div>
@@ -119,15 +125,15 @@
                 <div class="empty-info">
                     <div class="empty-info-header">
                         @if(addConfig){
-                            <ui-button class="empty-info-btn" modeType="icon" (btnClick)="cancelAddConfig()">
+                            <ui-button class="empty-info-btn" modeType="icon" (btnClick)="cancelAddConfig()" matTooltip="取消">
                                 <mat-icon>close</mat-icon>
                             </ui-button>
-                            <ui-button class="empty-info-btn" modeType="icon" (btnClick)="writeJson()">
+                            <ui-button class="empty-info-btn" modeType="icon" (btnClick)="writeJson()" matTooltip="保存">
                                 <mat-icon>save</mat-icon>
                             </ui-button>
                             
                         }@else {
-                            <ui-button class="empty-info-btn" modeType="icon" (btnClick)="initAddConfig()">
+                            <ui-button class="empty-info-btn" modeType="icon" (btnClick)="initAddConfig()" matTooltip="新建">
                                 <mat-icon>add</mat-icon>
                             </ui-button>
                         }
@@ -235,7 +241,7 @@
                                             </ui-button>
                                             
                                         }
-                                        <ui-button class="button-tag-add" modeType="icon" [disabled]="addingTag" (btnClick)="addTag()">
+                                        <ui-button class="button-tag-add" modeType="icon" [disabled]="addingTag" (btnClick)="addTag()" matTooltip="添加标签" matTooltipPosition="right">
                                             <mat-icon class="button-tag-add-icon">add</mat-icon>
                                         </ui-button>
                                     }
@@ -258,33 +264,24 @@
                             @if( !addConfig ){
                                 <div>
                                     @if(editConfig == false){
-                                        <ui-button modeType="icon" (btnClick)="editConfig = true">
+                                        <ui-button modeType="icon" (btnClick)="editConfig = true" matTooltip="编辑" matTooltipPosition="left">
                                             <mat-icon>create</mat-icon>
                                         </ui-button>
                                     }@else{
-                                        <ui-button modeType="icon" (btnClick)="writeJson()">
+                                        <ui-button modeType="icon" (btnClick)="writeJson()" matTooltip="保存" matTooltipPosition="left">
                                             <mat-icon>save</mat-icon>
                                         </ui-button>
                                         <ui-button modeType="icon" (btnClick)="editConfig = false">
                                             <mat-icon>close</mat-icon>
                                         </ui-button>
                                     }
-                                    <ui-button modeType="icon" (btnClick)="readJson()" [disabled]="editConfig">
+                                    <ui-button modeType="icon" (btnClick)="readJson()" [disabled]="editConfig" matTooltip="刷新" matTooltipPosition="left">
                                         <mat-icon>autorenew</mat-icon>
                                     </ui-button>
-                                    <ui-button modeType="icon" (btnClick)="deleteConfigDialog = true" [disabled]="editConfig">
+                                    <ui-button modeType="icon" (btnClick)="deleteConfigDialog = true" [disabled]="editConfig" matTooltip="删除" matTooltipPosition="left">
                                         <mat-icon>delete</mat-icon>
                                     </ui-button>
-                                    @if( deleteConfigDialog ){
-                                        <ui-dialog
-                                            [dialogHeight]="'140px'"
-                                            [dialogWidth]="'320px'"
-                                            (close)="deleteConfigDialog = false"
-                                            (confirm)="deleteConfig()"    
-                                        >
-                                        <div class="delete-config-dialog">{{ deleteConfigText }}</div>
-                                        </ui-dialog>
-                                    }
+                                    
                                 </div> 
                             }  
                         </div>
@@ -338,4 +335,45 @@
             </div>
         </ui-dialog>
     }
+
+    @if( deleteConfigDialog ){
+        <ui-dialog
+            [dialogHeight]="'140px'"
+            [dialogWidth]="'320px'"
+            (close)="deleteConfigDialog = false"
+            (confirm)="deleteConfig()">
+            <div class="delete-config-dialog">{{ deleteConfigText }}</div>
+        </ui-dialog>
+    }
+    @if( deleteFolder ){
+        <ui-dialog
+            [dialogHeight]="'140px'"
+            [dialogWidth]="'320px'"
+            (close)="deleteFolder = false"
+            (confirm)="deleteFolderConfirm()">
+            <div class="delete-config-dialog">{{ deleteFolderText }}</div>
+        </ui-dialog>
+    }
+    @if( showExist ){
+        <ui-dialog
+            [dialogHeight]="'140px'"
+            [dialogWidth]="'320px'"
+            (close)="showExist = false"
+            (confirm)="autoRename()">
+            <div class="show-exist-dialog">{{ showExistText }}</div>
+        </ui-dialog>
+    }
+    @if( rename ){
+        <ui-dialog
+            [dialogHeight]="'140px'"
+            [dialogWidth]="'320px'"
+            (close)="rename = false"
+            (confirm)="renameConfirm()">
+            <div class="show-rename-dialog">
+                <ui-input [(value)]="renameNameStr">
+                </ui-input>
+            </div>
+        </ui-dialog>
+    }
+
 </div>

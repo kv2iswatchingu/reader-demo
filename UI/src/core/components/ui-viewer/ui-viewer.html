@@ -13,7 +13,7 @@
         modeType="icon"
         [style.display]="toolsVisible ? 'block' : 'none'"
         (click)="prev()">
-        <mat-icon [class.ui-viewer-icon]="darkmode">chevron_left</mat-icon>
+        <mat-icon [class.ui-viewer-icon]="darkmode" matTooltip="上一张">chevron_left</mat-icon>
     </ui-button>
     @for (image of viewerData; track image;let index = $index) {
         <div 
@@ -33,22 +33,22 @@
         modeType="icon" 
         [style.display]="toolsVisible ? 'block' : 'none'"
         (click)="next()">
-        <mat-icon [class.ui-viewer-icon]="darkmode">chevron_right</mat-icon>
+        <mat-icon [class.ui-viewer-icon]="darkmode" matTooltip="下一张">chevron_right</mat-icon>
     </ui-button>
 
     <div 
         class="ui-viewer-tools"
         [style.display]="toolsVisible ? 'flex' : 'none'">
         @if( autoPlay){
-            <ui-button modeType="icon" (btnClick)="stopAutoPlay()">
+            <ui-button modeType="icon" (btnClick)="stopAutoPlay()" matTooltip="停止自动播放">
                 <mat-icon class="ui-viewer-icon">pause_circle_outline</mat-icon>
             </ui-button>
         }@else {
-            <ui-button modeType="icon" (btnClick)="startAutoPlay()">
+            <ui-button modeType="icon" (btnClick)="startAutoPlay()" matTooltip="开始自动播放">
                 <mat-icon class="ui-viewer-icon">play_circle_outline</mat-icon>
             </ui-button>
         }
-         <ui-button modeType="icon" (btnClick)="setDelay()">
+         <ui-button modeType="icon" (btnClick)="setDelay()" matTooltip="设置自动播放间隔">
             @if( autoPlayDelay < 9000 ){
                 <mat-icon class="ui-viewer-icon">add_alarm</mat-icon>
             }@else {
@@ -57,34 +57,34 @@
         </ui-button>
         <!-- <ui-button modeType="icon" [disabled]="true"> -->
         <div style="padding: 0.35em;">
-            <mat-icon class="ui-viewer-icon">filter_{{autoPlayDelay / 1000}}</mat-icon>
+            <mat-icon class="ui-viewer-icon" [matTooltip]="'播放间隔'+ autoPlayDelay / 1000 + '秒'">filter_{{autoPlayDelay / 1000}}</mat-icon>
         </div>
         <!-- </ui-button> -->
         @if (fullscreenflag) {
-            <ui-button modeType="icon" (btnClick)="fullscreen()">
+            <ui-button modeType="icon" (btnClick)="fullscreen()" matTooltip="退出全屏">
                 <mat-icon class="ui-viewer-icon">
                     fullscreen_exit
                 </mat-icon>
             </ui-button>
 
         }@else{
-            <ui-button modeType="icon" (btnClick)="fullscreen()">
+            <ui-button modeType="icon" (btnClick)="fullscreen()" matTooltip="全屏">
                 <mat-icon class="ui-viewer-icon">
                     fullscreen
                 </mat-icon>        
             </ui-button>
         }
         @if( darkmode ) {
-            <ui-button modeType="icon" (btnClick)="toggleDarkmode()">
+            <ui-button modeType="icon" (btnClick)="toggleDarkmode()" matTooltip="夜间模式">
                 <mat-icon class="ui-viewer-icon">brightness_4</mat-icon>
             </ui-button>
         }@else {
-            <ui-button modeType="icon" (btnClick)="toggleDarkmode()">
+            <ui-button modeType="icon" (btnClick)="toggleDarkmode()" matTooltip="日间模式">
                 <mat-icon class="ui-viewer-icon">brightness_5</mat-icon>
             </ui-button>
         }
         @if( zoom !== 1 ) {
-            <ui-button (click)="resetZoom()" modeType="icon">
+            <ui-button (click)="resetZoom()" modeType="icon" matTooltip="重置缩放">
                 <mat-icon class="ui-viewer-icon">photo_library</mat-icon>
             </ui-button>
         }

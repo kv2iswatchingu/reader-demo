@@ -264,16 +264,15 @@
     object-fit: contain;
 }
 
-
 .mat-icon-active{
     cursor: pointer;
 }
 .context-menu {
   position: fixed;
-  background: #fff;
-  border: 1px solid #eee;
+  background: #EEE;
+  border: 1px solid #DDD;
   box-shadow: 0 2px 8px #0002;
-  border-radius: 4px;
+  border-radius: 6px;
   z-index: 9999;
   min-width: 120px;
 }

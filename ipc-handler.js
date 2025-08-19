@@ -7,8 +7,7 @@ const fastglob = require('fast-glob');
 
 function registerIpcHandlers() {
 
-  //返回当前文件夹内的所有文件
-
+  // 返回当前文件夹内的所有文件
   ipcMain.handle('foreach-all', async (event, dirPath) => {
     try {
       const files = fs.readdirSync(dirPath)
@@ -36,7 +35,7 @@ function registerIpcHandlers() {
       return { success: false, message: e.message };
     }
   });
-  //根据path读取此文件夹本身，返回其信息
+  // 根据path读取此文件夹本身，返回其信息
   ipcMain.handle('read-dir', async (event, dirPath) => {
     try {
       const stat = fs.statSync(dirPath);
@@ -64,7 +63,7 @@ function registerIpcHandlers() {
     return { success: false, message: e.message };
   }
   });
-  //读写文件
+  // 读写文件
   ipcMain.handle('write-in', async (event, filePath, content ) => {
     try {
       fs.mkdirSync(path.dirname(filePath), { recursive: true });
@@ -105,7 +104,7 @@ function registerIpcHandlers() {
       return { success: false, message: e.message };
     }
   });
-  //选择主文件夹作为根目录
+  // 选择主文件夹作为根目录
   ipcMain.handle('set-main-directory', async () => {
     const result = await dialog.showOpenDialog({
       title: '选择主文件夹作为根目录',
@@ -116,7 +115,7 @@ function registerIpcHandlers() {
     }
     return result.filePaths[0];
   });
-  //返回当前文件夹内的所有图片内容，不包含子文件夹与config文件
+  // 返回当前文件夹内的所有图片内容，不包含子文件夹与config文件
   ipcMain.handle('floder-image', async (event,targetPath) => {
     try {
       const all = fs.readdirSync(targetPath, { withFileTypes: true });
@@ -130,7 +129,7 @@ function registerIpcHandlers() {
       return { success: false, message: e.message };
     }
   })
-  //返回当前根目录下所有文件夹及其子文件夹的的某个文件（默认cofig.json）
+  // 返回当前根目录下所有文件夹及其子文件夹的的某个文件（默认cofig.json）
   ipcMain.handle('search-file', async (event,dirpath,options) => {
     try{
       const { filename } = options;
@@ -167,7 +166,7 @@ function registerIpcHandlers() {
       return { success: false, message: e.message };
     }
   })
-  //全屏监测方法
+  // 全屏监测方法
   ipcMain.on('set-fullscreen', (event, flag) => {
     try{
       const win = BrowserWindow.getFocusedWindow();
@@ -211,6 +210,28 @@ function registerIpcHandlers() {
       return { success: true };
     } catch (e) {
       return { success: false, message: e.message };
+    }
+  });
+  // 存在同名文件/夹
+  ipcMain.handle('exists-path', async (event, targetPath) => {
+    return fs.existsSync(targetPath);
+  });
+  // 新建文件夹
+  ipcMain.handle('create-folder', async (event, targetPath) => {
+    try {
+      fs.mkdirSync(targetPath);
+      return { success: true };
+    } catch (e) {
+      return { success: false, message: e.message };
+    }
+  });
+  // 检查元素
+  ipcMain.handle('stat-path', async (event, targetPath) => {
+    try {
+      const stat = fs.statSync(targetPath);
+      return { isDirectory: stat.isDirectory(), isFile: stat.isFile() };
+    } catch (e) {
+      return { isDirectory: false, isFile: false };
     }
   });
 }
