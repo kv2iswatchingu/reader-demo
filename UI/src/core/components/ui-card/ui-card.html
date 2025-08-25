@@ -8,17 +8,16 @@
             [class.disabled]="disabled"
             (dblclick)="onCardDblClick($event)">    
             <div style="display: flex;width: 70%; align-items: center">
-                 @if( cardData.isDirectory){ 
+                @if( cardData.isDirectory){ 
                     <mat-icon class="ui-card-detail-icon icon-folder">folder</mat-icon>  
-                }
-                @else if( cardData.isImage){ 
+                }@else if( cardData.isImage){ 
                     <mat-icon class="ui-card-detail-icon icon-image">photo</mat-icon>
-                }
-                @else if( cardData.isJson){ 
+                }@else if( cardData.isJson){ 
                     <mat-icon class="ui-card-detail-icon icon-config">perm_data_setting </mat-icon>
-                }
-                @else if (cardData.isVideo) {
+                }@else if (cardData.isVideo) {
                     <mat-icon class="ui-card-detail-icon icon-video">movie</mat-icon>
+                }@else if (cardData.isPdf) {
+                    <mat-icon class="ui-card-detail-icon icon-pdf">picture_as_pdf</mat-icon>
                 }@else {
                     <mat-icon class="ui-card-detail-icon icon-file">insert_drive_file</mat-icon>
                 }
@@ -48,14 +47,14 @@
             (dblclick)="onCardDblClick($event)">
             @if( cardData.isDirectory){ 
                 <mat-icon class="ui-card-meta-icon icon-folder">folder</mat-icon>  
-            }
-            @else if( cardData.isImage){ 
+            }@else if( cardData.isImage){ 
                 <img class="ui-card-meta-image" [src]="cardData.path" draggable="false">
-            }
-            @else if( cardData.isJson){ 
+            }@else if( cardData.isJson){ 
                 <mat-icon class="ui-card-meta-icon icon-config">perm_data_setting </mat-icon>
             }@else if (cardData.isVideo) {
                 <mat-icon class="ui-card-meta-icon icon-video">movie</mat-icon>
+            }@else if (cardData.isPdf) {
+                <mat-icon class="ui-card-meta-icon icon-pdf">picture_as_pdf</mat-icon>
             }@else {
                 <mat-icon class="ui-card-meta-icon icon-file">insert_drive_file</mat-icon>
             }

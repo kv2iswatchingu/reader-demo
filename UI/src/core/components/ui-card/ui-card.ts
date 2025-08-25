@@ -46,6 +46,7 @@ export interface CardType  {
   isImage: boolean,
   isVideo: boolean,
   isJson: boolean,
+  isPdf: boolean,
   birthtime: Date,
   birthtimeText: string,
   mtime: Date,

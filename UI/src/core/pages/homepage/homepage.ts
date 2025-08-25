@@ -82,6 +82,7 @@ export class Homepage {
 
   get breadCrumbList(): { name: string; fullPath: string }[] {
     const parts = this.filePath
+      .replace(/\\/g, '/')
       .replace(this.rootPath, '')
       .split('/')
       .filter(Boolean);
