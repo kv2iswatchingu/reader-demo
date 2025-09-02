@@ -1,20 +1,13 @@
 <div class="app-main">
-  <!-- <div class="app-main-side">
-    <div>
-       <ui-button modeType="text" routerLink="">
-          homepage
-        </ui-button>
-    </div>
-      <div>
-        ????
-      </div>
-      <div>
-        <ui-button modeType="text" routerLink="/settings">
-          settings
-        </ui-button>
-      </div>
-  </div>-->
   <div class="app-main-content"> 
     <router-outlet></router-outlet>
+  </div>
+  <div class="app-main-changepagebar">
+    <ui-button modeType="icon" (btnClick)="go2Homepage()">
+      <mat-icon>home</mat-icon>
+    </ui-button>
+    <ui-button modeType="icon" (btnClick)="go2Testpage()">
+      <mat-icon>test</mat-icon>
+    </ui-button>
   </div>
 </div>

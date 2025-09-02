@@ -604,6 +604,7 @@ export class Homepage {
       });
     }
   }
+
 }
 
 export interface ConfigJSON {
@@ -616,3 +617,5 @@ export interface ConfigJSON {
   path: string;
   //lianzai
 }
+
+

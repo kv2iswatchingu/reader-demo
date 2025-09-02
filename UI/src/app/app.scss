@@ -1,10 +1,13 @@
 .app-main{
-    display: flex;
     min-height: 100vh;
     height: auto;
     &-content{
         width: 100%;
         background: #F3F4F5;
+    }
+    &-changepagebar{
+        height: 24px;
+        display: flex;
     }
 }
 

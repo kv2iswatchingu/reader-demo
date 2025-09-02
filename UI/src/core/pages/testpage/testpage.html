@@ -1,0 +1,71 @@
+<div class="test">
+    <div class="test-log">
+
+    </div>
+    <div class="test-main" cdkDropListGroup>
+        <div class="test-main-top">
+          <div class="test-main-top-float">?</div>
+        </div>
+        <div class="test-main-content">
+            <div class="test-main-content-left">
+                <div class="test-main-content-left-top">
+
+                </div>
+                <div 
+                  class="test-main-content-left-bottom"
+                  cdkDropList
+                  [cdkDropListData]="basket"
+                  cdkDropListSortingDisabled
+                  (cdkDropListDropped)="drop($event)">
+                  @for (item of basket; track item) {
+                    <div class="test-main-content-left-bottom-item">
+                      {{item}}
+                    </div>
+                  }
+                </div>
+            </div>
+            <div class="test-ma                                                                                                                    in-content-right">
+              
+            </div>
+
+        </div>
+        <div>
+          rq
+        </div>
+        <div class="test-main-bottom">
+          
+        </div>
+        <div 
+          class="test-main-float" 
+          cdkDropList
+          [cdkDropListData]="items"
+          >
+          @for (item of items; track item) {
+            <!-- <div class="test-main-float-item" >
+              
+            </div> -->
+            <!-- <ui-button cdkDrag> 
+              {{item}}
+            </ui-button> -->
+            <full-card>
+
+            </full-card>
+          }
+        </div>
+
+    </div>
+    <div class="test-right">
+
+    </div>
+
+</div>
+
+<!-- 
+
+
+
+
+
+
+
+-->
