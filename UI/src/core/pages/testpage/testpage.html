@@ -1,9 +1,9 @@
 <div class="test">
-    <div class="test-log">
+    <!-- <div class="test-log">
 
-    </div>
+    </div> -->
     <div class="test-main" cdkDropListGroup>
-      <div class="test-main-top-float">?</div>
+      <div class="test-main-top">cpu: {{ cpuScore }}</div>
       <div 
         class="test-main-content"
         cdkDropList
@@ -12,20 +12,28 @@
         cdkDropListSortingDisabled
         (cdkDropListDropped)="drop($event)">
         @for (item of cardDesk; track item;let i = $index;) {
+          <!-- @if( cardDesk.length > 6 && i !== 0 && i < cardDesk.length - 3 && i > 3 ){
+            <div>...</div>
+          } 
+          @else{-->
           <full-card
             class="test-main-content-item"
             cdkDrag
+            [cdkDragDisabled]="true"
             [cardData]="item"
             >
           </full-card>
         }
+      </div>
+      <div class="test-main-bottom">
+        u: {{ score }}
       </div>
       <div 
         class="test-main-float" 
         cdkDropList
         cdkDropListOrientation="horizontal"
         [cdkDropListData]="cardInHand">
-        @for (item of cardInHand; track item) {
+        @for (item of cardInHand;let i = $index ;track item) {
           <full-card  
             class="test-main-content-fuzu"
             cdkDrag
@@ -33,12 +41,15 @@
           </full-card>
         }
       </div>
+      <div>
+        <ui-button (btnClick)="netxMethod()">
+          <mat-icon>add</mat-icon>
+        </ui-button>
+      </div>
     </div>
-    <div class="test-right">
-      <ui-button (btnClick)="netxMethod()">
-        <mat-icon>add</mat-icon>
-      </ui-button>
-    </div>
+    <!-- <div class="test-right">
+     
+    </div> -->
 
 </div>
 
