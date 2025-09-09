@@ -3,59 +3,41 @@
 
     </div>
     <div class="test-main" cdkDropListGroup>
-        <div class="test-main-top">
-          <div class="test-main-top-float">?</div>
-        </div>
-        <div class="test-main-content">
-            <div class="test-main-content-left">
-                <div class="test-main-content-left-top">
-
-                </div>
-                <div 
-                  class="test-main-content-left-bottom"
-                  cdkDropList
-                  [cdkDropListData]="basket"
-                  cdkDropListSortingDisabled
-                  (cdkDropListDropped)="drop($event)">
-                  @for (item of basket; track item) {
-                    <div class="test-main-content-left-bottom-item">
-                      {{item}}
-                    </div>
-                  }
-                </div>
-            </div>
-            <div class="test-ma                                                                                                                    in-content-right">
-              
-            </div>
-
-        </div>
-        <div>
-          rq
-        </div>
-        <div class="test-main-bottom">
-          
-        </div>
-        <div 
-          class="test-main-float" 
-          cdkDropList
-          [cdkDropListData]="items"
-          >
-          @for (item of items; track item) {
-            <!-- <div class="test-main-float-item" >
-              
-            </div> -->
-            <!-- <ui-button cdkDrag> 
-              {{item}}
-            </ui-button> -->
-            <full-card>
-
-            </full-card>
-          }
-        </div>
-
+      <div class="test-main-top-float">?</div>
+      <div 
+        class="test-main-content"
+        cdkDropList
+        [cdkDropListData]="cardDesk"
+        cdkDropListOrientation="horizontal"
+        cdkDropListSortingDisabled
+        (cdkDropListDropped)="drop($event)">
+        @for (item of cardDesk; track item;let i = $index;) {
+          <full-card
+            class="test-main-content-item"
+            cdkDrag
+            [cardData]="item"
+            >
+          </full-card>
+        }
+      </div>
+      <div 
+        class="test-main-float" 
+        cdkDropList
+        cdkDropListOrientation="horizontal"
+        [cdkDropListData]="cardInHand">
+        @for (item of cardInHand; track item) {
+          <full-card  
+            class="test-main-content-fuzu"
+            cdkDrag
+            [cardData]="item">
+          </full-card>
+        }
+      </div>
     </div>
     <div class="test-right">
-
+      <ui-button (btnClick)="netxMethod()">
+        <mat-icon>add</mat-icon>
+      </ui-button>
     </div>
 
 </div>

@@ -1,0 +1,45 @@
+.full-card{
+    width: 120px;
+    height: 160px;
+    background-color: bisque;
+    position: relative;
+    &-upside{
+        height: 100%;
+    }
+    &-top{
+        height: 20px;
+        display: flex;
+        align-items: center;
+        position: absolute;
+    }
+    &-content{
+        height: 60px;
+        display: grid;
+        grid-template-columns: 50% 50%;
+        justify-items: center;
+        position: absolute;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    &-middle{
+        text-align: center;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+    &-downside{
+       transform: rotate(180deg); 
+    }
+    &-icon{
+        width: 16px;
+        height: 16px;
+        font-size: 16px;
+        max-width: 32px;
+        max-height: 32px;
+    }
+    &-strange{
+        height: 54px;
+    }
+}
