@@ -1,0 +1,37 @@
+<div class="test">
+  <div id="example1" class="list-group">
+    @for(item of list1; track item;let i = $index;) {
+      <div class="list-group-item">{{ item}}</div>
+    }
+  </div>
+
+
+
+
+  <div class="bottom">
+    <div id="example2" class="list-group">
+      @for(item of list2; track item;let i = $index;) {
+        <div 
+          class="list-group-item"
+          [style.transform]="'rotate(' + ((i - list2.length / 2) * 8) + 'deg)'"
+          [style.transform-origin]="'60px 120px'">
+          {{item}}
+        </div>
+      }
+    </div> 
+  </div>
+
+  
+
+</div>
+
+
+<!-- 
+
+
+
+
+
+
+
+-->

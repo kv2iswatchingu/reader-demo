@@ -1,9 +1,26 @@
 <div class="test">
-    <!-- <div class="test-log">
-
-    </div> -->
     <div class="test-main" cdkDropListGroup>
-      <div class="test-main-top">cpu: {{ cpuScore }}</div>
+
+      <div class="test-main-opposite" >
+        <div class="test-main-opposite-info">
+          <div>
+            cpu: {{ cpuScore }}
+          </div>
+          <div>
+            number: {{ cardOpposite.length }}
+          </div>
+        </div>
+        @for (item of cardOpposite;let i = $index ;track item) {
+          <full-card  
+            [style.transform]="'rotate(' + ((cardInHand.length / 2 - i) * 5) + 'deg)'"
+            [style.transform-origin]="'60px 0px'"
+            class="test-main-content-hand"
+            [backshow]="true"
+            [cardData]="item">
+          </full-card>
+        }
+      </div>
+
       <div 
         class="test-main-content"
         cdkDropList
@@ -12,53 +29,57 @@
         cdkDropListSortingDisabled
         (cdkDropListDropped)="drop($event)">
         @for (item of cardDesk; track item;let i = $index;) {
-          <!-- @if( cardDesk.length > 6 && i !== 0 && i < cardDesk.length - 3 && i > 3 ){
-            <div>...</div>
-          } 
-          @else{-->
           <full-card
             class="test-main-content-item"
             cdkDrag
             [cdkDragDisabled]="true"
             [cardData]="item"
+            [notFull]="i !== 0 && i !== cardDesk.length - 1 ? true : false"
             >
           </full-card>
         }
-      </div>
-      <div class="test-main-bottom">
-        u: {{ score }}
-      </div>
-      <div 
-        class="test-main-float" 
-        cdkDropList
-        cdkDropListOrientation="horizontal"
-        [cdkDropListData]="cardInHand">
-        @for (item of cardInHand;let i = $index ;track item) {
-          <full-card  
-            class="test-main-content-fuzu"
-            cdkDrag
-            [cardData]="item">
-          </full-card>
+        @if( over ){
+          <ui-button 
+            modeType="text"
+            class="test-main-content-restart"
+            (btnClick)="restart()">
+            RESTART
+          </ui-button>
         }
+        
       </div>
-      <div>
-        <ui-button (btnClick)="netxMethod()">
-          <mat-icon>add</mat-icon>
-        </ui-button>
+
+      <div class="test-main-self">
+        <div class="test-main-self-info">
+          <div class="test-main-self-score">
+            u: {{ score }}
+          </div>
+          <button 
+            class="test-main-self-btn" 
+            [disabled]="cardInHand.length > 10"
+            (click)="netxMethod()">
+            <mat-icon >add</mat-icon>
+          </button>
+          
+        </div>
+        <div 
+          class="test-main-self-hand" 
+          cdkDropList
+          cdkDropListOrientation="horizontal"
+          [cdkDropListData]="cardInHand">
+          
+          @for (item of cardInHand;let i = $index ;track item) {
+            <full-card  
+              [style.transform]="'rotate(' + ((i - cardInHand.length / 2) * 5) + 'deg)'"
+              [style.transform-origin]="'60px 180px'"
+              class="test-main-content-hand"
+              cdkDrag
+              [allowHover]="true"
+              [cardData]="item">
+            </full-card>
+          }
+        </div>
       </div>
+      
     </div>
-    <!-- <div class="test-right">
-     
-    </div> -->
-
 </div>
-
-<!-- 
-
-
-
-
-
-
-
--->

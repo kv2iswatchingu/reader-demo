@@ -1,9 +1,10 @@
 .full-card{
     width: 120px;
     height: 160px;
-    background-color: bisque;
+    background-color: #EEE;
     border-radius: 4px;
     position: relative;
+    border: #CCC 1px solid;
     &-upside{
         height: 100%;
     }
@@ -40,8 +41,30 @@
         font-size: 16px;
         max-width: 32px;
         max-height: 32px;
+        color: #DDD;
     }
     &-strange{
         height: 54px;
     }
+    &-backshow{
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        z-index: 0;
+        background: 
+            linear-gradient(45deg,#999 25%, #333 0,#333 50% ,#999 0,#999 75%, #333 0);
+        background-size: 20px 20px;
+        opacity: 0.3;
+    }
+}
+.not-full{
+    width: 20px;
+    border-left: solid #CCC 1px;
+    border-top: #CCC 1px solid;
+    border-bottom: #CCC 1px solid;
+    border-right: none;
+}
+.full-card-hover:hover{
+    width: 126px;
+    height: 168px;
 }

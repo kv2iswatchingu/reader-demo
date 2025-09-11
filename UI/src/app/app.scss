@@ -1,14 +1,25 @@
 .app-main{
     min-height: 100vh;
     height: auto;
+    position: relative;
+    overflow: hidden;
     &-content{
         width: 100%;
         background: #F3F4F5;
     }
     &-changepagebar{
-        height: 24px;
+        height: 33.8px;
         display: flex;
+        position: absolute;
+        bottom: -20px;
+        opacity: 0;
+        transition: all 0.3s linear;
     }
+    &-changepagebar:hover{
+        opacity: 1;
+        bottom: 0px;
+    }
+    
 }
 
 

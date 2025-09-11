@@ -21,6 +21,9 @@ export class App {
     this.router.navigate(['test']);
   }
 
+  go2Test2page(){
+    this.router.navigate(['test2']);
+  }
   ngOnDestroy() {
     // @ts-ignore
     window.electronAPI?.setFullscreen?.(false);
