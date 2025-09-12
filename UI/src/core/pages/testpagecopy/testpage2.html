@@ -1,37 +1,56 @@
-<div class="test">
-  <div id="example1" class="list-group">
-    @for(item of list1; track item;let i = $index;) {
-      <div class="list-group-item">{{ item}}</div>
+<div class="mathtable">
+
+  <div class="mathtable-container">
+    <div class="mathtable-showtables">
+      @for( rows of questionArray; track rows;let i = $index;) {
+        @for ( cell of rows; track $index) {
+          <div class="mathtable-showtables-item">
+            @if ( cell !== 0) {
+              {{ cell }}
+            }
+          </div>
+        }
+      }
+    </div>
+    @for( rows of [].constructor(9); track rows;let i = $index;) {
+      <div class="mathtable-row">
+        @for ( cell of [].constructor(9); track cell;let j = $index) {
+          <div 
+            class="mathtable-cell" 
+            [style.border-left]="j % 3 === 0 ? '2px solid #000' : '1px solid #AAA'"
+            [style.border-top]="i % 3 === 0 ? '2px solid #000' : '1px solid #AAA'"
+            [id]="'mathcell'+ (i * 9 + ( j + 1 ))">
+          </div>
+        }
+      </div>
+    }
+    
+  </div>
+  
+
+  <div class="mathtable-numberstorge" id="numberstorage">
+    @for( rows of [].constructor(9); track rows;let i = $index;) {
+      <div class="mathtable-numberstorge-item">
+        {{ i + 1 }}
+      </div>
     }
   </div>
 
-
-
-
-  <div class="bottom">
-    <div id="example2" class="list-group">
-      @for(item of list2; track item;let i = $index;) {
-        <div 
-          class="list-group-item"
-          [style.transform]="'rotate(' + ((i - list2.length / 2) * 8) + 'deg)'"
-          [style.transform-origin]="'60px 120px'">
-          {{item}}
-        </div>
-      }
-    </div> 
+  <div>
+    <div 
+      id="rubbish" 
+      style="background-color: red;width: 100px;height: 100px;">
+    </div>
+    <ui-button (btnClick)="restart()">
+       RESTART!
+    </ui-button>
   </div>
-
   
-
+  
 </div>
 
 
-<!-- 
+<!-- mugannin number 1-9 drag to 9x9 math-hido  -->
 
 
 
-
-
-
-
--->

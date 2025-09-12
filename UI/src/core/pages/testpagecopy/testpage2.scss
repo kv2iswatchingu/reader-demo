@@ -1,29 +1,80 @@
 .blue-background-class {
-    background-color: #C8EBFB!important;
+    background: #C8EBFB!important;
 }
 .blue-background-class2{
-    background-color: blue!important;
+    background: blue!important;
 }
-.list-group{
-  width: 500px;
-  height: 500px;
+.mathtable{
+  display: flex;
+  padding: 40px;
+  &-container{
+    width: 372px;
+    height: 372px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-items: center;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+    border-right: #000 2px solid;
+    border-bottom: #000 2px solid;
+    box-sizing: content-box;
+    z-index: 50;
+    position: relative;
+  }
+  &-cell{
+    width: 40px;
+    height: 40px;
+    border-left: #AAA 1px solid;
+    border-top: #AAA 1px solid;
+    box-sizing: content-box;
+    z-index: 50;
+  }
+  &-row{
+    display: flex;
+  }
+}
+.mathtable-showtables{
+  width: 372px;
+  height: 372px;
   display: flex;
   flex-wrap: wrap;
   justify-items: center;
+  align-content: center;
   align-items: center;
   justify-content: center;
+  border-right: transparent 2px solid;
+  border-bottom: transparent 2px solid;
+  box-sizing: content-box;
+  z-index: 1;
+  position: absolute;
+  top: 0;
+  left: 0;
+  &-item{
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    line-height: 40px;
+    border-left: transparent 1px solid;
+    border-top: transparent 1px solid;
+    box-sizing: content-box;
+    z-index: 1;
+  }
 }
-.list-group-item{
-  width: 120px;
-  height: 120px;
-  text-align: center;
-  line-height: 100px;
-  background-color: #EEE;
-}
-.bottom{
-  width: 100%;
-  height: 200px;
-  background-color: rgb(255, 252, 249);
+
+
+.mathtable-numberstorge{
+  display: grid;
+  grid-template-columns: 40px 40px 40px;
+  gap:5px;
+  margin-left: 20px;
+  &-item{
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    line-height: 40px;
+    background: #EEE;
+  }
 }
 
 .sortable-chosen,
