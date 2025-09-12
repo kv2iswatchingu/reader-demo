@@ -121,7 +121,7 @@ export class Testpage {
       }
     }
 
-    for (let r = 0; r < 20; r++) {
+    for (let r = 0; r < 1; r++) {
       const random = Math.floor(Math.random() * this.cardStack.length);
       this.cardDesk.push(this.cardStack[random]);
       this.cardStack.splice(random, 1);
@@ -160,20 +160,7 @@ export class Testpage {
     const right_2 = this.cardOpposite.findIndex(
       (item: any) => item.value == end - 1,
     );
-
-    if (left_1 != -1) {
-      this.cardDesk.unshift(this.cardOpposite[left_1]);
-      this.cardOpposite.splice(left_1, 1);
-    } else if (left_2 != -1) {
-      this.cardDesk.unshift(this.cardOpposite[left_2]);
-      this.cardOpposite.splice(left_2, 1);
-    } else if (right_1 != -1) {
-      this.cardDesk.push(this.cardOpposite[right_1]);
-      this.cardOpposite.splice(right_1, 1);
-    } else if (right_2 != -1) {
-      this.cardDesk.push(this.cardOpposite[right_2]);
-      this.cardOpposite.splice(right_2, 1);
-    } else if (start == 1 || end == 1) {
+    if (start == 1 || end == 1) {
       const usefulK = this.cardOpposite.findIndex(
         (item: any) => item.value == 13,
       );
@@ -184,6 +171,22 @@ export class Testpage {
         } else if (end == 1) {
           this.cardDesk.push(this.cardOpposite[usefulK]);
           this.cardOpposite.splice(usefulK, 1);
+        }
+      }else{
+        if (left_1 != -1) {
+          this.cardDesk.unshift(this.cardOpposite[left_1]);
+          this.cardOpposite.splice(left_1, 1);
+        } else if (left_2 != -1) {
+          this.cardDesk.unshift(this.cardOpposite[left_2]);
+          this.cardOpposite.splice(left_2, 1);
+        } else if (right_1 != -1) {
+          this.cardDesk.push(this.cardOpposite[right_1]);
+          this.cardOpposite.splice(right_1, 1);
+        } else if (right_2 != -1) {
+          this.cardDesk.push(this.cardOpposite[right_2]);
+          this.cardOpposite.splice(right_2, 1);
+        } else {
+          this.getCardMethod(this.cardOpposite);
         }
       }
     } else if (start == 13 || end == 13) {
@@ -198,10 +201,41 @@ export class Testpage {
           this.cardDesk.push(this.cardOpposite[usefulA]);
           this.cardOpposite.splice(usefulA, 1);
         }
+      }else{
+        if (left_1 != -1) {
+          this.cardDesk.unshift(this.cardOpposite[left_1]);
+          this.cardOpposite.splice(left_1, 1);
+        } else if (left_2 != -1) {
+          this.cardDesk.unshift(this.cardOpposite[left_2]);
+          this.cardOpposite.splice(left_2, 1);
+        } else if (right_1 != -1) {
+          this.cardDesk.push(this.cardOpposite[right_1]);
+          this.cardOpposite.splice(right_1, 1);
+        } else if (right_2 != -1) {
+          this.cardDesk.push(this.cardOpposite[right_2]);
+          this.cardOpposite.splice(right_2, 1);
+        } else {
+          this.getCardMethod(this.cardOpposite);
+        }
       }
-    } else {
-      this.getCardMethod(this.cardOpposite);
+    }else{
+      if (left_1 != -1) {
+        this.cardDesk.unshift(this.cardOpposite[left_1]);
+        this.cardOpposite.splice(left_1, 1);
+      } else if (left_2 != -1) {
+        this.cardDesk.unshift(this.cardOpposite[left_2]);
+        this.cardOpposite.splice(left_2, 1);
+      } else if (right_1 != -1) {
+        this.cardDesk.push(this.cardOpposite[right_1]);
+        this.cardOpposite.splice(right_1, 1);
+      } else if (right_2 != -1) {
+        this.cardDesk.push(this.cardOpposite[right_2]);
+        this.cardOpposite.splice(right_2, 1);
+      } else {
+        this.getCardMethod(this.cardOpposite);
+      }
     }
+
     this.checkEmpty();
   }
 
