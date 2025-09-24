@@ -1,0 +1,148 @@
+.mathtable-chosen-class {
+    background: #71b1cf!important;
+}
+
+.mathtable{
+  display: flex;
+  min-height: 100vh;
+  padding: 40px;
+  &-container{
+    width: 732px;
+    height: 732px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-items: center;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+    border-right: #000 2px solid;
+    border-bottom: #000 2px solid;
+    box-sizing: content-box;
+    z-index: 50;
+    position: relative;
+  }
+  &-cell{
+    width: 80px;
+    height: 80px;
+    font-size: 32px;
+    border-left: #AAA 1px solid;
+    border-top: #AAA 1px solid;
+    box-sizing: content-box;
+    z-index: 50;
+    background: transparent;
+  }
+  &-row{
+    display: flex;
+  }
+}
+.mathtable-showtables{
+  width: 732x;
+  height: 732px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-items: center;
+  align-content: center;
+  align-items: center;
+  justify-content: center;
+  border-right: transparent 2px solid;
+  border-bottom: transparent 2px solid;
+  box-sizing: content-box;
+  z-index: 1;
+  position: absolute;
+  top: 0;
+  left: 0;
+  &-item{
+    width: 80px;
+    height: 80px;
+    text-align: center;
+    line-height: 80px;
+    font-size: 32px;
+    border-left: transparent 1px solid;
+    border-top: transparent 1px solid;
+    box-sizing: content-box;
+    z-index: 1;
+  }
+}
+.mathtable-numberstorge{
+  width: 250px;
+  margin-left: 40px;
+  height: 732px;
+  &-number{
+    display: flex;
+    flex-wrap: wrap;
+    gap:5px;
+  }
+  &-item{
+    width: 80px;
+    height: 80px;
+    font-size: 32px;
+    text-align: center;
+    line-height: 80px;
+    background: #bbd8e2;
+  }
+}
+.mathtable-rubbish{
+  width: 250px;
+  height: 250px;
+  position: relative;
+  margin-top: 60px;
+  &-icon{
+    width: 250px;
+    height: 250px;
+    font-size: 250px;
+    color: #F00;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+  &-btn{
+    display: block;
+    width: 250px;
+    height: 40px;
+    margin-top: 40px;
+    font-size: 32px;
+    text-align: center;
+  }
+}
+.mathtable-score{
+  //background-color: #EEA;
+  width: 400px;
+  font-size: 32px;
+  line-height: normal;
+  margin-left: 40px;
+  padding: 20px;
+  height: 732px;
+  &-difficulty{
+    font-size: 30px;
+    text-align: center;
+    height: 40px;
+    &-level{
+      color:#00F;
+    }
+    &-levelhard{
+      color:#F00;
+    }
+  }
+  &-timer{
+    font-size: 32px;
+    text-align: center;
+    height: 40px;
+  }
+  &-score{
+    font-size: 32px;
+    text-align: center;
+    height: 40px;
+    margin-top: 25px;
+  }
+  &-rank{
+    font-size: 20px;
+    text-align: center;
+    margin-top: 25px;
+  }
+}
+
+.sortable-chosen,
+.sortable-ghost,
+.cdk-drag-preview {
+  transform: none !important;
+}

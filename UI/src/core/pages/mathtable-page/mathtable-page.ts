@@ -1,61 +1,52 @@
 import {Component} from '@angular/core';
-import {
-  CdkDrag,
-  CdkDragDrop,
-  CdkDropList,
-  CdkDropListGroup,
-  moveItemInArray,
-  transferArrayItem,
-} from '@angular/cdk/drag-drop';
-import { FullCard, FullCardType } from '../../components/full-card/full-card';
 import { UiButton } from '../../components/ui-button/ui-button';
 import { MatIcon } from '@angular/material/icon';
-import { CommonModule } from '@angular/common';
 import  Sortable  from 'sortablejs';
 /**
  * @title Drag&Drop disabled sorting
  */
 @Component({
-  selector: 'testpage',
-  templateUrl: 'testpage2.html',
-  styleUrl: 'testpage2.scss',
+  selector: 'mathtable-page',
+  templateUrl: 'mathtable-page.html',
+  styleUrl: 'mathtable-page.scss',
   standalone: true,
-  imports: [UiButton],
+  imports: [UiButton,MatIcon],
 })
-export class Test2page {
-
-  list1: number[] = [1,2,3,4,5,6];
-  list2: number[] = [7,8,9,10,11,12];
-
-  //
+export class MathTablePage {
   questionArray = Array.from({ length: 9 }, () => Array(9).fill(0));
   answerArray = Array.from({ length: 9 }, () => Array(9).fill(0));
-  
-  showArray= Array.from({ length: 9 }, () => Array(9).fill(0));
-  
-  //
-  sortbaleArray: any[] = [];
-  //
-  groupConfig = {
-    name: 'shared', // 相同名称的组可以互相拖拽
-    pull: true, // 允许拖出
-    put: true // 允许拖入
-  };
-  ngOnInit(){
-    
-    this.init();
+  showArray = Array.from({ length: 9 }, () => Array(9).fill(0));
+  sortbaleArray: Sortable[] = [];
+  numberstoreSortable: Sortable | null = null;
+  rubbishSortable: Sortable | null = null;
+  initFlag: boolean = false;
+  hintFlag: number = 0;
+  score: string = 'none';
+  rank: {
+    date: string,
+    difficulty: number,
+    score: string
+  }[] = [];
+  timer: number = 0;
+  timer_minute: number = 0;
+  timer_second: number = 0;
+  timerInterval:any;
+  difficulty: number  = 0;
+  oldmarki: number = 0;
+  oldmarkj: number = 0;
+  ngOnInit() {
+    if(localStorage.getItem('mathhidoriScore')){
+      this.rank = JSON.parse(localStorage.getItem('mathhidoriScore')!);
+    }
   }
-  ngAfterViewInit(): void {
-    this.domInit();
-  }
-  
   init(){
+    this.initFlag = true;
     const initArray = Array.from({ length: 9 }, () => Array(9).fill(0));
     this.fill(initArray);
     this.answerArray = initArray.map((item) => [...item]);
     this.showArray = this.hideNumbers(initArray);
     this.questionArray = this.showArray.map((item) => [...item]);
-    console.log(this.questionArray,this.answerArray,this.showArray);
+    //console.log(this.questionArray,this.answerArray,this.showArray);
   }
   domInit(){
     let noMathcell: number[] = []
@@ -83,52 +74,48 @@ export class Test2page {
             if(!this.checkOut(this.showArray, position!.i, position!.j, number)){
               event.item.style.background = "red";
             }else{
-              event.item.style.background = "#EEE";
+              event.item.style.background = "#bbd8e2";
             }
             this.showArray[position!.i][position!.j]= number;
-            console.log(this.showArray,9999);
+            //console.log(this.showArray,9999);
+            this.checkAuto();
           },
           onMove: (event) => {
             const position = this.getIJFromId(event.from.id);
             this.showArray[position!.i][position!.j]= 0;
-            console.log(this.showArray,11111);
+            //console.log(this.showArray,11111);
           },
           sort:false,
-          ghostClass: 'blue-background-class',
-          chosenClass: 'blue-background-class2',
+          chosenClass: 'mathtable-chosen-class',
         })
         this.sortbaleArray.push(sortable);
       }
     }
-    new Sortable(document.getElementById('numberstorage')!, {
-        animation: 150,
-        group: {
-          name: 'mathhidori',
-          pull: 'clone',
-          put: false
-        },
-        sort:false,
-        ghostClass: 'blue-background-class',
-        chosenClass: 'blue-background-class2',
+    this.numberstoreSortable = new Sortable(document.getElementById('numberstorage')!, {
+      animation: 150,
+      group: {
+        name: 'mathhidori',
+        pull: 'clone',
+        put: false
+      },
+      sort:false,
+      chosenClass: 'mathtable-chosen-class',
     })
-    new Sortable(document.getElementById('rubbish')!, {
-        animation: 150,
-        group: {
-          name: 'mathhidori',
-          pull: false
-        },
-        onAdd: (event) => {
-          console.log(event.item);
-          const { oldIndex, newIndex } = event;
-          //event.from.insertBefore(event.item, event.from.children[oldIndex!]);
-          event.to.removeChild(event.item);
-        },
-        ghostClass: 'blue-background-class',
-        chosenClass: 'blue-background-class2',
+    this.rubbishSortable = new Sortable(document.getElementById('rubbish')!, {
+      animation: 150,
+      group: {
+        name: 'mathhidori',
+        pull: false
+      },
+      onAdd: (event) => {
+        //console.log(event.item);
+        const { oldIndex, newIndex } = event;
+        //event.from.insertBefore(event.item, event.from.children[oldIndex!]);
+        event.to.removeChild(event.item);
+      },
+      chosenClass: 'mathtable-chosen-class',
     })
   }
-
-  //递归 回溯
   fill(array: number[][]) {
     let isEmpty = false;
     let i, j = 0;
@@ -202,9 +189,11 @@ export class Test2page {
         puzzle[i][j] = backup; // 恢复
       } else {
         removed++;
+        
       }
       idx++;
     }
+    this.difficulty = 81 - removed;
     return puzzle;
   };
   solutionToOne(fullarray: number[][]) {
@@ -239,16 +228,145 @@ export class Test2page {
     const j = (n - 1) % 9;
     return { i, j };
   }
-  //
-  restart() {
-    this.sortbaleArray.map((item) => {
-      item.destroy();
-    })
+  start(){
     this.init();
     this.domInit();
+    this.timerCount();
   }
- 
-   
+  restart() {
+    this.sortbaleArray.map((item) => {
+      if(item.el.childNodes.length !== 0){
+        item.el.removeChild(item.el.childNodes[0]);
+      }
+      item.destroy();
+    });
+    this.numberstoreSortable!.destroy();
+    this.rubbishSortable!.destroy();
+    this.sortbaleArray = [];
+    this.hintFlag = 0;
+
+    this.init();
+    this.domInit();
+    clearInterval(this.timerInterval);
+    this.timer = 0;
+    this.timerCount();
+  }
+  hint(){
+    this.hintFlag ++;
+    for( let i = 0; i < 9 ; i++){
+      for( let j = 0; j < 9 ; j++){
+        if(this.showArray[i][j] !== 0){
+          if(this.answerArray[i][j] !== this.showArray[i][j]){
+            const el = document.getElementById(`mathcell${i*9+j+1}`);
+            if(el){
+              if(el.children.length !== 0){
+                const item  = el.children[0] as HTMLElement;
+                item.style.background = "red";
+              }
+            }
+          }
+        }
+      }
+    }
+    // const inputs = document.querySelectorAll("input");
+      
+      // inputs.forEach((input, idx) => {
+      //   const row = Math.floor(idx / 9);
+      //   const col = idx % 9;
+      //   if (
+      //     !askArray[row][col] && // 不是初始数字
+      //     showArray[row][col] !== 0 &&
+      //     showArray[row][col] === answerArray[row][col]
+      //   ) {
+      //     input.style.backgroundColor = "lightgreen";
+      //   } else if (!askArray[row][col]) {
+      //     input.style.backgroundColor = "white";
+      //   }
+      // });
+    
+  }
+  markable(i:number,j:number){
+    if( this.oldmarki == i && this.oldmarkj == j){
+      for(let x = 0; x < 9; x++){
+        const cellRef = document.getElementById(`mathcell${ x * 9 + j + 1 }`);
+        if(cellRef){
+          cellRef.style.background = "transparent";
+        }
+      }
+      for(let y = 0; y < 9; y++){
+        const cellRef = document.getElementById(`mathcell${ i * 9 + y + 1 }`);
+        if(cellRef){
+          cellRef.style.background = "transparent";
+        }
+      }
+    }else{
+      for(let i = 1 ; i < 82 ; i++ ){
+        const cellRef = document.getElementById(`mathcell${ i }`);
+        if(cellRef){
+          cellRef.style.background = "transparent";
+        }
+      }
+      for(let x = 0; x < 9; x++){
+        const cellRef = document.getElementById(`mathcell${ x * 9 + j + 1 }`);
+        if(cellRef){
+          cellRef.style.background = "#88224422";
+          this.oldmarki = i;
+        }
+      }
+      for(let y = 0; y < 9; y++){
+        const cellRef = document.getElementById(`mathcell${ i * 9 + y + 1 }`);
+        if(cellRef){
+          cellRef.style.background = "#88224422";
+          this.oldmarkj = j;
+        }
+      }
+    }
+    
+  }
+  timerCount(){
+    this.timerInterval = setInterval(() => {
+      this.timer ++;
+      //console.log(this.timer);
+      this.timer_minute = Math.floor(this.timer / 60);
+      this.timer_second = Math.floor(this.timer % 60);
+      if( this.timer > 3000){
+        clearInterval(this.timerInterval);
+        this.getScore();
+      }
+    }, 1000);
+  }
+  checkAuto(){
+    if( JSON.stringify(this.showArray) === JSON.stringify(this.answerArray) ){
+      clearInterval(this.timerInterval);
+      this.getScore();
+    }
+  }
+  getScore(){
+    switch(true){
+      case this.timer <= 300 && this.timer > 0:
+        this.score = "S";break;
+      case this.timer > 300 && this.timer <= 600:
+        this.score = "A";break;
+      case this.timer > 600 && this.timer <= 900:
+        this.score = "B";break;
+      case this.timer > 900 && this.timer <= 1200:
+        this.score = "C";break;
+      case this.timer > 1200 && this.timer <= 3000:
+        this.score = "D";break;
+      default:
+        this.score = "Failed";
+    }
+    const rank1 = {
+      score: this.score,
+      difficulty: this.difficulty,
+      date: new Date().toLocaleString(),
+    }
+    this.rank.push(rank1);
+    localStorage.setItem('mathhidoriScore',JSON.stringify(this.rank));
+  }
+  ngDestroy(){
+    clearInterval(this.timerInterval);
+  }
 }
 
 
@@ -260,12 +378,21 @@ export class Test2page {
    * foreach hand weight ?
    * x without x+1 x-1  -> 19zf tag->older 
    * ?
+   * calc. bug
+   * 8.32
+   * Baccano
+   * C3
+   * []|[]
+   * []|[]
+   * 39 Music
+   * 
+   * 
    * 
    * 
    */
   // const example1 = document.getElementById('example1');
     // const example2 = document.getElementById('example2');
-    
+      //- AAAAAnarcy
     // var _this = this;
     // const sortble = new Sortable(example1!, {
     //     animation: 150,
@@ -288,7 +415,8 @@ export class Test2page {
     //      *  turn -1 
     //      *  btn take all
     //      *  btn turn
-    //      * 
+    //      *  btn random
+    //      *  <=|[]|= <
     //      */
     //     sort:false,
     //     //disabled
@@ -297,9 +425,9 @@ export class Test2page {
 
 
     //   // 拖拽时预览图样式
-    //     ghostClass: 'blue-background-class',
+    //     ghostClass: 'mathtable-chosen-class',
     //     // 拖拽时样式
-    //     chosenClass: 'blue-background-class2',
+    //     chosenClass: 'mathtable-chosen-class2',
     //     //ghostClass：拖动时占位元素的 CSS 类名
     //     //chosenClass：被选中元素的 CSS 类名
     //     //dragClass：拖拽过程中元素的 CSS 类名
@@ -352,15 +480,15 @@ export class Test2page {
     //     animation: 150,
     //     group: this.groupConfig,
     //     sort:false,
-    //     ghostClass: 'blue-background-class',
-    //     chosenClass: 'blue-background-class2',
+    //     ghostClass: 'mathtable-chosen-class',
+    //     chosenClass: 'mathtable-chosen-class2',
     // })
     // const example4 = document.getElementById('example4');
     // const sortble4 = new Sortable(example4!, {
     //     animation: 150,
     //     group: this.groupConfig,
     //     sort:false,
-    //     ghostClass: 'blue-background-class',
-    //     chosenClass: 'blue-background-class2',
+    //     ghostClass: 'mathtable-chosen-class',
+    //     chosenClass: 'mathtable-chosen-class2',
     // })
     // });

@@ -10,13 +10,15 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./ui-button.scss']
 })
 export class UiButton {
-@Input() themeType: 'primary' | 'success' | 'warning' | 'error' = 'primary';
-  @Input() modeType: 'standard' | 'text' | 'icon' | 'circle' = 'standard';
+@Input() themeType: 'primary' | 'success' | 'warning' | 'error' | 'classic' = 'primary';
+  @Input() modeType: 'standard' | 'text' | 'icon' | 'circle' | 'square' = 'standard';
   @Input() customClass: string = '';
   @Input() easyAnimation: boolean = false;
   @Input() disabled: boolean = false;
 
   @Output() btnClick = new EventEmitter<Event>();
+  @Output() btnDblClick = new EventEmitter<Event>();
+  @Output() btnRightClick = new EventEmitter<Event>();
 
   ripple = false;
   rippleX = 0;
@@ -25,6 +27,34 @@ export class UiButton {
   onClick(event: MouseEvent) {
     if (this.disabled) return;
     this.btnClick.emit(event);
+    if (!this.easyAnimation) {
+      const target = event.target as HTMLElement;
+      const rect = target.getBoundingClientRect();
+      this.rippleX = event.clientX - rect.left;
+      this.rippleY = event.clientY - rect.top;
+      this.ripple = false;
+      setTimeout(() => (this.ripple = true), 0);
+      setTimeout(() => (this.ripple = false), 400);
+    }
+  }
+
+  onDbClick(event: MouseEvent) {
+    event.preventDefault();
+    this.btnDblClick.emit(event);
+    if (!this.easyAnimation) {
+      const target = event.target as HTMLElement;
+      const rect = target.getBoundingClientRect();
+      this.rippleX = event.clientX - rect.left;
+      this.rippleY = event.clientY - rect.top;
+      this.ripple = false;
+      setTimeout(() => (this.ripple = true), 0);
+      setTimeout(() => (this.ripple = false), 400);
+    }
+  }
+
+  onrightClick(event: MouseEvent) {
+    event.preventDefault();
+    this.btnRightClick.emit(event);
     if (!this.easyAnimation) {
       const target = event.target as HTMLElement;
       const rect = target.getBoundingClientRect();

@@ -1,0 +1,90 @@
+<div class="mine">
+    <div class="mine-main">
+        <div class="mine-main-header">
+            <div class="mine-main-header-mine">
+                {{ currentMine }}
+            </div>
+            <ui-button modeType="square" class="mine-main-header-btn" (btnClick)="restart()">
+                @if( faceState === 'lose' ){
+                    <mat-icon class="mine-main-header-btn-icon">sentiment_very_dissatisfied</mat-icon>
+                }@else if ( faceState === 'win' ){
+                    <mat-icon class="mine-main-header-btn-icon">sentiment_very_satisfied</mat-icon>
+                }@else if ( faceState === 'surprise' ){
+                    <mat-icon class="mine-main-header-btn-icon">mood_bad</mat-icon>
+                }
+                @else {
+                    <mat-icon class="mine-main-header-btn-icon">sentiment_neutral</mat-icon>
+                }
+            </ui-button>
+            <div class="mine-main-header-time">
+                TIME: {{ timer_minute }} : {{ timer_second }}
+            </div>
+        </div>
+        @if ( mineArray ) {
+            <div class="mine-field">
+                @for( row of mineArray; track row;let i = $index;) {
+                    @for( cell of row; track cell;let j = $index;) {
+                        <ui-button 
+                            [id]="'minecell-'+ i + '-' + j "
+                            modeType="square" 
+                            themeType="classic"
+                            class="mine-field-cell"
+                            [disabled]="cell.clicked && cell.isZero"
+                            [class.mine-field-zero]="cell.clicked && cell.isZero"
+                            (btnClick)="easyClick(cell,i,j)"
+                            (btnDblClick)="dbClick(cell,i,j)"
+                            (btnRightClick)="rightClick(cell)">
+                            @if( cell.marked ){
+                                @if ( over && cell.isMine === false ){
+                                    <mat-icon class="mine-field-icon">close</mat-icon>
+                                }@else {
+                                    <mat-icon class="mine-field-icon mine-field-icon-flag">flag</mat-icon>
+                                }
+                            }@else if ( cell.clicked ) {
+                                @if( cell.isMine ){
+                                    <mat-icon class="mine-field-icon">new_releases</mat-icon>
+                                }@else if( cell.isZero ){
+                                    <div></div>
+                                }@else {
+                                    <div 
+                                        class="mine-field-number"
+                                        [ngClass]="['mine-field-number-' + cell.value]"
+                                    >
+                                        {{ cell.value }}
+                                    </div>
+                                }
+                            }
+                        </ui-button>
+                    }
+                }
+            </div>
+        }
+    </div>
+    <div class="mine-right">
+        <div class="mine-right-rank-title">DIFFICULITY</div>
+        <ui-button class="mine-right-btn" (btnClick)="changeDifficulity(1)">EASY</ui-button>
+        <ui-button class="mine-right-btn" (btnClick)="changeDifficulity(2)">NORMAL</ui-button>
+        <ui-button class="mine-right-btn" (btnClick)="changeDifficulity(3)">HARD</ui-button>
+        <ui-button class="mine-right-btn" (btnClick)="changeDifficulity(4)">ERHANBEN</ui-button>
+        <div class="mine-right-rank-title">RANK</div>
+        <div class="mine-right-rank">
+            @for(item of rank; track item;let i = $index) {
+                <div class="mathtable-score-rank-item">
+                {{ i + 1 }} | {{ item.difficulty }} |{{ item.score }} | {{ item.date }}
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+
+<!-- 
+ 
+|_0/10_________x_x________OO:OO_|[][][]|
+|_______________________________|rank
+|                               |
+|                               |
+|                               |
+|_______________________________|
+...
+-->

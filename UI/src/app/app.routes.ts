@@ -1,7 +1,8 @@
 import { Routes } from '@angular/router';
 import { Homepage } from '../core/pages/homepage/homepage';
 import { Testpage } from '../core/pages/testpage/testpage';
-import { Test2page } from '../core/pages/testpagecopy/testpage2';
+import { MathTablePage } from '../core/pages/mathtable-page/mathtable-page';
+import { FunMine } from '../core/pages/fun-mine/fun-mine';
 
 export const routes: Routes = [
   { 
@@ -9,6 +10,8 @@ export const routes: Routes = [
   },{
     path: 'test', component: Testpage
   },{
-    path: 'test2', component: Test2page
+    path: 'math-table', component: MathTablePage
+  },{
+    path: 'fun-mine', component: FunMine
   }
 ];

@@ -74,6 +74,16 @@
             [class.reader-homepage-content-detail]="detailMode"
             >
             @for( file of mainTest;track file;let index = $index){
+                
+                @defer(){
+
+                }@placeholder() {
+
+                }@loading() {
+
+                }@error {
+                    
+                }
                 <ui-card
                     [cardData]="file"
                     [detailMode]="detailMode"
@@ -83,7 +93,8 @@
                     (cardDbClick)="openFolder(file)"
                     (contextmenu)="onRightClick($event,file)">
                 </ui-card>    
-                
+
+
             }
             @if ( showImgSingle ) {
                 <ui-dialog

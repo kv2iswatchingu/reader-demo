@@ -20,9 +20,11 @@ export class App {
   go2Testpage(){
     this.router.navigate(['test']);
   }
-
-  go2Test2page(){
-    this.router.navigate(['test2']);
+  go2MathTablePage(){
+    this.router.navigate(['math-table']);
+  }
+  go2FunMinePage(){
+    this.router.navigate(['fun-mine']);
   }
   ngOnDestroy() {
     // @ts-ignore

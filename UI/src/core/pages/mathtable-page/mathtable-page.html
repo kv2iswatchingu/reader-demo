@@ -1,0 +1,89 @@
+<div class="mathtable">
+
+  <div class="mathtable-container">
+    <div class="mathtable-showtables">
+      @for( rows of questionArray; track rows;let i = $index;) {
+        @for ( cell of rows; track $index;let j = $index) {
+          <div class="mathtable-showtables-item">
+            @if ( cell !== 0) {
+              {{ cell }}
+            }
+          </div>
+        }
+      }
+    </div>
+    @for( rows of [].constructor(9); track rows;let i = $index;) {
+      <div class="mathtable-row">
+        @for ( cell of [].constructor(9); track cell;let j = $index) {
+          <div 
+            class="mathtable-cell" 
+            [style.border-left]="j % 3 === 0 ? '2px solid #000' : '1px solid #AAA'"
+            [style.border-top]="i % 3 === 0 ? '2px solid #000' : '1px solid #AAA'"
+            [id]="'mathcell'+ (i * 9 + ( j + 1 ))"
+            (dblclick)="markable(i,j)">
+          </div>
+        }
+      </div>
+    }
+  </div>
+  
+  <div class="mathtable-numberstorge">
+    <div class="mathtable-numberstorge-number"  id="numberstorage">
+      @for( rows of [].constructor(9); track rows;let i = $index;) {
+        <div class="mathtable-numberstorge-item">
+          {{ i + 1 }}
+        </div>
+      }
+      <div id="rubbish" class="mathtable-rubbish">
+        <mat-icon class="mathtable-rubbish-icon">delete_forever</mat-icon>
+      </div>
+    </div>
+    <div>
+      <ui-button class="mathtable-rubbish-btn" [disabled]="hintFlag >= 3" (btnClick)="hint()">
+        CHECK!
+      </ui-button>
+      @if( !initFlag ) {
+        <ui-button (btnClick)="start()" class="mathtable-rubbish-btn">
+          START!
+        </ui-button>
+      }@else {
+        <ui-button (btnClick)="restart()" class="mathtable-rubbish-btn">
+          RESTART!
+        </ui-button>
+      }
+    </div>
+  </div>
+
+
+  <div class="mathtable-score">
+    <div class="mathtable-score-difficulty">
+      @if( difficulty != 0 ){
+        DIFFICULTY:  
+        <span 
+          class="mathtable-score-difficulty-level"
+          [class.mathtable-score-difficulty-levelhard]="difficulty <= 23"
+        >
+          {{ difficulty }} 
+        </span>
+        HINT
+      }
+    </div>
+    <div class="mathtable-score-timer">
+      <!-- {{ timer / 60 }} : {{ timer % 60 }} -->
+     TIME: {{ timer_minute }} : {{ timer_second }}
+    </div>
+    <div class="mathtable-score-score">
+      SCORE: {{ score }}
+    </div>
+    <div class="mathtable-score-rank">
+      @for(item of rank; track item;let i = $index) {
+        <div class="mathtable-score-rank-item">
+          {{ i + 1 }} | {{ item.difficulty }} |{{ item.score }} | {{ item.date }}
+        </div>
+      }
+    </div>
+  </div>
+</div>
+
+
+<!-- mugannin number 1-9 drag to 9x9 math-hido  -->

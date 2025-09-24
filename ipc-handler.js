@@ -3,6 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const { dialog } = require('electron');
 const { BrowserWindow } = require('electron');
+//const { setTimeout, clearTimeout,setInterval,clearInterval } = require('timers');
 const fastglob = require('fast-glob');
 
 function registerIpcHandlers() {
@@ -30,6 +31,9 @@ function registerIpcHandlers() {
           mtime: stat.mtime,
           mtimeText: formatDate(stat.mtime)
         }
+        //cosnt tolevel = {
+        // childeren: [],...
+        //}
       });
       return { success: true, files };
     } catch (e) {
@@ -237,6 +241,25 @@ function registerIpcHandlers() {
       return { isDirectory: false, isFile: false };
     }
   });
+  // //nodejs 的计时器
+  // ipcMain.handle('timer', async (event) => {
+  //   try {
+  //     //return { success: true, time: Date.now() + time };
+
+  //   } catch (e) {
+  //     return { success: false, message: e.message };
+  //   }
+  // })
+  //
+  /**
+   * ipcMain.handle('read-out', async (event, targetPath) => {
+    try {
+      const content = fs.readFileSync(targetPath, 'utf-8');
+      return { success: true, content };
+    } catch (e) {
+      return { success: false, message: e.message };
+    }
+   */
 }
 function formatSize(size) {
   if (size < 1024) return size + ' B';
