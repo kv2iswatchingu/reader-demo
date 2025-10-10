@@ -11,5 +11,15 @@ export class DaodogPage {
   pressAnyBtnToStart:boolean = true;
 
 
-  // gameInfo
+  // gameInfo\
+
+
+  /**
+   * 3 21 2 3 4 32
+   * 
+   * 
+   * 
+   * 
+   * 
+   *  */
 }

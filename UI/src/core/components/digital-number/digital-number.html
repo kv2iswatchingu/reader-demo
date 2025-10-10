@@ -1,0 +1,63 @@
+<div 
+	class="digital-timer"
+	[style.--digital-width.px]="digitalwidth"
+  	[style.--digital-border.px]="digitalwidth / 6"
+  	[style.--digital-border-reverse.px]="-digitalwidth / 6"
+  	[style.--digital-color]="digitalcolor">
+	@if( numberArray.length === 0 ){
+		<div 
+			class="display-container">
+			<div class="segment-x segment-a">
+				<span class="segment-border"></span>
+			</div>
+			<div class="segment-x segment-b">
+				<span class="segment-border"></span>
+			</div>
+			<div class="segment-x segment-c">
+				<span class="segment-border"></span>
+			</div>
+			<div class="segment-y segment-d">
+				<span class="segment-border"></span>
+			</div>
+			<div class="segment-y segment-e">
+				<span class="segment-border"></span>
+			</div>
+			<div class="segment-y segment-f">
+				<span class="segment-border"></span>
+			</div>
+			<div class="segment-y segment-g">
+				<span class="segment-border"></span>
+			</div>
+		</div>	
+	}
+	@else{
+		@for( item of numberArray; track item;let i = $index;) {
+			<div 
+				[id]="'display-' + id + i " 
+				class="display-container">
+				<div class="segment-x segment-a">
+					<span class="segment-border"></span>
+				</div>
+				<div class="segment-x segment-b">
+					<span class="segment-border"></span>
+				</div>
+				<div class="segment-x segment-c">
+					<span class="segment-border"></span>
+				</div>
+				<div class="segment-y segment-d">
+					<span class="segment-border"></span>
+				</div>
+				<div class="segment-y segment-e">
+					<span class="segment-border"></span>
+				</div>
+				<div class="segment-y segment-f">
+					<span class="segment-border"></span>
+				</div>
+				<div class="segment-y segment-g">
+					<span class="segment-border"></span>
+				</div>
+			</div>	
+		}
+	}
+	
+</div>

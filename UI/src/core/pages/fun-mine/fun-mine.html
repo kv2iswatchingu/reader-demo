@@ -2,7 +2,11 @@
     <div class="mine-main">
         <div class="mine-main-header">
             <div class="mine-main-header-mine">
-                {{ currentMine }}
+                <digital-number 
+                    [number]="currentMine" 
+                    id="mine"
+                    digitalcolor="#FF0000">
+                </digital-number>
             </div>
             <ui-button modeType="square" class="mine-main-header-btn" (btnClick)="restart()">
                 @if( faceState === 'lose' ){
@@ -17,7 +21,19 @@
                 }
             </ui-button>
             <div class="mine-main-header-time">
-                TIME: {{ timer_minute }} : {{ timer_second }}
+                <digital-number 
+                    [number]="timer_minute" 
+                    id="minute"
+                    [limitedigit]="2"
+                    digitalcolor="#FF0000">
+                </digital-number>
+                :
+                <digital-number 
+                    [number]="timer_second" 
+                    id="second" 
+                    [limitedigit]="2" 
+                    digitalcolor="#FF0000">
+                </digital-number>
             </div>
         </div>
         @if ( mineArray ) {

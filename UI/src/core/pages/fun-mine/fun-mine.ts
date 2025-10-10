@@ -2,10 +2,11 @@ import { Component } from '@angular/core';
 import { UiButton } from '../../components/ui-button/ui-button';
 import { MatIcon } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
+import { DigitalNumber } from '../../components/digital-number/digital-number';
 
 @Component({
   selector: 'app-fun-mine',
-  imports: [UiButton, MatIcon,CommonModule],
+  imports: [UiButton, MatIcon,CommonModule,DigitalNumber],
   templateUrl: './fun-mine.html',
   styleUrl: './fun-mine.scss',
 })
@@ -38,8 +39,8 @@ export class FunMine {
   erhabenLevel = {
     name: 'erhaben',
     width: 30,
-    height: 16,
-    mineCount: 168,  // 168/480 .35
+    height: 20,
+    mineCount: 168,  // 168/600 .28
   }
   
   mineArray: Mine[][] = [];
@@ -99,13 +100,12 @@ export class FunMine {
         mines++;
       }
     }
-
     for (let index = 0; index < this.currentLevel.height; index++) {
       for (let jndex = 0; jndex < this.currentLevel.width; jndex++) {
         if (array[index][jndex].isMine === true) continue;
         let count = 0;
 
-        for (let deltaRow = -1; deltaRow <= 1; deltaRow++) {
+        for (let deltaRow = -1; deltaRow <=1 ; deltaRow++) {
           for (let deltaCol = -1; deltaCol <= 1; deltaCol++) {
             if (deltaCol === 0 && deltaRow === 0) continue;
             const nextRow = index + deltaRow, nextCol = jndex + deltaCol;

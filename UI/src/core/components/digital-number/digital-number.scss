@@ -1,0 +1,81 @@
+
+.digital-timer {
+	display: flex;
+}
+.display-container {
+	position: relative;
+	margin-right: calc( var(--digital-border) * 2 );
+	width: calc( var(--digital-width) + var(--digital-border) * 2 + 2px );
+	height: calc( var(--digital-width) * 2 + var(--digital-border) * 2 + 4px );
+}
+.segment-x {
+	position: absolute;
+	width: var(--digital-width);
+	height: 0;
+	border-bottom: var(--digital-border) solid var(--digital-color);
+	border-left: var(--digital-border) solid transparent;
+	border-right: var(--digital-border) solid transparent;
+}
+.segment-x .segment-border {
+	position: absolute;
+	top: var(--digital-border);
+	left: var(--digital-border-reverse);
+	right: var(--digital-border-reverse);
+	border-top: var(--digital-border) solid var(--digital-color);
+	border-left: var(--digital-border) solid transparent;
+	border-right: var(--digital-border) solid transparent;
+}
+.segment-y {
+	position: absolute;
+	height: var(--digital-width);
+	width: 0;
+	border-right: var(--digital-border) solid var(--digital-color);
+	border-top: var(--digital-border) solid transparent;
+	border-bottom: var(--digital-border) solid transparent;
+}
+.segment-y .segment-border {
+	position: absolute;
+	left: var(--digital-border);
+	height: var(--digital-width);
+	margin-top: var(--digital-border-reverse);
+	border-left: var(--digital-border) solid var(--digital-color);
+	border-top: var(--digital-border) solid transparent;
+	border-bottom: var(--digital-border) solid transparent;
+}
+.segment-a {
+	left: calc( var(--digital-border) + 1px );
+	top: 0;
+	opacity: 0.1;
+}
+.segment-b {
+	left: calc( var(--digital-border) + 1px );
+	top: calc( var(--digital-width) + 2px );
+	opacity: 0.1;
+}
+.segment-c {
+	opacity: 0.1;
+	left: calc( var(--digital-border) + 1px );
+	top: calc( var(--digital-width) + var(--digital-width) + 4px )
+}
+.segment-d {
+	left: 0;
+	top: calc( var(--digital-border) + 1px );
+	opacity: 0.1;
+}
+.segment-e {
+	top: calc( var(--digital-border) + 1px );
+	left: calc( var(--digital-width) + 2px );
+	opacity: 0.1;
+}
+.segment-f {
+	top: calc(var(--digital-width) + var(--digital-border) + 3px);
+    left: 0;
+	opacity: 0.1;
+}
+.segment-g {
+	top: calc(var(--digital-width) + var(--digital-border) + 3px);
+    left: calc(var(--digital-width) + 2px);
+	opacity: 0.1;
+}
+
+

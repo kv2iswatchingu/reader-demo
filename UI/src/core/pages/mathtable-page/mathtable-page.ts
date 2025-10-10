@@ -2,6 +2,8 @@ import {Component} from '@angular/core';
 import { UiButton } from '../../components/ui-button/ui-button';
 import { MatIcon } from '@angular/material/icon';
 import  Sortable  from 'sortablejs';
+import { DigitalNumber } from '../../components/digital-number/digital-number';
+
 /**
  * @title Drag&Drop disabled sorting
  */
@@ -10,7 +12,7 @@ import  Sortable  from 'sortablejs';
   templateUrl: 'mathtable-page.html',
   styleUrl: 'mathtable-page.scss',
   standalone: true,
-  imports: [UiButton,MatIcon],
+  imports: [UiButton,MatIcon,DigitalNumber],
 })
 export class MathTablePage {
   questionArray = Array.from({ length: 9 }, () => Array(9).fill(0));
@@ -368,127 +370,3 @@ export class MathTablePage {
     clearInterval(this.timerInterval);
   }
 }
-
-
-
- /**
-   *  x + 1 x x-1 / xxx  + xx 
-   *  weight - ?
-   * river ? weight ?
-   * foreach hand weight ?
-   * x without x+1 x-1  -> 19zf tag->older 
-   * ?
-   * calc. bug
-   * 8.32
-   * Baccano
-   * C3
-   * []|[]
-   * []|[]
-   * 39 Music
-   * 
-   * 
-   * 
-   * 
-   */
-  // const example1 = document.getElementById('example1');
-    // const example2 = document.getElementById('example2');
-      //- AAAAAnarcy
-    // var _this = this;
-    // const sortble = new Sortable(example1!, {
-    //     animation: 150,
-    //     group: {
-    //       name: 'shared', // 相同名称的组可以互相拖拽
-    //       pull: false, // 允许拖出
-    //       put: true // 允许拖入
-    //     },
-    //     //animation：排序动画持续时间（毫秒），默认值为 0（无动画）
-    //     //delay：延迟开始拖拽的时间（毫秒），默认值为 0
-    //     //delayOnTouchOnly：仅在触摸设备上启用延迟，默认值为 false
-    //     //touchStartThreshold
-    //     /** 
-    //      * mian->
-    //      *  first // tow way method // retunq 1
-    //      *  g2
-    //      * 
-    //      *  random -> 1 
-    //      *  tak all ? => sss
-    //      *  turn -1 
-    //      *  btn take all
-    //      *  btn turn
-    //      *  btn random
-    //      *  <=|[]|= <
-    //      */
-    //     sort:false,
-    //     //disabled
-    //     //filter
-
-
-
-    //   // 拖拽时预览图样式
-    //     ghostClass: 'mathtable-chosen-class',
-    //     // 拖拽时样式
-    //     chosenClass: 'mathtable-chosen-class2',
-    //     //ghostClass：拖动时占位元素的 CSS 类名
-    //     //chosenClass：被选中元素的 CSS 类名
-    //     //dragClass：拖拽过程中元素的 CSS 类名
-    //     //handle
-
-    //     /**
-    //      * onStart：拖拽开始时触发
-    //       onEnd：拖拽结束时触发
-    //       onAdd：元素被添加到列表时触发（用于跨列表拖拽）
-    //       onUpdate：列表内元素位置改变时触发
-    //       onRemove：元素从列表中移除时触发（用于跨列表拖拽）
-    //       onFilter：元素被过滤时触发
-    //       onMove：元素移动时触发
-    //       onChoose：元素被选中时触发
-    //       onUnchoose：元素取消选中时触发
-    //      */
-    //     // onAdd(event) {
-    //     //   const { oldIndex, newIndex } = event;
-    //     //   const item = _this.list2[oldIndex!];
-    //     //   if (newIndex === 0) {
-    //     //     console.log('newIndex',newIndex);
-    //     //     console.log('oldIndex',oldIndex);
-    //     //     _this.list1.unshift(item);
-    //     //   }else{
-    //     //     console.log('newIndex',newIndex);
-    //     //     console.log('oldIndex',oldIndex);
-    //     //     _this.list1.splice(newIndex!,1);
-    //     //     //_this.list2.splice(oldIndex!,0,item);
-    //     //   }
-    //     //   console.log(_this.list1,_this.list2);
-    //     // },
-    //     onAdd: (event) => {
-    //       const { oldIndex, newIndex } = event;
-    //       const item = this.list2.splice(oldIndex!, 1)[0];
-    //       // 只允许插入头或尾
-    //       if (newIndex === 0) {
-    //         this.list1.unshift(item);
-    //       } else if (newIndex === this.list1.length) {
-    //         this.list1.push(item);
-    //       } else {
-    //         // 中间不允许插入，恢复原状
-    //         this.list2.splice(oldIndex!, 0, item);
-    //         // 也可以直接移除 DOM 元素，或用 Sortable 的 revert 方法
-    //         event.from.insertBefore(event.item, event.from.children[oldIndex!]);
-    //       }
-    //       console.log(this.list1, this.list2);
-    //     }
-    // const example3 = document.getElementById('example3');
-    // const sortble3 = new Sortable(example3!, {
-    //     animation: 150,
-    //     group: this.groupConfig,
-    //     sort:false,
-    //     ghostClass: 'mathtable-chosen-class',
-    //     chosenClass: 'mathtable-chosen-class2',
-    // })
-    // const example4 = document.getElementById('example4');
-    // const sortble4 = new Sortable(example4!, {
-    //     animation: 150,
-    //     group: this.groupConfig,
-    //     sort:false,
-    //     ghostClass: 'mathtable-chosen-class',
-    //     chosenClass: 'mathtable-chosen-class2',
-    // })
-    // });
