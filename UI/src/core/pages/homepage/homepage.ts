@@ -9,6 +9,7 @@ import { UiViewer } from '../../components/ui-viewer/ui-viewer';
 import { CardType, UICard } from '../../components/ui-card/ui-card';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 
 @Component({
   selector: 'app-homepage',
@@ -22,6 +23,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     UiViewer,
     UICard,
     MatTooltipModule,
+    ScrollingModule
   ],
   templateUrl: './homepage.html',
   styleUrl: './homepage.scss',

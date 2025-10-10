@@ -68,23 +68,14 @@
                 }
             </div>
         </div>
-
-        <div 
-            class="reader-homepage-content"
-            [class.reader-homepage-content-detail]="detailMode"
-            >
-            @for( file of mainTest;track file;let index = $index){
-                
-                @defer(){
-
-                }@placeholder() {
-
-                }@loading() {
-
-                }@error {
-                    
-                }
+        <cdk-virtual-scroll-viewport 
+            [itemSize]="detailMode ? 30 : 160" 
+            class="reader-homepage-viewport">
+            <div
+                class="reader-homepage-content"
+                [class.reader-homepage-content-detail]="detailMode">
                 <ui-card
+                    *cdkVirtualFor="let file of mainTest; let i = index;"
                     [cardData]="file"
                     [detailMode]="detailMode"
                     [disabled]="editConfig || addConfig"
@@ -92,28 +83,9 @@
                     (cardClick)="showConfig(file)"
                     (cardDbClick)="openFolder(file)"
                     (contextmenu)="onRightClick($event,file)">
-                </ui-card>    
-
-
-            }
-            @if ( showImgSingle ) {
-                <ui-dialog
-                    [title]="imageViewerPath"
-                    (close)="showImgSingle = false"
-                    [dialogHeight]="'720px'"
-                    [dialogWidth]="'1200px'"
-                    [noFooter]="true">
-                        <img class="single-img" [src]="imageViewerPath" />
-                </ui-dialog>
-            }
-            <div *ngIf="showMenu" [style.top.px]="menuY" [style.left.px]="menuX" class="context-menu">
-                <ui-button modeType="text" (btnClick)="cut()">剪切</ui-button>
-                <ui-button modeType="text" (btnClick)="copy()">复制</ui-button>
-                <ui-button modeType="text" (btnClick)="renaming()">重命名</ui-button>
-                <ui-button modeType="text" (btnClick)="delete()">删除</ui-button>
-                
+                </ui-card>
             </div>
-        </div>
+        </cdk-virtual-scroll-viewport>
     </div>
     
     <div class="reader-homepage-info">
@@ -325,6 +297,17 @@
             }
         </div>
     </div>
+
+    @if ( showImgSingle ) {
+        <ui-dialog
+            [title]="imageViewerPath"
+            (close)="showImgSingle = false"
+            [dialogHeight]="'720px'"
+            [dialogWidth]="'1200px'"
+            [noFooter]="true">
+                <img class="single-img" [src]="imageViewerPath" />
+        </ui-dialog>
+    }
     @if( readMode ){
         <ui-dialog
             [title]="config ? config.name : floderName"
@@ -345,7 +328,14 @@
             </div>
         </ui-dialog>
     }
-
+    @if( showMenu ){
+        <div [style.top.px]="menuY" [style.left.px]="menuX" class="context-menu">
+            <ui-button modeType="text" (btnClick)="cut()">剪切</ui-button>
+            <ui-button modeType="text" (btnClick)="copy()">复制</ui-button>
+            <ui-button modeType="text" (btnClick)="renaming()">重命名</ui-button>
+            <ui-button modeType="text" (btnClick)="delete()">删除</ui-button>
+        </div>
+    }
     @if( deleteConfigDialog ){
         <ui-dialog
             [dialogHeight]="'140px'"
