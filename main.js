@@ -19,6 +19,7 @@ const createWindow = () => {
 registerIpcHandlers();
 
 app.whenReady().then(() => {
+  //Menu.setApplicationMenu(null);
   createWindow()
 
   app.on('activate', () => {

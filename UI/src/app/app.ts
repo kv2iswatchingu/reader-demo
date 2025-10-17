@@ -26,6 +26,15 @@ export class App {
   go2FunMinePage(){
     this.router.navigate(['fun-mine']);
   }
+
+  go2CyberFinshing(){
+    this.router.navigate(['cyber-fishing']);
+  }
+
+  go2ArrayThree(){
+    this.router.navigate(['array-three']);
+  }
+
   ngOnDestroy() {
     // @ts-ignore
     window.electronAPI?.setFullscreen?.(false);

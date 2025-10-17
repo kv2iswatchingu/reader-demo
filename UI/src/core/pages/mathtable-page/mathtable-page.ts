@@ -48,7 +48,6 @@ export class MathTablePage {
     this.answerArray = initArray.map((item) => [...item]);
     this.showArray = this.hideNumbers(initArray);
     this.questionArray = this.showArray.map((item) => [...item]);
-    //console.log(this.questionArray,this.answerArray,this.showArray);
   }
   domInit(){
     let noMathcell: number[] = []
@@ -79,13 +78,11 @@ export class MathTablePage {
               event.item.style.background = "#bbd8e2";
             }
             this.showArray[position!.i][position!.j]= number;
-            //console.log(this.showArray,9999);
             this.checkAuto();
           },
           onMove: (event) => {
             const position = this.getIJFromId(event.from.id);
             this.showArray[position!.i][position!.j]= 0;
-            //console.log(this.showArray,11111);
           },
           sort:false,
           chosenClass: 'mathtable-chosen-class',
@@ -110,7 +107,6 @@ export class MathTablePage {
         pull: false
       },
       onAdd: (event) => {
-        //console.log(event.item);
         const { oldIndex, newIndex } = event;
         //event.from.insertBefore(event.item, event.from.children[oldIndex!]);
         event.to.removeChild(event.item);
@@ -328,7 +324,6 @@ export class MathTablePage {
   timerCount(){
     this.timerInterval = setInterval(() => {
       this.timer ++;
-      //console.log(this.timer);
       this.timer_minute = Math.floor(this.timer / 60);
       this.timer_second = Math.floor(this.timer % 60);
       if( this.timer > 3000){
@@ -338,6 +333,7 @@ export class MathTablePage {
     }, 1000);
   }
   checkAuto(){
+    console.log(JSON.stringify(this.showArray) === JSON.stringify(this.answerArray));
     if( JSON.stringify(this.showArray) === JSON.stringify(this.answerArray) ){
       clearInterval(this.timerInterval);
       this.getScore();

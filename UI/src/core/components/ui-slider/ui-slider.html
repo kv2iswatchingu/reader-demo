@@ -1,0 +1,65 @@
+<div  
+    class="slider" 
+    [style.width.px]="sliderWidth"
+    [style.height.px]="sliderWidth"
+    [style.padding.px]="sliderBallWidth / 2"
+    [style.background-color]="count === 0 ? railwayColor:lastColor"
+    >
+
+    <div class="slider-frame">
+        <div 
+            #cyberFishingSliderBall
+            class="slider-ball"
+            [style.width.px]="sliderBallWidth"
+            [style.height.px]="sliderBallWidth"
+            [style.transform]="'translate('+ deltaX + 'px,' + deltaY + 'px)'"
+            [style.background-color]="handleColor"
+            (mousedown)="onMouseDown($event)">
+        </div>
+        @if (showRadius) {
+            <div 
+                class="slider-radius"
+                [style.width.px]="sliderWidth / 2"
+                [style.transform-origin.px]="sliderWidth / 2 - sliderBallWidth / 2"
+                [style.height.px]="sliderBallWidth"
+                [style.top.px]="sliderWidth / 2 - sliderBallWidth"
+                [style.border-top-right-radius.px]="sliderBallWidth / 2"
+                [style.border-bottom-right-radius.px]="sliderBallWidth / 2"
+                [style.background-color]="handleColor"
+                [style.transform]="'rotate(' + angle + 'rad)'">
+            </div>
+        }
+    </div>
+
+    <div 
+        class="slider-overlay" 
+        [style.background-color]="overlayColor" 
+        [style.inset.px]="sliderBallWidth">
+        @if (!showRadius) {
+            <div 
+                class="slider-percent" 
+                [style.font-size.px]="sliderWidth / 6"
+                [style.color]="count === 0 ? progressColor : currentColor">
+                {{ percent }} %
+            </div>
+        }
+    </div>
+    <div 
+        class="slider-half"
+        [style.background-color]="count === 0 ? progressColor : currentColor">
+
+    </div>
+    <div 
+        class="slider-half"
+        [style.background-color]="
+            percent > 50 ? 
+                count === 0 ? 
+                    progressColor : currentColor 
+            : 'inherit'"
+        [style.transform]="'rotate(' + 
+        ( percent > 50 ? 
+        ( 360 * ( percent + .5 ) / 100) - 180 
+        : ( 360 * ( percent + .5 ) / 100 ) ) 
+        + 'deg)'">
+    </div>
+</div>

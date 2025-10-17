@@ -1,0 +1,117 @@
+<div class="array-three">
+    <div class="array-three-left">
+        <div class="array-three-xz">
+            <div class="array-three-operater">
+                <div>
+                    当前y坐标: {{ currentY }}
+                </div>
+                <div class="array-three-button" (click)="currentYplus()"> Y++ </div>
+                <div class="array-three-button" (click)="currentYminus()"> Y-- </div>
+            </div>
+            <div class="array-three-main">
+                @for( rowz of [].constructor(axisZ); track rowz;let z = $index;) {
+                    <div style="display: flex;">
+                        @for ( colx of [].constructor(axisX); track colx; let x = $index) {
+                            @if( isBlockXz(x,z) ) {
+                                <div 
+                                    (contextmenu)="removeBlockXz(x,z)"
+                                    (click)="addBlockXz(x,z)"
+                                    class="array-three-block">
+                                </div>
+                            }@else{
+                                <div 
+                                    (click)="addBlockXz(x,z)"
+                                    class="array-three-cell">
+                                </div>
+                            }
+                        } 
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="array-three-xy">
+            <div class="array-three-operater">
+                 <div>
+                    当前z坐标: {{ currentZ }}
+                </div>
+                <div class="array-three-button" (click)="currentZplus()"> Z++ </div>
+                <div class="array-three-button" (click)="currentZminus()"> Z-- </div>
+            </div>
+            <div class="array-three-main">
+                @for( rowy of [].constructor(axisY); track rowy;let y = $index;) {
+                    <div style="display: flex;">
+                        @for ( colx of [].constructor(axisX); track colx; let x = $index) {
+                            @if( isBlockXy(x,y) ) {
+                                <div 
+                                    (contextmenu)="removeBlockXy(x,y)"
+                                    class="array-three-block">
+                                </div>
+                            }@else{
+                                <div 
+                                    (click)="addBlockXy(x,y)"
+                                    class="array-three-cell">
+                                </div>
+                            }
+                        } 
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="array-three-right">
+        <div class="array-three-yz">
+            <div class="array-three-operater">
+                 <div>
+                    当前x坐标: {{ currentX }}
+                </div>
+                <div class="array-three-button" (click)="currentXplus()"> X++ </div>
+                <div class="array-three-button" (click)="currentXminus()"> X-- </div>
+            </div>
+            <div class="array-three-main">
+                @for( rowy of [].constructor(axisY); track rowy;let y = $index;) {
+                    <div style="display: flex;">
+                        @for ( colz of [].constructor(axisZ); track colz; let z = $index) {
+                            @if( isBlockYz(y,z) ) {
+                                <div 
+                                    (contextmenu)="removeBlockYz(y,z)"
+                                    class="array-three-block">
+                                </div>
+                            }@else{
+                                <div 
+                                    (click)="addBlockYz(y,z)"
+                                    class="array-three-cell">
+                                </div>
+                            }
+                        } 
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="array-three-info">
+           <ui-input [(value)]="inputStr"></ui-input>
+           <ui-button (btnClick)="texttoxz(inputStr,64 /(inputStr.length == 0 ? 1 : inputStr.length) )">submit</ui-button>
+        </div>
+    </div>
+</div>
+
+
+<!-- 
+ y|  /z
+  | /
+x |/_________
+ 
+sinx
+_      _ _ 
+ \    /   \
+  \_ /     \       |
+                   |
+                   |----___
+                  |        |)===============
+ ( ) ______________\       /__
+   /   _________              \
+  / __________________________ \
+  \O                         O/
+ | \_( )__( )__( )__( )__( )_/
+ |
+ |
+-->
