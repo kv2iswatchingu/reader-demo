@@ -102,6 +102,17 @@ export class Homepage {
     return result;
   }
 
+  trackByPath(index: number, file: any) { return file.path; }
+  
+  get groupedFiles() {
+    const cols = 5; // 每行5个
+    const groups = [];
+    for (let i = 0; i < this.mainTest.length; i += cols) {
+      groups.push(this.mainTest.slice(i, i + cols));
+    }
+    return groups;
+  }
+
   constructor(private cdr: ChangeDetectorRef,private snackBar: MatSnackBar) {}
 
   ngOnInit() {

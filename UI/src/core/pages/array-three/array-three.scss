@@ -5,12 +5,12 @@
     display: flex;
     padding: 20px;
     &-left{
-        width: 50%;
+        width: 75%;
         border: 1px solid #000;
         border-right: none;
     }
     &-right{
-        width: 50%;
+        width: 25%;
         border: 1px solid #000;
     }
     &-operater{

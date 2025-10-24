@@ -7,6 +7,28 @@
         padding: 1em;
         background-color: #EEE;
     }
+    &-main:not(.detail-mode){
+        ::ng-deep .cdk-virtual-scroll-content-wrapper{
+            height: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        ::ng-deep .cdk-virtual-scroll-orientation-vertical{
+            height: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+    }
+    .detail-mode{
+        ::ng-deep .cdk-virtual-scroll-content-wrapper,
+        ::ng-deep .cdk-virtual-scroll-orientation-vertical {
+            display: block;
+            flex-wrap: unset;
+            gap: 0;
+        }
+    }
     &-info{
         width: 23.5%;
         background-color: #DFE;
@@ -282,3 +304,4 @@
   z-index: 9999;
   min-width: 120px;
 }
+

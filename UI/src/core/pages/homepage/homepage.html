@@ -1,5 +1,5 @@
 <div class="reader-homepage">
-    <div class="reader-homepage-main">
+    <div class="reader-homepage-main" [class.detail-mode]="detailMode">
         <div class="reader-homepage-tools">
             <div class="tools-operator">
                 <div class="tools-operator-btngroup">
@@ -68,12 +68,10 @@
                 }
             </div>
         </div>
-        <cdk-virtual-scroll-viewport 
-            [itemSize]="detailMode ? 30 : 160" 
-            class="reader-homepage-viewport">
-            <div
-                class="reader-homepage-content"
-                [class.reader-homepage-content-detail]="detailMode">
+        @if ( detailMode ) {
+            <cdk-virtual-scroll-viewport 
+                itemSize="30" 
+                class="reader-homepage-viewport">
                 <ui-card
                     *cdkVirtualFor="let file of mainTest; let i = index;"
                     [cardData]="file"
@@ -84,8 +82,25 @@
                     (cardDbClick)="openFolder(file)"
                     (contextmenu)="onRightClick($event,file)">
                 </ui-card>
-            </div>
-        </cdk-virtual-scroll-viewport>
+            </cdk-virtual-scroll-viewport>
+        }@else {
+            <cdk-virtual-scroll-viewport 
+                itemSize="160" 
+                class="reader-homepage-viewport">
+                @for(file of mainTest; track file.path) {
+                    <ui-card
+                        [cardData]="file"
+                        [detailMode]="detailMode"
+                        [disabled]="editConfig || addConfig"
+                        [selected]="file.path === configFilePath || imageViewerPath === file.path"
+                        (cardClick)="showConfig(file)"
+                        (cardDbClick)="openFolder(file)"
+                        (contextmenu)="onRightClick($event,file)">
+                    </ui-card>
+                }
+            </cdk-virtual-scroll-viewport>
+        }
+        
     </div>
     
     <div class="reader-homepage-info">

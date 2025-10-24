@@ -5,23 +5,24 @@
                 <div>
                     当前y坐标: {{ currentY }}
                 </div>
-                <div class="array-three-button" (click)="currentYplus()"> Y++ </div>
-                <div class="array-three-button" (click)="currentYminus()"> Y-- </div>
+                <div class="array-three-button" (click)="changeCurrent('y','plus')"> Y++ </div>
+                <div class="array-three-button" (click)="changeCurrent('y','minus')"> Y-- </div>
             </div>
             <div class="array-three-main">
                 @for( rowz of [].constructor(axisZ); track rowz;let z = $index;) {
-                    <div style="display: flex;">
-                        @for ( colx of [].constructor(axisX); track colx; let x = $index) {
-                            @if( isBlockXz(x,z) ) {
+                    <div style="display: flex;" [style.background-color]="( axisZ - z - 1 ) == currentZ ? '#FF000080' : ''">
+                      @for ( colx of [].constructor(axisX); track colx; let x = $index) {
+                            @if( isBlock(x,null,z) ) {
                                 <div 
-                                    (contextmenu)="removeBlockXz(x,z)"
-                                    (click)="addBlockXz(x,z)"
+                                    (contextmenu)="removeBlock(x,null,z)"
+                                    (click)="addBlock(x,null,z)"
                                     class="array-three-block">
                                 </div>
                             }@else{
                                 <div 
-                                    (click)="addBlockXz(x,z)"
-                                    class="array-three-cell">
+                                    (click)="addBlock(x,null,z)"
+                                    class="array-three-cell"
+                                    [style.background-color]="x == currentX ? '#FF000080' : ''">
                                 </div>
                             }
                         } 
@@ -34,22 +35,24 @@
                  <div>
                     当前z坐标: {{ currentZ }}
                 </div>
-                <div class="array-three-button" (click)="currentZplus()"> Z++ </div>
-                <div class="array-three-button" (click)="currentZminus()"> Z-- </div>
+                <div class="array-three-button" (click)="changeCurrent('z','plus')"> Z++ </div>
+                <div class="array-three-button" (click)="changeCurrent('z','minus')"> Z-- </div>
             </div>
             <div class="array-three-main">
                 @for( rowy of [].constructor(axisY); track rowy;let y = $index;) {
-                    <div style="display: flex;">
+                    <div style="display: flex;" [style.background-color]="( axisY - y - 1 ) == currentY ? '#00FF0080' : ''">
                         @for ( colx of [].constructor(axisX); track colx; let x = $index) {
-                            @if( isBlockXy(x,y) ) {
+                            @if( isBlock(x,y,null) ) {
                                 <div 
-                                    (contextmenu)="removeBlockXy(x,y)"
+                                    (contextmenu)="removeBlock(x,y,null)"
+                                    (click)="addBlock(x,y,null)"
                                     class="array-three-block">
                                 </div>
                             }@else{
                                 <div 
-                                    (click)="addBlockXy(x,y)"
-                                    class="array-three-cell">
+                                    (click)="addBlock(x,y,null)"
+                                    class="array-three-cell"
+                                    [style.background-color]="x == currentX ? '#00FF0080' : ''">
                                 </div>
                             }
                         } 
@@ -64,22 +67,24 @@
                  <div>
                     当前x坐标: {{ currentX }}
                 </div>
-                <div class="array-three-button" (click)="currentXplus()"> X++ </div>
-                <div class="array-three-button" (click)="currentXminus()"> X-- </div>
+                <div class="array-three-button" (click)="changeCurrent('x','plus')"> X++ </div>
+                <div class="array-three-button" (click)="changeCurrent('x','minus')"> X-- </div>
             </div>
             <div class="array-three-main">
                 @for( rowy of [].constructor(axisY); track rowy;let y = $index;) {
-                    <div style="display: flex;">
+                    <div style="display: flex;" [style.background-color]="( axisY - y - 1 ) == currentY ? '#0000FF80' : ''">
                         @for ( colz of [].constructor(axisZ); track colz; let z = $index) {
-                            @if( isBlockYz(y,z) ) {
+                            @if( isBlock(null,y,z) ) {
                                 <div 
-                                    (contextmenu)="removeBlockYz(y,z)"
+                                    (contextmenu)="removeBlock(null,y,z)"
+                                    (click)="addBlock(null,y,z)"
                                     class="array-three-block">
                                 </div>
                             }@else{
                                 <div 
-                                    (click)="addBlockYz(y,z)"
-                                    class="array-three-cell">
+                                    (click)="addBlock(null,y,z)"
+                                    class="array-three-cell"
+                                    [style.background-color]="z == currentZ ? '#0000FF80' : ''">
                                 </div>
                             }
                         } 
@@ -88,8 +93,19 @@
             </div>
         </div>
         <div class="array-three-info">
-           <ui-input [(value)]="inputStr"></ui-input>
-           <ui-button (btnClick)="texttoxz(inputStr,64 /(inputStr.length == 0 ? 1 : inputStr.length) )">submit</ui-button>
+            <div style="display: flex;">
+                <ui-select [(value)]="selectArea" [options]="options"></ui-select>
+                <ui-input [(value)]="inputStr"></ui-input>
+                <ui-button (btnClick)="showText()">submit</ui-button>
+            </div>
+            <div>
+                <div class="array-three-button" (click)="changeCurrent('x','plus')"> X++ </div>
+                <div class="array-three-button" (click)="changeCurrent('x','minus')"> X-- </div>
+                <div class="array-three-button" (click)="changeCurrent('y','plus')"> Y++ </div>
+                <div class="array-three-button" (click)="changeCurrent('y','minus')"> Y-- </div>
+                <div class="array-three-button" (click)="changeCurrent('z','plus')"> Z++ </div>
+                <div class="array-three-button" (click)="changeCurrent('z','minus')"> Z-- </div>
+            </div>
         </div>
     </div>
 </div>
