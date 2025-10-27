@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { UiButton } from '../../components/ui-button/ui-button';
 import { MatIconModule } from '@angular/material/icon';
@@ -45,6 +45,7 @@ export class Homepage {
   detailMode: boolean = false;
   floderName: string = '';
   mainTest: any = [];
+  groups: any = [];
   showImgSingle: boolean = false;
   ///
   showsort: boolean = false;
@@ -82,6 +83,8 @@ export class Homepage {
   renameNameStr: string = '';
   deleteFolder: boolean = false;
 
+  @ViewChild('group') groupRef: ElementRef | undefined;
+
   get breadCrumbList(): { name: string; fullPath: string }[] {
     const parts = this.filePath
       .replace(/\\/g, '/')
@@ -104,14 +107,11 @@ export class Homepage {
 
   trackByPath(index: number, file: any) { return file.path; }
   
-  get groupedFiles() {
-    const cols = 5; // 每行5个
-    const groups = [];
-    for (let i = 0; i < this.mainTest.length; i += cols) {
-      groups.push(this.mainTest.slice(i, i + cols));
-    }
-    return groups;
-  }
+  // get groupedFiles() {
+  //   this.groups = [];
+  //   
+  //   return this.groups;
+  // }
 
   constructor(private cdr: ChangeDetectorRef,private snackBar: MatSnackBar) {}
 
@@ -147,8 +147,22 @@ export class Homepage {
     const result = await window.electronAPI.foreachAll(dir);
     if (result.success) {
       this.mainTest = result.files;
+      this.groupedInLine();
     }
   }
+
+  groupedInLine(){
+    let cols = 5;
+    this.groups = [];
+    if(this.groupRef){
+      const clientWidth = this.groupRef.nativeElement.clientWidth;
+      cols = Math.floor(clientWidth / 168 );
+    }
+    for (let i = 0; i < this.mainTest.length; i += cols) {
+      this.groups.push(this.mainTest.slice(i, i + cols));
+    }
+  }
+
   async writeJson() {
     if (!this.config) return;
     this.editConfig = false;
@@ -618,6 +632,11 @@ export class Homepage {
     }
   }
 
+
+  //======//
+  scrolledIndexChange(event:any){
+    console.log(event,123456789);
+  }
 }
 
 export interface ConfigJSON {

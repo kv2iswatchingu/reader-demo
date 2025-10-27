@@ -70,7 +70,8 @@
         </div>
         @if ( detailMode ) {
             <cdk-virtual-scroll-viewport 
-                itemSize="30" 
+                itemSize="30"
+                (scrolledIndexChange)="scrolledIndexChange($event)"
                 class="reader-homepage-viewport">
                 <ui-card
                     *cdkVirtualFor="let file of mainTest; let i = index;"
@@ -86,19 +87,25 @@
         }@else {
             <cdk-virtual-scroll-viewport 
                 itemSize="160" 
-                class="reader-homepage-viewport">
-                @for(file of mainTest; track file.path) {
-                    <ui-card
-                        [cardData]="file"
-                        [detailMode]="detailMode"
-                        [disabled]="editConfig || addConfig"
-                        [selected]="file.path === configFilePath || imageViewerPath === file.path"
-                        (cardClick)="showConfig(file)"
-                        (cardDbClick)="openFolder(file)"
-                        (contextmenu)="onRightClick($event,file)">
-                    </ui-card>
-                }
-            </cdk-virtual-scroll-viewport>
+                (scrolledIndexChange)="scrolledIndexChange($event)"
+                class="reader-homepage-viewport"> 
+                <div 
+                    #group
+                    style="display: flex; height: 160px; gap: 8px"
+                    *cdkVirtualFor="let group of groups; let i = index;">
+                    @for (file of group; track file.path) {
+                        <ui-card
+                            [cardData]="file"
+                            [detailMode]="detailMode"
+                            [disabled]="editConfig || addConfig"
+                            [selected]="file.path === configFilePath || imageViewerPath === file.path"
+                            (cardClick)="showConfig(file)"
+                            (cardDbClick)="openFolder(file)"
+                            (contextmenu)="onRightClick($event,file)">
+                        </ui-card>
+                    }
+                </div>
+            </cdk-virtual-scroll-viewport>  
         }
         
     </div>
