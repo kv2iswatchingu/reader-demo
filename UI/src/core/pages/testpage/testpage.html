@@ -11,13 +11,13 @@
           </div>
         </div>
         @for (item of cardOpposite;let i = $index ;track item) {
-          <full-card  
+          <poker-card  
             [style.transform]="'rotate(' + ((cardInHand.length / 2 - i) * 5) + 'deg)'"
             [style.transform-origin]="'60px 0px'"
             class="test-main-content-hand"
             [backshow]="true"
             [cardData]="item">
-          </full-card>
+          </poker-card>
         }
       </div>
 
@@ -29,14 +29,14 @@
         cdkDropListSortingDisabled
         (cdkDropListDropped)="drop($event)">
         @for (item of cardDesk; track item;let i = $index;) {
-          <full-card
+          <poker-card
             class="test-main-content-item"
             cdkDrag
             [cdkDragDisabled]="true"
             [cardData]="item"
             [notFull]="i !== 0 && i !== cardDesk.length - 1 ? true : false"
             >
-          </full-card>
+          </poker-card>
         }
         @if( over ){
           <ui-button 
@@ -69,14 +69,14 @@
           [cdkDropListData]="cardInHand">
           
           @for (item of cardInHand;let i = $index ;track item) {
-            <full-card  
+            <poker-card  
               [style.transform]="'rotate(' + ((i - cardInHand.length / 2) * 5) + 'deg)'"
               [style.transform-origin]="'60px 180px'"
               class="test-main-content-hand"
               cdkDrag
               [allowHover]="true"
               [cardData]="item">
-            </full-card>
+            </poker-card>
           }
         </div>
       </div>

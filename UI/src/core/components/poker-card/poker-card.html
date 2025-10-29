@@ -1,0 +1,76 @@
+<div
+  class="poker-card"
+  [class.poker-card-hover]="allowHover"
+  [class.not-poker]="notFull"
+>
+  @if( cardData && !backshow ) {
+  <div class="poker-card-upside">
+    <div class="poker-card-top" [style.display]="!notFull ? 'flex' : 'block'">
+      {{ cardData.label }}
+      <mat-icon class="poker-card-icon"> {{ cardData.type }} </mat-icon>
+    </div>
+    @if ( !notFull ) {
+    <div
+      class="poker-card-content"
+      [class.poker-card-strange]="halfNumber == 0"
+      [style.grid-template-columns]="halfNumber == 1 ? '100%' : '50% 50%'"
+    >
+      @for(item of [].constructor(halfNumber); track item) {
+      <mat-icon
+        class="poker-card-icon"
+        [style.fontSize.px]="120 / halfNumber > 32 ? 32 : 120 / halfNumber"
+        [style.height.px]="120 / halfNumber"
+        [style.width.px]="120 / halfNumber"
+      >
+        {{ cardData.type }}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            `2
+      </mat-icon>
+      }
+    </div>
+    }
+  </div>
+
+  @if( isOdd && !notFull ) {
+  <div class="poker-card-middle">
+    <mat-icon
+      class="poker-card-icon"
+      [style.fontSize.px]="120 / halfNumber > 32 ? 32 : 120 / halfNumber"
+      [style.height.px]="halfNumber == 0 ? 32 : 120 / halfNumber"
+      [style.width.px]="halfNumber == 0 ? 32 : 120 / halfNumber"
+    >
+      {{ cardData.type }}
+    </mat-icon>
+  </div>
+  }
+
+  <div class="poker-card-downside">
+    <div
+      class="poker-card-top"
+      [style.bottom.px]="-20"
+      [style.display]="!notFull ? 'flex' : 'block'"
+    >
+      {{ cardData.label }}
+      <mat-icon class="poker-card-icon"> {{ cardData.type }} </mat-icon>
+    </div>
+    @if ( !notFull ) {
+    <div
+      class="poker-card-content"
+      [style.grid-template-columns]="halfNumber == 1 ? '100%' : '50% 50%'"
+    >
+      @for(item of [].constructor(halfNumber); track item) {
+      <mat-icon
+        class="poker-card-icon"
+        [style.fontSize.px]="120 / halfNumber > 32 ? 32 : 120 / halfNumber"
+        [style.height.px]="120 / halfNumber"
+        [style.width.px]="120 / halfNumber"
+      >
+        {{ cardData.type }}
+      </mat-icon>
+      }
+    </div>
+    }
+  </div>
+  } @if ( backshow ) {
+  <div class="poker-card-backshow"></div>
+  }
+</div>
+

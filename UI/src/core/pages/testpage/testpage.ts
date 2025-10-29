@@ -7,10 +7,10 @@ import {
   moveItemInArray,
   transferArrayItem,
 } from '@angular/cdk/drag-drop';
-import { FullCard, FullCardType } from '../../components/full-card/full-card';
 import { UiButton } from '../../components/ui-button/ui-button';
 import { MatIcon } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
+import { PokerCard, PokerCardType } from '../../components/poker-card/poker-card';
 
 /**
  * @title Drag&Drop disabled sorting
@@ -23,18 +23,18 @@ import { CommonModule } from '@angular/common';
   imports: [
     CdkDropListGroup,
     CdkDropList,
-    FullCard,
     CdkDrag,
     UiButton,
     MatIcon,
     CommonModule,
+    PokerCard
   ],
 })
 export class Testpage {
-  cardStack: FullCardType[] = [];
-  cardInHand: FullCardType[] = [];
-  cardOpposite: FullCardType[] = [];
-  cardDesk: FullCardType[] = [];
+  cardStack: PokerCardType[] = [];
+  cardInHand: PokerCardType[] = [];
+  cardOpposite: PokerCardType[] = [];
+  cardDesk: PokerCardType[] = [];
 
   score: number = 0;
   cpuScore: number = 0;
@@ -46,7 +46,7 @@ export class Testpage {
     this.generateAll();
   }
 
-  drop(event: CdkDragDrop<FullCardType[]>) {
+  drop(event: CdkDragDrop<PokerCardType[]>) {
     if (event.currentIndex === 0) {
       const target = event.container.data[event.currentIndex];
       const current = event.previousContainer.data[event.previousIndex];
@@ -96,7 +96,7 @@ export class Testpage {
 
     for (let j = 1; j <= 4; j++) {
       for (let i = 1; i <= 13; i++) {
-        const item: FullCardType = {
+        const item: PokerCardType = {
           label:
             i == 13
               ? 'K'
@@ -239,7 +239,7 @@ export class Testpage {
     this.checkEmpty();
   }
 
-  getCardMethod(array: FullCardType[]) {
+  getCardMethod(array: PokerCardType[]) {
     const random = Math.floor(Math.random() * this.cardStack.length);
     array.push(this.cardStack[random]);
     this.cardStack.splice(random, 1);

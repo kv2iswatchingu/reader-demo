@@ -11,6 +11,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 
+
 @Component({
   selector: 'app-homepage',
   imports: [
@@ -82,30 +83,33 @@ export class Homepage {
   rename: boolean = false;
   renameNameStr: string = '';
   deleteFolder: boolean = false;
-
+  breadCrumbList: { name: string; fullPath: string }[] = [];
+  pathsep: string = 'null';
   @ViewChild('group') groupRef: ElementRef | undefined;
 
-  get breadCrumbList(): { name: string; fullPath: string }[] {
+  ///////////console
+   getBreadCrumbList(){
+    console.log(this.pathsep,1234567890);
     const parts = this.filePath
-      .replace(/\\/g, '/')
+      .replace(/\\/g, this.pathsep)
       .replace(this.rootPath, '')
-      .split('/')
+      .split(this.pathsep)
       .filter(Boolean);
     let current = this.rootPath;
     const result = [
       {
-        name: this.rootPath.split('/').filter(Boolean).pop() || this.rootPath,
+        name: this.rootPath.split(this.pathsep).filter(Boolean).pop() || this.rootPath,
         fullPath: this.rootPath,
       },
     ];
     for (const part of parts) {
-      current = current.endsWith('/') ? current + part : current + '/' + part;
+      current = current.endsWith(this.pathsep) ? current + part : current + this.pathsep + part;
       result.push({ name: part, fullPath: current });
     }
-    return result;
+   this.breadCrumbList = result;
   }
 
-  trackByPath(index: number, file: any) { return file.path; }
+  //trackByPath(index: number, file: any) { return file.path; }
   
   // get groupedFiles() {
   //   this.groups = [];
@@ -126,11 +130,14 @@ export class Homepage {
     document.removeEventListener('mousedown', this.onGlobalClick, true);
   }
 
-  init() {
+  async init() {
+    //@ts-ignore
+    this.pathsep = await window.electronAPI.getPathsep();
     this.floderName = this.getFloderName();
     this.configFilePath = this.filePath;
     this.getAllbyDir(this.filePath);
     this.readJson();
+    this.getBreadCrumbList();
   }
   async setMainPath() {
     //@ts-ignore
@@ -236,6 +243,8 @@ export class Homepage {
     this.filePath = this.rootPath;
     this.init();
   }
+
+  // console!!!!
   go2Path(targetPath: string) {
     if (targetPath !== this.filePath) {
       this.filePath = targetPath;

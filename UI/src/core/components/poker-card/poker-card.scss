@@ -1,4 +1,4 @@
-.full-card{
+.poker-card{
     width: 120px;
     height: 160px;
     background-color: #EEE;
@@ -57,14 +57,14 @@
         opacity: 0.3;
     }
 }
-.not-full{
+.not-poker{
     width: 20px;
     border-left: solid #CCC 1px;
     border-top: #CCC 1px solid;
     border-bottom: #CCC 1px solid;
     border-right: none;
 }
-.full-card-hover:hover{
+.poker-card-hover:hover{
     width: 126px;
     height: 168px;
 }

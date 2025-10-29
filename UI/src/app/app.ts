@@ -35,6 +35,10 @@ export class App {
     this.router.navigate(['array-three']);
   }
 
+  go2CardPage(){
+    this.router.navigate(['card-page']);
+  }
+
   ngOnDestroy() {
     // @ts-ignore
     window.electronAPI?.setFullscreen?.(false);

@@ -2,13 +2,13 @@ import { Component, Input } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 
 @Component({
-  selector: 'full-card',
+  selector: 'poker-card',
   imports: [MatIcon],
-  templateUrl: './full-card.html',
-  styleUrl: './full-card.scss'
+  templateUrl: './poker-card.html',
+  styleUrl: './poker-card.scss'
 })
-export class FullCard {;
-  @Input() cardData: FullCardType | null  = null;
+export class PokerCard {;
+  @Input() cardData: PokerCardType | null  = null;
   @Input() notFull:boolean = false;
   @Input() backshow: boolean = false;
   @Input() allowHover: boolean = false;
@@ -24,7 +24,7 @@ export class FullCard {;
 }
 
 
-export interface FullCardType {
+export interface PokerCardType {
   label: string,
   value: number,
   type: string

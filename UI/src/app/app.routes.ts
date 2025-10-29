@@ -5,6 +5,7 @@ import { MathTablePage } from '../core/pages/mathtable-page/mathtable-page';
 import { FunMine } from '../core/pages/fun-mine/fun-mine';
 import { CyberFishing } from '../core/pages/cyber-fishing/cyber-fishing';
 import { ArrayThree } from '../core/pages/array-three/array-three';
+import { CardPage } from '../core/pages/card-page/card-page';
 
 export const routes: Routes = [
   { 
@@ -19,5 +20,7 @@ export const routes: Routes = [
     path: 'cyber-fishing', component: CyberFishing 
   },{
     path: 'array-three', component: ArrayThree
+  },{
+    path: 'card-page', component: CardPage
   }
 ];

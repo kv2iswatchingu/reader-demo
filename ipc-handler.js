@@ -241,6 +241,10 @@ function registerIpcHandlers() {
       return { isDirectory: false, isFile: false };
     }
   });
+  //
+  ipcMain.handle('get-pathsep',()=>{
+    return path.sep
+  })
   // //nodejs 的计时器
   // ipcMain.handle('timer', async (event) => {
   //   try {
