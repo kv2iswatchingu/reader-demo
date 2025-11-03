@@ -85,13 +85,14 @@
                 </ui-card>
             </cdk-virtual-scroll-viewport>
         }@else {
+            <!--  [minBufferPx]="0" maxBufferPx -->
             <cdk-virtual-scroll-viewport 
-                itemSize="160" 
+                itemSize="220"
                 (scrolledIndexChange)="scrolledIndexChange($event)"
                 class="reader-homepage-viewport"> 
                 <div 
                     #group
-                    style="display: flex; height: 160px; gap: 8px"
+                    style="display: flex; height: 220px; gap: 8px"
                     *cdkVirtualFor="let group of groups; let i = index;">
                     @for (file of group; track file.path) {
                         <ui-card

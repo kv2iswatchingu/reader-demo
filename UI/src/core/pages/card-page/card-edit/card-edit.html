@@ -1,0 +1,46 @@
+<div class="card-edit">
+    <div class="card-edit-main">
+        <div class="card-edit-all">
+            @if(noLibaray || cardLibaray.length == 0){
+                <div class="card-edit-warning">
+                    no libaray
+                </div>
+            }@else {
+                @for(card of cardLibaray;track card){
+
+                }
+            }
+        </div>
+        @if(editCardList){
+            <div class="card-edit-editing">
+                @for(card of cardEditing;track card){
+
+                }
+            </div>
+        }
+        
+    </div>
+    <!-- drag & drop -->
+    <div class="card-edit-list">
+        @for( cardgroup of cardList;track cardgroup){
+            <div class="card-edit-group">
+                {{ cardgroup.name }}
+            </div>
+        }
+        <div class="card-edit-new">
+            +
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<!-- 
+
+
+
+
+
+-->

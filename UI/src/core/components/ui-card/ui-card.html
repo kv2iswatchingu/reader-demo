@@ -47,11 +47,11 @@
             @if( cardData.isDirectory){ 
                 <mat-icon class="ui-card-meta-icon icon-folder">folder</mat-icon>  
             }@else if( cardData.isImage){ 
-                <img class="ui-card-meta-image" [src]="cardData.path" draggable="false">
+                <img class="ui-card-meta-image" [src]="cardData.path" draggable="false" loading="lazy">
             }@else if( cardData.isJson){ 
                 <mat-icon class="ui-card-meta-icon icon-config">perm_data_setting </mat-icon>
             }@else if (cardData.isVideo) {
-                <mat-icon class="ui-card-meta-icon icon-video">movie</mat-icon>
+                <video class="ui-card-meta-image" [src]="cardData.path" draggable="false" loading="lazy"></video>
             }@else if (cardData.isPdf) {
                 <mat-icon class="ui-card-meta-icon icon-pdf">picture_as_pdf</mat-icon>
             }@else {

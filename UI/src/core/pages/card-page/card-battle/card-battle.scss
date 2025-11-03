@@ -1,0 +1,34 @@
+.card-battle{
+    width:100%;
+    height: 100%;
+    display: flex;
+    &-battle{
+        display: flex;
+    }
+    &-turn{
+         
+    }
+}
+.card-battle-user{
+
+}
+.card-battle-cpu{
+
+}
+.card-battle-usercard{
+    width: 100%;
+    height: 400px;
+    display: flex;
+}
+.card-battle-cpucard{
+    width: 100%;
+    height: 400px;
+    display: flex;
+}
+.card-battle-userhandcard{
+
+}
+.card-battle-area{
+
+}
+

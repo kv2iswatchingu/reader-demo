@@ -1,37 +1,17 @@
 <div class="fun-card">
-    <div>
-        <div>
-
-        </div>
-        <div>
-            
-        </div>
-        <div>
-
-        </div>
-    </div>
-    <div>
-        <div>
-            {{ cardData?.name }}
-        </div>
-        <!-- <img /> -->
-        <div>
-            {{cardData?.atk}}
-            /
-            {{cardData?.def}}
-        
+        <mat-icon class="fun-card-icon fun-card-cost">{{ cardData.orginCost}}</mat-icon>
+        <mat-icon class="fun-card-icon fun-card-atk">{{ cardData.atk}}</mat-icon>
+        <mat-icon class="fun-card-icon fun-card-def">{{ cardData.def}}</mat-icon>
+    <div class="fun-card-content">
+        <div class="fun-card-decorate">
+            <div class="fun-card-name">
+                {{ cardData.name }}
+            </div>
+            @if( cardData.def >= cardData.originDef / 2 ){
+                <img class="fun-card-image" [src]="cardData.imageList?.normalImage" />
+            }@else{
+                <img class="fun-card-image" [src]="cardData.imageList?.changeImage" />
+            }
         </div>
     </div>
-
-    <!-- @if(hover){
-
-    }
-    @if(destroy){
-        
-    }
-    
-    <ui-dialog>
-
-    </ui-dialog> -->
-
 </div>

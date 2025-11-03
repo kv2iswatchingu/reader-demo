@@ -153,17 +153,19 @@ export class Homepage {
     //@ts-ignore
     const result = await window.electronAPI.foreachAll(dir);
     if (result.success) {
+      //this.mainTest = [...result.files,...result.files,...result.files];
       this.mainTest = result.files;
       this.groupedInLine();
     }
   }
+
 
   groupedInLine(){
     let cols = 5;
     this.groups = [];
     if(this.groupRef){
       const clientWidth = this.groupRef.nativeElement.clientWidth;
-      cols = Math.floor(clientWidth / 168 );
+      cols = Math.floor( clientWidth / 228 );
     }
     for (let i = 0; i < this.mainTest.length; i += cols) {
       this.groups.push(this.mainTest.slice(i, i + cols));

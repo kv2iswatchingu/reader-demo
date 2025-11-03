@@ -24,4 +24,5 @@ contextBridge.exposeInMainWorld("electronAPI", {
   onFullscreenChanged: (callback) => ipcRenderer.on('fullscreen-changed', (event, isFullscreen) => callback(isFullscreen)),
   statPath: (filePath) => ipcRenderer.invoke("stat-path",filePath),
   getPathsep: () => ipcRenderer.invoke("get-pathsep"),
+  getFile:()=> ipcRenderer.invoke("get-file"),
 });

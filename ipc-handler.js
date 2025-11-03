@@ -110,10 +110,10 @@ function registerIpcHandlers() {
       return { success: false, message: e.message };
     }
   });
-  // 选择主文件夹作为根目录
+  //从文件夹中选择文件夹 // 主要用于作为根目录
   ipcMain.handle('set-main-directory', async () => {
     const result = await dialog.showOpenDialog({
-      title: '选择主文件夹作为根目录',
+      title: '选择文件夹',
       properties: ['openDirectory']
     });
     if (result.canceled || result.filePaths.length === 0) {
@@ -121,6 +121,22 @@ function registerIpcHandlers() {
     }
     return result.filePaths[0];
   });
+  //从文件夹选择文件 
+  ipcMain.handle('get-file',async () => {
+    const result = await dialog.showOpenDialog({
+      title: '选择文件',
+      properties: ['openFile'],
+      filters: [
+        { name: 'json files', extensions: ['json'] },
+        { name: 'All Files', extensions: ['*'] }
+      ]
+    });
+    if (result.canceled || result.filePaths.length === 0) {
+      return null
+    }
+    return result.filePaths[0];
+  })
+
   // 返回当前文件夹内的所有图片内容，不包含子文件夹与config文件
   ipcMain.handle('floder-image', async (event,targetPath) => {
     try {

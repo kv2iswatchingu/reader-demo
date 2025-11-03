@@ -4,12 +4,26 @@ import { UiDialog } from '../ui-dialog/ui-dialog';
 
 @Component({
   selector: 'fun-card',
-  imports: [],
+  imports: [MatIcon],
   templateUrl: './fun-card.html',
   styleUrl: './fun-card.scss'
 })
 export class FunCard {;
-  @Input() cardData: FunCardType | null  = null;
+  @Input() cardData: FunCardType = {
+    name: 'defalut',
+    cost: 9,
+    orginCost: 9,
+    description: 'defalut',
+    imageList: {
+      normalImage: '',
+      changeImage: '',
+      overImage: ''
+    },
+    atk: 13,
+    originAtk: 13,
+    def: 13,
+    originDef: 13
+  }
 
   hover = false
   destroy = false
@@ -23,21 +37,22 @@ export class FunCard {;
 
 
 export interface FunCardType {
-  id:string
   name:string,
   cost:number,
+  orginCost:number,
   description:string,
   effect?:string[],
   imageList?:FunCardImage,
   type?:string,
   atk:number,
+  originAtk:number,
   def:number,
-
+  originDef:number
 }
 
 export interface FunCardImage {
-  normalImage:string,
-  changeImage:string,
-  overImage:string,
+  normalImage?:string,
+  changeImage?:string,
+  overImage?:string,
   //and ...
 }

@@ -1,6 +1,55 @@
 .fun-card{
-    width: 100px;
-    height: 100px;
-    background-color: aqua;
+    width: 140px;
+    height: 200px;
+    padding: 12px;
+    position: relative;
+    &-content{
+        border: 1px solid #000;
+        width: 100%;
+        height: 100%;
+        padding: 4px;
+    }
+    &-decorate{
+        border: 1px solid #000;
+        width: 100%;
+        height: 100%;
+    }
+}
+.fun-card-icon{
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    font-size: 20px;
+    border-radius: 50%;
+    background-color: #FFF;
     border: 1px solid #000;
+    text-align: center;
+    line-height: 24px;
+    font-family: auto;
+}
+.fun-card-cost{
+    top:0;
+    left: 0;
+}
+.fun-card-atk{
+    bottom: 0;
+    left: 0;
+}
+.fun-card-def{
+    bottom: 0;
+    right: 0;
+}
+.fun-card-name{
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    position: absolute;
+    top: 18px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+.fun-card-image{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
