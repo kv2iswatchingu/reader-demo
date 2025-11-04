@@ -164,7 +164,7 @@ export class CardBattle {
   }
 
   //
-  attackFrom(target:FunCardType,self:FunCardTypeExtend){
+  attackFrom(target:FunCardTypeExtend,self:FunCardTypeExtend){
     target.def = target.def - self.atk;
     self.def = self.def - target.atk;
     self.canAttack = false;
@@ -172,7 +172,7 @@ export class CardBattle {
     this.destory(self,this.userOnCard);
   }
 
-  destory(card:FunCardType,cardList:FunCardType[]){
+  destory(card:FunCardTypeExtend,cardList:FunCardTypeExtend[]){
     if(card.def <= 0){
       cardList.splice(cardList.indexOf(card),1);
     }
@@ -205,6 +205,9 @@ export class CardBattle {
 
 export interface FunCardTypeExtend extends FunCardType{
   id: string;
+  atk: number;
+  def: number;
+  cost: number;
   canAttack?:boolean;
   showDetail?:boolean;
 

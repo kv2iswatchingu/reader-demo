@@ -5,6 +5,7 @@ const { dialog } = require('electron');
 const { BrowserWindow } = require('electron');
 //const { setTimeout, clearTimeout,setInterval,clearInterval } = require('timers');
 const fastglob = require('fast-glob');
+const { Console } = require("console");
 
 function registerIpcHandlers() {
 
@@ -131,6 +132,7 @@ function registerIpcHandlers() {
         { name: 'All Files', extensions: ['*'] }
       ]
     });
+    console.log(result,77777777777);
     if (result.canceled || result.filePaths.length === 0) {
       return null
     }

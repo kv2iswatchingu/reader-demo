@@ -1,36 +1,59 @@
 <div class="card-edit">
-    <div class="card-edit-main">
-        <div class="card-edit-all">
-            @if(noLibaray || cardLibaray.length == 0){
-                <div class="card-edit-warning">
-                    no libaray
-                </div>
-            }@else {
+    <div class="card-edit-title">
+        <ui-button
+            modeType="icon" 
+            (btnClick)="chooseLibaray()">
+            <mat-icon>menu_book</mat-icon>
+        </ui-button>
+        <ui-button
+            modeType="icon" 
+            (btnClick)="chooseList()">
+            <mat-icon>playlist_add</mat-icon>
+        </ui-button>
+        @if(noLibaray || cardLibaray.length == 0){
+            <div class="card-edit-warning">
+                no libaray
+            </div>
+        }
+    </div>
+    <div class="card-edit-content">
+        <div class="card-edit-main">
+            <div class="card-edit-all" #cardLib>
                 @for(card of cardLibaray;track card){
-
+                    <fun-card
+                        [orignCardData]="card">
+                    </fun-card>
                 }
+            </div>
+            @if( editCardList ){
+                <div 
+                    class="card-edit-editing"
+                    #cardEdit
+                >
+                    @for(card of cardEditing;track card){
+                        <fun-card
+                            [orignCardData]="card">
+                        </fun-card>
+                    }
+                </div>
+                <div class="card-edit-bin" #cardBin>
+                    <mat-icon>delete</mat-icon>
+                </div>
             }
         </div>
-        @if(editCardList){
-            <div class="card-edit-editing">
-                @for(card of cardEditing;track card){
-
-                }
+        <!-- drag & drop -->
+        <div class="card-edit-list">
+            @for( cardgroup of cardList;track cardgroup){
+                <div class="card-edit-group">
+                    {{ cardgroup.name }}
+                </div>
+            }
+            <div class="card-edit-new">
+                +
             </div>
-        }
-        
-    </div>
-    <!-- drag & drop -->
-    <div class="card-edit-list">
-        @for( cardgroup of cardList;track cardgroup){
-            <div class="card-edit-group">
-                {{ cardgroup.name }}
-            </div>
-        }
-        <div class="card-edit-new">
-            +
         </div>
     </div>
+    
 </div>
 
 

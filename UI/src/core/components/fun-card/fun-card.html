@@ -1,17 +1,35 @@
-<div class="fun-card">
+@if(cardData){
+    <div class="fun-card">
         <mat-icon class="fun-card-icon fun-card-cost">{{ cardData.orginCost}}</mat-icon>
         <mat-icon class="fun-card-icon fun-card-atk">{{ cardData.atk}}</mat-icon>
         <mat-icon class="fun-card-icon fun-card-def">{{ cardData.def}}</mat-icon>
-    <div class="fun-card-content">
-        <div class="fun-card-decorate">
-            <div class="fun-card-name">
-                {{ cardData.name }}
+        <div class="fun-card-content">
+            <div class="fun-card-decorate">
+                <div class="fun-card-name">
+                    {{ cardData.name }}
+                </div>
+                @if( cardData.def >= cardData.originDef / 2 ){
+                    <img class="fun-card-image" [src]="cardData.imageList?.normalImage" />
+                }@else{
+                    <img class="fun-card-image" [src]="cardData.imageList?.changeImage" />
+                }
             </div>
-            @if( cardData.def >= cardData.originDef / 2 ){
-                <img class="fun-card-image" [src]="cardData.imageList?.normalImage" />
-            }@else{
-                <img class="fun-card-image" [src]="cardData.imageList?.changeImage" />
-            }
         </div>
     </div>
-</div>
+}
+@if( orignCardData ){
+    <div class="fun-card">
+        <mat-icon class="fun-card-icon fun-card-cost">{{ orignCardData.orginCost }}</mat-icon>
+        <mat-icon class="fun-card-icon fun-card-atk">{{ orignCardData.originAtk }}</mat-icon>
+        <mat-icon class="fun-card-icon fun-card-def">{{ orignCardData.originDef }}</mat-icon>
+        <div class="fun-card-content">
+            <div class="fun-card-decorate">
+                <div class="fun-card-name">
+                    {{ orignCardData.name }}
+                </div>
+                <img class="fun-card-image" [src]="orignCardData.imageList?.normalImage" />
+                <!-- <img class="fun-card-image" [src]="orignCardData.imageList?.changeImage" /> -->
+            </div>
+        </div>
+    </div>
+}

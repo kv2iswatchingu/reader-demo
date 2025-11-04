@@ -1,1 +1,29 @@
+.card-edit{
+    width: 100%;
+    height: 100%;
+    &-title{
+        display: flex;
+    }
+    &-content{
+        display: flex;
+        flex-wrap: wrap;
+    }
+    &-main{
+        width: 85%;
+    }
+    &-list{
+        width: 15%;
+    }
+}
 
+.card-edit-all{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1em;
+}
+
+.card-edit-editing{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1em;
+}

@@ -1,9 +1,12 @@
-import { Component } from '@angular/core';
-import { FunCard } from '../../../components/fun-card/fun-card';
+import { Component, ElementRef, ViewChild } from '@angular/core';
+import { FunCard, FunCardType } from '../../../components/fun-card/fun-card';
+import { UiButton } from '../../../components/ui-button/ui-button';
+import { MatIcon } from '@angular/material/icon';
+import  Sortable  from 'sortablejs';
 
 @Component({
   selector: 'app-card-edit',
-  imports: [],
+  imports: [FunCard,UiButton,MatIcon],
   templateUrl: './card-edit.html',
   styleUrl: './card-edit.scss'
 })
@@ -18,10 +21,18 @@ export class CardEdit {
   jsonLibarayPath = "";
   jsonListPath = "";
 
-  cardLibaray: FunCard[] = [];
+  cardLibaray: FunCardType[] = [];
   cardList: CardList[] = [];
-  cardEditing: FunCard[] = [];
+  cardEditing: FunCardType[] = [];
 
+  sortbaleBin: Sortable | undefined;
+  sortableEdit: Sortable | undefined;
+  sortableLib: Sortable | undefined;
+
+  @ViewChild('cardLib') cardLibRef?:ElementRef<HTMLDivElement>;
+  @ViewChild('cardBin') cardBinRef?:ElementRef<HTMLDivElement>;
+  @ViewChild('cardEdit') cardEditRef?:ElementRef<HTMLDivElement>;
+ 
 
   ngOnInit() {
     if(localStorage.getItem('jsonLibarayPath')){
@@ -37,30 +48,57 @@ export class CardEdit {
     this.getListFromJson();
   }
 
-  chooseLibaray(){
+  ngAfterViewInit() {
+    if(this.cardLibRef){
+      this.sortableLib = Sortable.create(this.cardLibRef.nativeElement, {
+        group: 'card',
+        animation: 150,
+        ghostClass: "sortable-ghost",
+        chosenClass: "sortable-chosen",
+        dragClass: "sortable-drag",
+      });
+    }
+    if(this.cardBinRef){
+      this.sortbaleBin = Sortable.create(this.cardBinRef.nativeElement, {
+        group: 'card',
+        animation: 150,
+        ghostClass: "sortable-ghost",
+        chosenClass: "sortable-chosen",
+        dragClass: "sortable-drag",
+      });
+    }
+    if(this.cardEditRef){
+      this.sortableEdit = Sortable.create(this.cardEditRef.nativeElement, {
+        group: 'card',
+        animation: 150,
+        ghostClass: "sortable-ghost",
+        chosenClass: "sortable-chosen",
+        dragClass: "sortable-drag",
+      });
+    }
+  }                                             
+
+  async chooseLibaray(){
     //@ts-ignore
     const result = await window.electronAPI.getFile();
-    if (result.success) {
-      this.jsonLibarayPath = result.path;
+    if (result) {
+      this.jsonLibarayPath = result;
       localStorage.setItem('jsonLibarayPath',this.jsonLibarayPath);
-    }else{
-      console.log(result.message);
     }
   }
-  chooseList(){
+  async chooseList(){
     //@ts-ignore
     const result = await window.electronAPI.getFile();
-    if (result.success) {
-      this.jsonListPath = result.path;
+    if (result) {
+      this.jsonListPath = result;
       localStorage.setItem('jsonListPath',this.jsonListPath);
-    }else{
-      console.log(result.message);
     }
   }
 
-  getLibarayFromJson(){
+  async getLibarayFromJson(){
     //@ts-ignore
     const result = await window.electronAPI.readOut(this.jsonLibarayPath);
+    console.log(result,7777777);
     if (result.success) {
       const cardLibarayJson = result.content as CardLibJson;
       this.cardLibaray = cardLibarayJson.cards;
@@ -68,7 +106,7 @@ export class CardEdit {
       console.log(result.message);
     }
   }
-  getListFromJson(){
+  async getListFromJson(){
     //@ts-ignore
     const result = await window.electronAPI.readOut(this.jsonListPath);
     if (result.success) {
@@ -80,7 +118,7 @@ export class CardEdit {
   }
 
   //---         
-  saveJson(){
+  async saveJson(){
     //@ts-ignore
     const result = window.electronAPI.readOut(this.jsonListPath);
     if(result.success){
@@ -100,16 +138,22 @@ export class CardEdit {
   }
 
   //----
+  /**
   emptymethod(){
-    // const a = {
-    //   name:"temp",
-    //   time: new Date().toLocaleString(),
-    //   card: this.cardEditing
-    // };
-    // this.cardList.push(a);
-    //
-    
-  }
+    const a = {
+      name:"temp"
+      ka lin kakalin kakalin kamaya
+      time: new Date().toLocaleString(),
+      card: this.cardEditing
+    };
+    ano ichidotake kiseki 
+    this.cardList.push(a);
+    neikaku no miraii
+    arayuru sekaiishyoetsu suru
+    this.cardEditing = [];
+
+  } 
+   */
 
 
 
@@ -119,7 +163,7 @@ export class CardEdit {
 export interface CardLibJson {
   createTime?: string;
   updateTime?: string;
-  cards: FunCard[];
+  cards: FunCardType[];
 }
 
 export interface CardListJson {
@@ -131,5 +175,5 @@ export interface CardListJson {
 export interface CardList {
   name: string;
   time: string;
-  card: FunCard[];
+  card: FunCardType[];
 }
