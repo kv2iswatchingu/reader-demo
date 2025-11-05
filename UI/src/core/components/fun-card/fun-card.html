@@ -9,9 +9,9 @@
                     {{ cardData.name }}
                 </div>
                 @if( cardData.def >= cardData.originDef / 2 ){
-                    <img class="fun-card-image" [src]="cardData.imageList?.normalImage" />
+                    <img class="fun-card-image" [src]="cardData.imageList?.normalImage" loading="lazy" />
                 }@else{
-                    <img class="fun-card-image" [src]="cardData.imageList?.changeImage" />
+                    <img class="fun-card-image" [src]="cardData.imageList?.changeImage" loading="lazy" />
                 }
             </div>
         </div>
@@ -27,8 +27,8 @@
                 <div class="fun-card-name">
                     {{ orignCardData.name }}
                 </div>
-                <img class="fun-card-image" [src]="orignCardData.imageList?.normalImage" />
-                <!-- <img class="fun-card-image" [src]="orignCardData.imageList?.changeImage" /> -->
+                <img class="fun-card-image" [src]="orignCardData.imageList?.normalImage" loading="lazy" />
+                <!-- <img class="fun-card-image" [src]="orignCardData.imageList?.changeImage" loading="lazy" /> -->
             </div>
         </div>
     </div>

@@ -229,25 +229,41 @@
 }
 .select-cover{
     display: flex;
-    flex-wrap: wrap;
-    gap: 0.5em;
-    &-item{
-        width: 150px;
-        height: 210px;
-        object-fit: cover;
-        border-radius: 4px;
+    width: 100%;
+    height: 100%;
+    &-viewport{
+        width: 100%;
+        height: 100%;
+    }
+    &-detail{
+        width: 100%;
+        height: 30px;
+        margin-bottom: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
         &-active{
             border: 2px solid orange;
         }
     }
     &-name{
-        font-size: 0.8em;
-        max-width: 150px;
-        overflow: hidden;
+        font-size: 16px;
         text-overflow: ellipsis;
         white-space: nowrap;
-        text-align: center;
     }
+    &-icon{
+        width: 24px;
+        height: 24px;
+        font-size: 24px;
+        color: #56c1ff;
+    }
+    &-img{
+        width: 40%;
+        height: 100%;
+        object-fit: contain;
+        border-radius: 4px;
+    }
+    
 }
 .reader-dialog{
     &-inner{

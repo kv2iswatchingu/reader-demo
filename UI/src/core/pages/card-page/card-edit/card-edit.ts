@@ -22,6 +22,7 @@ export class CardEdit {
   jsonListPath = "";
 
   cardLibaray: FunCardType[] = [];
+  cardBin: FunCardType[] = [];
   cardList: CardList[] = [];
   cardEditing: FunCardType[] = [];
 
@@ -34,6 +35,10 @@ export class CardEdit {
   @ViewChild('cardEdit') cardEditRef?:ElementRef<HTMLDivElement>;
  
 
+  //35 ++++
+  /**
+   *00 
+   */
   ngOnInit() {
     if(localStorage.getItem('jsonLibarayPath')){
       this.noLibaray = false;
@@ -147,7 +152,24 @@ export class CardEdit {
       card: this.cardEditing
     };
     ano ichidotake kiseki 
-    this.cardList.push(a);
+    this.cardList.push(
+    
+    waree \
+    dweqddl\d
+    detail niedk fdas
+    kiteanss sdev = const a = {
+      name:"temp"
+      ka lin kakalin kakalin kamaya
+      time: new Date().toLocaleString(),
+      card: this.cardEditing
+    }
+    this.cardList.push(
+      
+    )
+    
+    
+    
+    a);
     neikaku no miraii
     arayuru sekaiishyoetsu suru
     this.cardEditing = [];

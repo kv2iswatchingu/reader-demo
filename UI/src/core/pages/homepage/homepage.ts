@@ -319,6 +319,7 @@ export class Homepage {
       this.config.cover = cover;
     }
     this.editingCover = false;
+    this.currentCover = '';
   }
   initAddConfig() {
     this.addConfig = true;

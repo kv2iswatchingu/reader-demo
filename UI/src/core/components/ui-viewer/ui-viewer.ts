@@ -2,10 +2,11 @@ import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@
 import { UiButton } from '../ui-button/ui-button';
 import { MatIcon } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 
 @Component({
   selector: 'ui-viewer',
-  imports: [UiButton,MatIcon, MatTooltipModule],
+  imports: [UiButton,MatIcon, MatTooltipModule,ScrollingModule],
   templateUrl: './ui-viewer.html',
   styleUrls: ['./ui-viewer.scss'],
 })

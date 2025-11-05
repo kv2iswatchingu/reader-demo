@@ -88,8 +88,10 @@
             <!--  [minBufferPx]="0" maxBufferPx -->
             <cdk-virtual-scroll-viewport 
                 itemSize="220"
-                (scrolledIndexChange)="scrolledIndexChange($event)"
+                minBufferPx="660"
+                maxBufferPx="1320"
                 class="reader-homepage-viewport"> 
+                <!-- (scrolledIndexChange)="scrolledIndexChange($event)" -->
                 <div 
                     #group
                     style="display: flex; height: 220px; gap: 8px"
@@ -124,6 +126,7 @@
                 <img 
                     class="info-cover"
                     [src]="imageViewerPath" 
+                    loading="lazy"
                 />
             }@else {
                 @if( !config || addConfig ) {
@@ -154,6 +157,7 @@
                                     [class.info-cover-edit]="editConfig"   
                                     [src]="configFilePath + '/' + config.cover" 
                                     (click)="selectCover()"
+                                    loading="lazy"
                                 />
                             }
                             @else if( editConfig){
@@ -175,6 +179,7 @@
                                     [class.info-cover-edit]="editConfig"   
                                     [src]="configFilePath + '/' + config.cover" 
                                     (click)="selectCover()"
+                                    loading="lazy"
                                 />
                             }
                         }
@@ -292,35 +297,10 @@
                         </div>
                     </div>
                 }
-                @if( editingCover ){
-                    <ui-dialog
-                        [title]="selectCoverLabel"
-                        (close)="editingCover = false"
-                        [dialogHeight]="'600px'"
-                        [dialogWidth]="'800px'"
-                        [noFooter]="true"
-                        >
-                        <div class="select-cover">
-                            @for(image of coverList;track image;let index = $index){
-                                <div>
-                                    <img 
-                                    class="select-cover-item"
-                                    [class.select-cover-item-active]="currentCover === image"
-                                    [src]="configFilePath + '/' + image" 
-                                    (click)="currentCover = image" 
-                                    (dblclick)="changeCover(image)"
-                                    />
-                                    <div class="select-cover-name">{{image}}</div>
-                                </div>
-                                
-                            }
-                        </div>
-                    </ui-dialog>
-                }
+                
             }
         </div>
     </div>
-
     @if ( showImgSingle ) {
         <ui-dialog
             [title]="imageViewerPath"
@@ -328,7 +308,7 @@
             [dialogHeight]="'720px'"
             [dialogWidth]="'1200px'"
             [noFooter]="true">
-                <img class="single-img" [src]="imageViewerPath" />
+                <img class="single-img" [src]="imageViewerPath" loading="lazy"/>
         </ui-dialog>
     }
     @if( readMode ){
@@ -398,5 +378,35 @@
             </div>
         </ui-dialog>
     }
-
+    @if( editingCover ){
+        <ui-dialog
+            [title]="selectCoverLabel"
+            (close)="editingCover = false;currentCover = ''"
+            [dialogHeight]="'600px'"
+            [dialogWidth]="'800px'"
+            [noFooter]="true">
+            <div class="select-cover">
+                <cdk-virtual-scroll-viewport 
+                    itemSize="30" 
+                    class="select-cover-viewport">
+                    <div 
+                        *cdkVirtualFor="let image of coverList;let i = index"
+                        class="select-cover-detail" 
+                        [class.select-cover-detail-active]="currentCover === image"
+                        (click)="currentCover = image" 
+                        (dblclick)="changeCover(image)">
+                        <mat-icon class="select-cover-icon">photo</mat-icon>
+                        <div class="select-cover-name">{{ image }}</div>
+                    </div>
+                </cdk-virtual-scroll-viewport>
+                @if( currentCover !== '' ){
+                    <img 
+                        loading="lazy"
+                        class="select-cover-img"
+                        [src]="configFilePath + '/' + currentCover"   
+                    />
+                }
+            </div>
+        </ui-dialog>
+    }
 </div>

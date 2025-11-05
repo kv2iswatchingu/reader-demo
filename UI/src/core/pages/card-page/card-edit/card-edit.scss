@@ -27,3 +27,13 @@
     flex-wrap: wrap;
     gap: 1em;
 }
+
+::ng-deep .cdk-virtual-scroll-content-wrapper{
+    display: flex;
+    flex-direction: row;
+}
+::ng-deep .cdk-virtual-scrollable {
+    overflow: visible;
+    will-change: auto;
+    contain: inline-size;
+}

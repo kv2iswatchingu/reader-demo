@@ -15,6 +15,7 @@
     (cardDbClick)="openFolder(file)"
     (contextmenu)="onRightClick($event, file)">
     <img 
+    
         *ngIf="isVisible(i)" 
         [src]="file.path" 
         alt="Image"
@@ -279,10 +280,7 @@ Windows 文件资源管理器在显示图片时，会直接读取图片文件的
     [defaultImage]="'assets/placeholder.png'" 
     [lazyLoad]="file.path" 
     alt="Image"
-    class="lazy-loaded-image" />.lazy-loaded-image {
-    max-width: 200px;
-    max-height: 200px;
-    object-fit: cover;
+    class="lazy-loaded-image" />
 }
 }径，但需要通过延迟加载、分页加载和懒加载等方式优化性能，避免一次性加载大量图片导致卡顿。
 */

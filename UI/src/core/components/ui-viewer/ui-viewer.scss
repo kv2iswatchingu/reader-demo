@@ -61,6 +61,7 @@
         }
     }
     &-filmstrip {
+        width: 100%;
         height: 80px;
         background-color: #333;
         display: flex;
@@ -71,6 +72,8 @@
         overflow: hidden;
         position: relative;
         &-inner{
+            width: 100%;
+            height: 100%;
             display: flex;
             overflow-x: auto;
             overflow-y: hidden;
@@ -83,6 +86,10 @@
             &::-webkit-scrollbar { 
                 display: none; 
             }
+        }
+        &-viewport{
+            width: 100%;
+            height: 100%;
         }
     } 
     &-thumbframe {
@@ -130,4 +137,14 @@
     &-icon{
         color: #DDD;
     }
+}
+
+::ng-deep .cdk-virtual-scroll-content-wrapper{
+    display: flex;
+    flex-direction: row;
+}
+::ng-deep .cdk-virtual-scrollable {
+    overflow: visible;
+    will-change: auto;
+    contain: inline-size;
 }

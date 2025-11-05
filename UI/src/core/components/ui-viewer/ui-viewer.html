@@ -25,6 +25,7 @@
                 [src]="dirPath + '/' + image"
                 [style.transform]="'scale(' + zoom + ') translate(' + (index === currentIndex ? offsetX : 0) + 'px,' + (index === currentIndex ? offsetY : 0) + 'px)'"
                 draggable="false"
+                loading="lazy"
             />
         </div> 
     }
@@ -98,20 +99,26 @@
         (mousemove)="onFilmstripMouseMove($event)"
         (mouseup)="onFilmstripMouseUp($event)"
         (mouseleave)="onFilmstripMouseUp($event)">
-        @for (image of viewerData; track image; let index = $index) {
-            <div class="ui-viewer-thumbframe">
-                <img 
-                    class="ui-viewer-thumb"
-                    [class.active]="index === currentIndex"
-                    [src]="dirPath + '/' + image"
-                    (click)="changeCurrent(index)"
-                    draggable="false"
-                />
-                <div class="ui-viewer-thumb-index">
-                    {{index + 1 }}
+        <cdk-virtual-scroll-viewport 
+            itemSize="60" 
+            class="ui-viewer-filmstrip-viewport"
+            orientation="horizontal">
+            <div *cdkVirtualFor="let image of viewerData;let i = index">
+                <div class="ui-viewer-thumbframe">
+                    <img 
+                        class="ui-viewer-thumb"
+                        [class.active]="i === currentIndex"
+                        [src]="dirPath + '/' + image"
+                        (click)="changeCurrent(i)"
+                        draggable="false"
+                        loading="lazy"
+                    />
+                    <div class="ui-viewer-thumb-index">
+                        {{ i + 1 }}
+                    </div>
                 </div>
             </div>
-        }
+        </cdk-virtual-scroll-viewport>
     </div>
 </div>
 <!--  some useful function -->
