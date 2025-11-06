@@ -6,8 +6,7 @@
     (mousemove)="onMouseMove($event)"
     (mouseenter)="showHiddens()"
     (mousemove)="showHiddens()"
-    (mouseleave)="hideArrowsAfterDelay()"
-    >
+    (mouseleave)="hideArrowsAfterDelay()">
     <ui-button 
         class="ui-viewer-arrow left" 
         modeType="icon"
@@ -92,18 +91,17 @@
     </div>
 </div>
 <div class="ui-viewer-filmstrip" [style.background-color]="darkmode ? '#333' : '#FFF'">
-    <div 
-        class="ui-viewer-filmstrip-inner"
-        #filmstripInner
-        (mousedown)="onFilmstripMouseDown($event)"
-        (mousemove)="onFilmstripMouseMove($event)"
-        (mouseup)="onFilmstripMouseUp($event)"
-        (mouseleave)="onFilmstripMouseUp($event)">
+    <div class="ui-viewer-filmstrip-inner">
+       
         <cdk-virtual-scroll-viewport 
+            #filmstripViewport
             itemSize="60" 
             class="ui-viewer-filmstrip-viewport"
+            (scrolledIndexChange)="scrolledIndexChange($event)"
             orientation="horizontal">
-            <div *cdkVirtualFor="let image of viewerData;let i = index">
+            <div 
+                *cdkVirtualFor="let image of viewerData;let i = index"
+                >
                 <div class="ui-viewer-thumbframe">
                     <img 
                         class="ui-viewer-thumb"
@@ -122,3 +120,9 @@
     </div>
 </div>
 <!--  some useful function -->
+<!--   
+    (mousedown)="onFilmstripMouseDown($event)"
+    (mousemove)="onFilmstripMouseMove($event)"
+    (mouseup)="onFilmstripMouseUp($event)"
+    (mouseleave)="onFilmstripMouseUp($event)"> 
+-->

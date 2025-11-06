@@ -15,8 +15,8 @@ export class UiViewer {
   @Input() viewerData:string[] = [];
   @Output() darkmodeChange = new EventEmitter<boolean>();
   @Output() fullscreenChange = new EventEmitter<boolean>();
-  @ViewChild('filmstripInner') filmstripInner!: ElementRef<HTMLDivElement>;
-  
+  //@ViewChild('filmstripInner') filmstripInner!: ElementRef<HTMLDivElement>;
+  @ViewChild('filmstripViewport', { static: false }) filmstripViewport!: any;
 
   currentIndex = 0;
   zoom = 1;
@@ -43,6 +43,7 @@ export class UiViewer {
       this.fullscreenflag = isFullscreen;
       this.fullscreenChange.emit(this.fullscreenflag);
     });
+    console.log(this.viewerData);
   }
   prev() {
     if (this.currentIndex > 0) this.currentIndex--;
@@ -51,6 +52,7 @@ export class UiViewer {
     this.offsetY = 0;
     this.lastOffsetX = 0;
     this.lastOffsetY = 0;
+    this.scrollFilmstripToCurrent();
   }
   next() {
     if (this.currentIndex < this.viewerData.length - 1) this.currentIndex++;
@@ -59,6 +61,7 @@ export class UiViewer {
     this.offsetY = 0;
     this.lastOffsetX = 0;
     this.lastOffsetY = 0;
+    this.scrollFilmstripToCurrent();
   }
   changeCurrent(index:number){
     this.currentIndex = index;
@@ -67,6 +70,7 @@ export class UiViewer {
     this.offsetY = 0;
     this.lastOffsetX = 0;
     this.lastOffsetY = 0;
+    this.scrollFilmstripToCurrent();
   }
   showHiddens() {
     this.toolsVisible = true;
@@ -200,12 +204,42 @@ export class UiViewer {
     }
   }
 
-  // 鼠标拖动滑动
+  
+
+  scrollFilmstripToCurrent() {
+  if (this.filmstripViewport) {
+    this.filmstripViewport.scrollToIndex(this.currentIndex, 'smooth');
+  }
+}
+  
+  onKeyDown = (event: KeyboardEvent) => {
+    if (!this.toolsVisible) return;
+    if (event.key === 'ArrowLeft') {
+      this.prev();
+      event.preventDefault();
+    } else if (event.key === 'ArrowRight') {
+      this.next();
+      event.preventDefault();
+    }
+  }
+
+   scrolledIndexChange(event:any){
+    console.log(event,123456789);
+  }
+}
+
+
+// 鼠标拖动滑动
+/**
   private filmDragStartX: number | null = null;
+  oh hell welcome to my party
   private filmDragStartScroll: number = 0;
+  do what u want
   private filmDragging = false;
+  show me your exhibition
 
   onFilmstripMouseDown(event: MouseEvent) {
+    krie
     this.filmDragStartX = event.clientX;
     this.filmDragStartScroll = this.filmstripInner.nativeElement.scrollLeft;
     this.filmDragging = true;
@@ -221,14 +255,4 @@ export class UiViewer {
     this.filmstripInner.nativeElement.style.cursor = 'grab';
     this.filmDragStartX = null;
   }
-  onKeyDown = (event: KeyboardEvent) => {
-    if (!this.toolsVisible) return;
-    if (event.key === 'ArrowLeft') {
-      this.prev();
-      event.preventDefault();
-    } else if (event.key === 'ArrowRight') {
-      this.next();
-      event.preventDefault();
-    }
-};
-}
+  */

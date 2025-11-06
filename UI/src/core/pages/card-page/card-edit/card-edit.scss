@@ -1,5 +1,6 @@
 .card-edit{
     width: 100%;
+    min-height: 100vh;
     height: 100%;
     &-title{
         display: flex;
@@ -7,33 +8,54 @@
     &-content{
         display: flex;
         flex-wrap: wrap;
+        height: 100%;
     }
     &-main{
-        width: 85%;
+        width: 88%;
+        height: 100%;
     }
     &-list{
-        width: 15%;
+        width: 12%;
+        height: 100%;
     }
 }
 
-.card-edit-all{
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1em;
-}
-
-.card-edit-editing{
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1em;
+.card-edit{
+    &-all{
+        width: 100%;
+        margin-top: 20px;
+        height: 240px;
+        &-inner{
+            display: flex;
+            gap: 1em;
+            margin-left: 20px;
+        }
+    }
+    &-buttom{
+        width: 100%;
+        display: flex;
+        height: calc(100% - 240px);
+    }
+    &-bin{
+        width: 140px;
+        height: 220px;
+        border: 1px solid #000;
+        margin-left: 20px;
+        
+    }
+    &-editing{
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1em;
+        height: 100%;
+        width: calc(100% - 160px);
+        padding: 0em 1em;
+    }
+    
 }
 
 ::ng-deep .cdk-virtual-scroll-content-wrapper{
     display: flex;
     flex-direction: row;
-}
-::ng-deep .cdk-virtual-scrollable {
-    overflow: visible;
-    will-change: auto;
-    contain: inline-size;
+    height: 100%;
 }

@@ -87,7 +87,8 @@ export class Homepage {
   pathsep: string = 'null';
   @ViewChild('group') groupRef: ElementRef | undefined;
 
-  ///////////console
+  ///////////console/
+ 
    getBreadCrumbList(){
     console.log(this.pathsep,1234567890);
     const parts = this.filePath
@@ -159,7 +160,7 @@ export class Homepage {
     }
   }
 
-
+  //
   groupedInLine(){
     let cols = 5;
     this.groups = [];
@@ -248,10 +249,8 @@ export class Homepage {
 
   // console!!!!
   go2Path(targetPath: string) {
-    if (targetPath !== this.filePath) {
-      this.filePath = targetPath;
-      this.init();
-    }
+    this.filePath = targetPath;
+    this.init();
   }
   openFolder(file: CardType) {
     this.imageViewerPath = '';
@@ -338,6 +337,7 @@ export class Homepage {
     this.config = null;
   }
   sortBy(value: string) {
+    //console.log(value);
     this.mainTest.sort(
       (a: { [x: string]: number }, b: { [x: string]: number }) => {
         if (a[value] > b[value]) {
@@ -349,6 +349,9 @@ export class Homepage {
         }
       }
     );
+    this.mainTest = [...this.mainTest];
+    this.groupedInLine();
+    this.cdr.detectChanges();
   }
   async deleteConfig() {
     this.deleteConfigDialog = false;
@@ -377,6 +380,7 @@ export class Homepage {
 
     if (result.success) {
       this.mainTest = result.result;
+      this.groupedInLine();
     } else {
       this.snackBar.open(result.message,'',{
         duration: 3000, 

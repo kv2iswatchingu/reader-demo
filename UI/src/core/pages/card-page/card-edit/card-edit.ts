@@ -3,10 +3,12 @@ import { FunCard, FunCardType } from '../../../components/fun-card/fun-card';
 import { UiButton } from '../../../components/ui-button/ui-button';
 import { MatIcon } from '@angular/material/icon';
 import  Sortable  from 'sortablejs';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 
 @Component({
   selector: 'app-card-edit',
-  imports: [FunCard,UiButton,MatIcon],
+  imports: [FunCard,UiButton,MatIcon,
+    ScrollingModule],
   templateUrl: './card-edit.html',
   styleUrl: './card-edit.scss'
 })
@@ -177,7 +179,9 @@ export class CardEdit {
   } 
    */
 
-
+scrolledIndexChange(event:any){
+    console.log(event,123456789);
+  }
 
 
 }

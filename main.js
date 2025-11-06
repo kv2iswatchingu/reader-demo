@@ -1,4 +1,4 @@
-const { app, BrowserWindow } = require('electron/main')
+const { app, BrowserWindow, Menu } = require('electron/main')
 const path = require('node:path')
 const { registerIpcHandlers } = require('./ipc-handler')
 
@@ -19,7 +19,7 @@ const createWindow = () => {
 registerIpcHandlers();
 
 app.whenReady().then(() => {
-  //Menu.setApplicationMenu(null);
+  Menu.setApplicationMenu(null);
   createWindow()
 
   app.on('activate', () => {

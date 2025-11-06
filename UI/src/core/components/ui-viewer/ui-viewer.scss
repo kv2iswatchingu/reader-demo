@@ -1,10 +1,11 @@
 .ui-viewer{
     position: relative;
     width: 100%;
-    height: calc(100% - 80px);
+    height: calc(100% - 96px);
     margin: auto;
     user-select: none;
     overflow: hidden;
+    margin-bottom: 16px;
     &-imageframe{
         transition: opacity 0.3s;
         position: absolute;
@@ -68,7 +69,6 @@
         align-items: center;
         justify-content: center;
         z-index: 5;
-        padding-top: 1em;
         overflow: hidden;
         position: relative;
         &-inner{
@@ -142,9 +142,5 @@
 ::ng-deep .cdk-virtual-scroll-content-wrapper{
     display: flex;
     flex-direction: row;
-}
-::ng-deep .cdk-virtual-scrollable {
-    overflow: visible;
-    will-change: auto;
-    contain: inline-size;
+    overflow-y: hidden;
 }

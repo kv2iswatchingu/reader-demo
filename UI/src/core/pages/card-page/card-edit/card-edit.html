@@ -18,30 +18,39 @@
     </div>
     <div class="card-edit-content">
         <div class="card-edit-main">
-            <div class="card-edit-all" #cardLib>
-
-                <!-- cdk -->
-                @for(card of cardLibaray;track card){
+            <cdk-virtual-scroll-viewport
+                class="card-edit-all"
+                itemSize="140"
+                (scrolledIndexChange)="scrolledIndexChange($event)"
+                orientation="horizontal">
+                <div #cardLib class="card-edit-all-inner">
                     <fun-card
+                        *cdkVirtualFor="let card of cardLibaray;let i = index"
                         [orignCardData]="card">
                     </fun-card>
-                }
-            </div>
-            @if( editCardList ){
+                </div>
+            </cdk-virtual-scroll-viewport>
+        
+          
+            <div class="card-edit-buttom">
+                 <div class="card-edit-bin" #cardBin>
+                        <mat-icon>delete</mat-icon>
+                </div>
                 <div 
                     class="card-edit-editing"
                     #cardEdit
                 >
-                    @for(card of cardEditing;track card){
+                    @for(card of cardLibaray;track card){
                         <fun-card
                             [orignCardData]="card">
                         </fun-card>
                     }
+                       
                 </div>
-                <div class="card-edit-bin" #cardBin>
-                    <mat-icon>delete</mat-icon>
-                </div>
-            }
+            </div>
+            
+               
+            
         </div>
         <!-- drag & drop -->
         <div class="card-edit-list">
