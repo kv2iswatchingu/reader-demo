@@ -121,6 +121,9 @@ export class Homepage {
   constructor(private cdr: ChangeDetectorRef,private snackBar: MatSnackBar) {}
 
   ngOnInit() {
+    const a =Math.cos(80)*Math.cos(35)+ Math.cos(10)*Math.cos(55)
+    console.log(a,Math.cos(45));
+
     this.imageViewerPath = '';
     this.rootPath = localStorage.getItem('rootPath') || '';
     this.filePath = this.rootPath;

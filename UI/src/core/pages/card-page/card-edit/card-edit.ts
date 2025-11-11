@@ -58,29 +58,32 @@ export class CardEdit {
   ngAfterViewInit() {
     if(this.cardLibRef){
       this.sortableLib = Sortable.create(this.cardLibRef.nativeElement, {
-        group: 'card',
+        group: {
+          name:'card',
+          pull: 'clone',
+          put: false
+        },
         animation: 150,
-        ghostClass: "sortable-ghost",
-        chosenClass: "sortable-chosen",
-        dragClass: "sortable-drag",
       });
     }
     if(this.cardBinRef){
       this.sortbaleBin = Sortable.create(this.cardBinRef.nativeElement, {
-        group: 'card',
+        group: {
+          name:'card',
+          pull:false,
+        },
+        onAdd: (event) => {
+          event.to.removeChild(event.item);
+        },
         animation: 150,
-        ghostClass: "sortable-ghost",
-        chosenClass: "sortable-chosen",
-        dragClass: "sortable-drag",
       });
     }
     if(this.cardEditRef){
       this.sortableEdit = Sortable.create(this.cardEditRef.nativeElement, {
-        group: 'card',
+        group: {
+          name:'card'
+        },
         animation: 150,
-        ghostClass: "sortable-ghost",
-        chosenClass: "sortable-chosen",
-        dragClass: "sortable-drag",
       });
     }
   }                                             
