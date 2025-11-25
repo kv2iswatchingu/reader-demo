@@ -25,7 +25,7 @@ export class FunCard {;
 
 
 export interface FunCardType {
-  name:string,
+  name:string,//唯一
   orginCost:number,
   description:string,
   effect?:string[],

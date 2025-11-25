@@ -37,6 +37,7 @@ export class Testpage {
   cardDesk: PokerCardType[] = [];
 
   score: number = 0;
+  message = 'RESTART';
   cpuScore: number = 0;
   over: boolean = false;
 
@@ -247,29 +248,32 @@ export class Testpage {
   }
 
   checkEmpty() {
+    if(this.over == true) return;
     if (this.cardStack.length === 0) {
       if (this.cardInHand.length > this.cardOpposite.length) {
         this.cpuScore += 1;
+        this.message = 'RESTART';
         this.over = true;
       } else {
         this.score += 1;
+        this.message = 'YOU WIN';
         this.over = true;
       }
-    }
-    if (this.cardInHand.length === 0) {
+    }else if (this.cardInHand.length === 0) {
       this.score += 1;
+      this.message = 'YOU WIN';
       this.over = true;
-    }
-    if (this.cardOpposite.length === 0) {
+    }else if (this.cardOpposite.length === 0) {
       this.cpuScore += 1;
+      this.message = 'RESTART';
       this.over = true;
-    }
-    if (this.cardInHand.length === 11) {
+    }else if (this.cardInHand.length === 11) {
       this.cpuScore += 1;
+      this.message = 'RESTART';
       this.over = true;
-    }
-    if (this.cardOpposite.length === 11) {
+    }else if (this.cardOpposite.length === 11) {
       this.score += 1;
+      this.message = 'YOU WIN';
       this.over = true;
     }
   }

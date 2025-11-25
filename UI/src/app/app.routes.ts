@@ -7,6 +7,7 @@ import { CyberFishing } from '../core/pages/cyber-fishing/cyber-fishing';
 import { ArrayThree } from '../core/pages/array-three/array-three';
 import { CardPage } from '../core/pages/card-page/card-page';
 import { CardEdit } from '../core/pages/card-page/card-edit/card-edit';
+import { CardBattle } from '../core/pages/card-page/card-battle/card-battle';
 
 export const routes: Routes = [
   { 
@@ -22,6 +23,10 @@ export const routes: Routes = [
   },{
     path: 'array-three', component: ArrayThree
   },{
-    path: 'card-page', component: CardEdit
+    path: 'card-page', component: CardPage
+  },{
+    path: 'card-battle', component: CardBattle
+  },{
+    path: 'card-edit', component: CardEdit
   }
 ];

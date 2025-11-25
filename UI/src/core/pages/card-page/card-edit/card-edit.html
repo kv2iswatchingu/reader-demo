@@ -32,37 +32,54 @@
                 </div>
             </cdk-virtual-scroll-viewport>
         
-          
+            
             <div class="card-edit-buttom">
-                 <div class="card-edit-bin" #cardBin>
+                <div>
+                    <div class="card-edit-bin" #cardBin>
                         <mat-icon>delete</mat-icon>
+                    </div>
+                    <ui-button class="card-edit-done" (btnClick)="saveJson()" [disabled]="!editing">
+                        <mat-icon (click)="saveJson()">done-outline</mat-icon>
+                    </ui-button>
                 </div>
+                
                 <div 
                     class="card-edit-editing"
                     #cardEdit
                 >
-                    @for(card of cardLibaray;track card){
+                    @for(card of cardEditing;track card){
                         <fun-card
                             [orignCardData]="card">
                         </fun-card>
                     }
-                       
+                    
                 </div>
-            </div>
+                
+            </div> 
             
-               
             
         </div>
         <!-- drag & drop -->
         <div class="card-edit-list">
             @for( cardgroup of cardList;track cardgroup){
                 <div class="card-edit-group">
-                    {{ cardgroup.name }}
+                    <ui-button  (click)="selectEditing(cardgroup)" [disabled]="editing">
+                        {{ cardgroup.name }}
+                    </ui-button>
+                    <ui-button modeType="icon" class="card-edit-group-delete" (btnClick)="deleteGroup(cardgroup)" [disabled]="editing">
+                        <mat-icon>delete</mat-icon>
+                    </ui-button>
                 </div>
+                
             }
-            <div class="card-edit-new">
-                +
-            </div>
+            @if(!editing){
+                <ui-button class="card-edit-new" (btnClick)="editing = true" [disabled]="editing">
+                    <mat-icon>+</mat-icon>
+                </ui-button>
+            }@else{
+                <ui-input class="card-edit-input" [(value)]="inputName"></ui-input>
+            }
+            
         </div>
     </div>
     
