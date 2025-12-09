@@ -1,81 +1,69 @@
-<div class="test">
-    <div class="test-main" cdkDropListGroup>
+<div class="rolya">
+    <div class="rolya-main">
 
-      <div class="test-main-opposite" >
-        <div class="test-main-opposite-info">
+      <div class="rolya-main-opposite" >
+        <div class="rolya-main-opposite-info">
           <div>
             cpu: {{ cpuScore }}
+            total: {{ cpuToalBound }}
+            in: {{ cpuInBound }}
+            current: {{ cpuCurrentBound}}
           </div>
           <div>
             number: {{ cardOpposite.length }}
           </div>
         </div>
         @for (item of cardOpposite;let i = $index ;track item) {
-          <poker-card  
-            [style.transform]="'rotate(' + ((cardInHand.length / 2 - i) * 5) + 'deg)'"
-            [style.transform-origin]="'60px 0px'"
-            class="test-main-content-hand"
-            [backshow]="true"
-            [cardData]="item">
-          </poker-card>
+          @if( i == 0){
+            <poker-card  
+              class="rolya-main-content-hand"
+              [backshow]="true"
+              [cardData]="item">
+            </poker-card>
+          }
+          @else{
+            <poker-card  
+              class="rolya-main-content-hand"
+              [cardData]="item">
+            </poker-card>
+          }ol
+          
         }
       </div>
-
-      <!-- <div 
-        class="test-main-content"
-        cdkDropList
-        [cdkDropListData]="cardDesk"
-        cdkDropListOrientation="horizontal"
-        cdkDropListSortingDisabled
-        (cdkDropListDropped)="drop($event)">
-        @for (item of cardDesk; track item;let i = $index;) {
-          <poker-card
-            class="test-main-content-item"
-            cdkDrag
-            [cdkDragDisabled]="true"
-            [cardData]="item"
-            [notFull]="i !== 0 && i !== cardDesk.length - 1 ? true : false"
-            >
-          </poker-card>
-        }
-        @if( over ){
-          <ui-button 
-            modeType="text"
-            class="test-main-content-restart"
-            (btnClick)="restart()">
-            {{ message }}
-          </ui-button>
-        }
-        
-      </div> -->
-
-      <div class="test-main-self">
-        <div class="test-main-self-info">
-          <div class="test-main-self-score">
+      <div class="rolya-main-self">
+        <div class="rolya-main-self-info">
+          <div class="rolya-main-self-score">
             u: {{ score }}
+            total: {{ playerToalBound }}
+            in: {{ playerInBound }}
+            current: {{ playerCurrentBound}}
           </div>
-          <!-- <button 
-            class="test-main-self-btn" 
-            [disabled]="cardInHand.length > 10"
-            (click)="netxMethod()">
-            <mat-icon >add</mat-icon>
-          </button> -->
+          <div class="rolya-main-self-btn">
+            <div>
+              <ui-input type="number" [numberStep]="1000" [(value)]="inputNumber">
+              </ui-input>
+            </div>
+            <div>
+              <ui-button 
+                modeType="text"
+                [disabled]="inputNumber < cpuCurrentBound"
+                class="rolya-main-content-restart"
+                (btnClick)="doBounds(inputNumber)">
+                {{ message }}
+              </ui-button>
+            </div>
+          </div>
+          
           
         </div>
-        <div 
-          class="test-main-self-hand" 
-          cdkDropList
-          cdkDropListOrientation="horizontal"
-          [cdkDropListData]="cardInHand">
+        <div class="rolya-main-self-hand" >
           
           @for (item of cardInHand;let i = $index ;track item) {
             <poker-card  
-              [style.transform]="'rotate(' + ((i - cardInHand.length / 2) * 5) + 'deg)'"
-              [style.transform-origin]="'60px 180px'"
-              class="test-main-content-hand"
-              cdkDrag
+              class="rolya-main-content-hand"
               [allowHover]="true"
               [cardData]="item">
+              
             </poker-card>
           }
         </div>

@@ -39,8 +39,17 @@ export class App {
     this.router.navigate(['card-page']);
   }
 
+  go2RolyaPage(){
+    this.router.navigate(['rolya-page']);
+  }
+
+  go2Tetoris(){
+    this.router.navigate(['tetoris-page']);
+  }
+
   ngOnDestroy() {
     // @ts-ignore
     window.electronAPI?.setFullscreen?.(false);
   }
 }
+

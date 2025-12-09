@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 
-
 @Component({
   selector: 'ui-input',
   imports: [CommonModule],
@@ -19,14 +18,14 @@ export class UiInput {
   @Input() options: { label: string, value: any }[] = [];
   @Input() disabled: boolean = false;
   @Input() readOnly: boolean = false;
+  @Input() numberStep: number = 1;
 
   showDropdown = false;
 
-
   onInput(val: any) {
-   this.value = val.target ? val.target.value : val;
-  this.valueChange.emit(this.value);
-  this.showDropdown = Array.isArray(this.options) && this.options.length > 0;
+    this.value = val.target ? val.target.value : val;
+    this.valueChange.emit(this.value);
+    this.showDropdown = Array.isArray(this.options) && this.options.length > 0;
   }
 
   onFocus() {

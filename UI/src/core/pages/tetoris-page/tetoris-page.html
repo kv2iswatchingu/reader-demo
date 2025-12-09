@@ -1,0 +1,70 @@
+<div class="tetoris-page">
+    <div class="tetoris-page-main">
+        @for( rows of tetoris; track rows;let i = $index;) {
+            @if(i > 1){
+                @for ( cell of rows; track $index;let j = $index) {
+                    <div 
+                        class="tetoris-page-main-item"
+                        [style.background-color]="cell.color"
+                        >
+                    </div>
+                }
+            }
+        }
+    </div>
+    <div class="tetoris-page-borad">
+        <div class="tetoris-page-borad-pred">
+
+        </div>
+        <div>
+            <ui-button (btnClick)="start()"></ui-button>
+        </div>
+        <div class="tetoris-page-borad-score">
+            <div>
+                <digital-number 
+                    [number]="timer_minute" 
+                    id="minute"
+                    [limitedigit]="2"
+                    digitalcolor="#FF0000">
+                </digital-number>
+                :
+                <digital-number 
+                    [number]="timer_second" 
+                    id="second" 
+                    [limitedigit]="2" 
+                    digitalcolor="#FF0000">
+                </digital-number>
+            </div>
+            <div>
+                {{score}}
+            </div>
+        </div>
+    </div>
+    <div class="tetoris-page-rank">
+        
+    </div>
+</div>
+
+<!--
+ /**123/456/789/ABC/DEF/
+*    08 09 10 11          10
+*                         09
+*       09 10             08
+*       09 10      10     11
+*                  09               08
+*   08 09 10       08 08      11 11 08    08 08                  
+*   08                                       11
+*                  09                        11
+*   08 09 10       09    11           10 11
+*         11    11 10    10 09 09     09
+*                                     09
+*      09 10             09
+*         10 11          10 10
+*                           11  
+*      09 10        10
+*   11 10           09 10
+*                      11
+*      10       90       09 10 11     90
+*   09 10 11    10 11       10     11 10  
+*               10                    11
+*/ -->

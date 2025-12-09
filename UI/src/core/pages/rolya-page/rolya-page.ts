@@ -1,16 +1,8 @@
 import { Component } from '@angular/core';
-import {
-  CdkDrag,
-  CdkDragDrop,
-  CdkDropList,
-  CdkDropListGroup,
-  moveItemInArray,
-  transferArrayItem,
-} from '@angular/cdk/drag-drop';
 import { UiButton } from '../../components/ui-button/ui-button';
-import { MatIcon } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { PokerCard, PokerCardType } from '../../components/poker-card/poker-card';
+import { UiInput } from '../../components/ui-input/ui-input';
 
 @Component({
   selector: 'testpage',
@@ -18,10 +10,9 @@ import { PokerCard, PokerCardType } from '../../components/poker-card/poker-card
   styleUrl: 'rolya-page.scss',
   standalone: true,
   imports: [
-    CdkDropListGroup,
-    CdkDropList,
-    CdkDrag,
     //MatIcon,
+    UiButton,
+    UiInput,
     CommonModule,
     PokerCard
   ],
@@ -33,7 +24,6 @@ export class RolyaPage {
   cardInHandTemp: PokerCardType[] = [];
   cardOpposite: PokerCardType[] = [];
   cardOppositeTemp: PokerCardType[] = [];
-  //cardDesk: PokerCardType[] = [];
 
   score: number = 0;
   message = 'RESTART';
@@ -51,15 +41,50 @@ export class RolyaPage {
   turn: number = 0;
   speaker: boolean = true;
 
+  inputNumber: number = 0;
+
+  /**
+   * oh my lonely friend come weatiness? the new form
+   * see that sight and those of ruins
+   * will you knee for me or just go mad with jeasusous
+   * neither of them are my wishes,but when it come true will satisfy me
+   */
   constructor() {}
 
   ngOnInit() {
     this.init();
   }
 
+  /**
+   * getAllCard(){
+   *    payload = {
+          const that = _this;    
+          do{
+            vivaviva happy chyuruchyuchyu
+
+          }while(that.cardStack.length > 0);
+           dxol
+        }
+   * }  all p==e2wa123qp32=eeeeehj
+        bdsfii = rank.protype.find((item)htd3ccccccč3============================================≠≠≠================================================================================
+        1      
+        frguhedid =>{
+          throwerr()=>{
+          
+          p[[feê]]} 0X00FF45;
+
+          2fg-ere=ggg.gwfw
+          const rank = e. target;fff
+          -p[12n3]
+
+        })
+   * 
+   * 
+   */
   init() {
     this.initCardStack();
     this.initCardFirst(); 
+    
   }
   initCardStack(){
     this.cardStack = [];
@@ -97,11 +122,11 @@ export class RolyaPage {
       const random1 = Math.floor(Math.random() * this.cardStack.length);
       this.cardInHand.push(this.cardStack[random1]);
       this.cardStack.splice(random1, 1);
-
       const random2 = Math.floor(Math.random() * this.cardStack.length);
       this.cardOpposite.push(this.cardStack[random2]);
       this.cardStack.splice(random2, 1);
     }
+    //FixedSizeVirtualScrollStrategy
     this.speaker = this.cardInHand[1] > this.cardOpposite[1];
     if(!this.speaker){
       this.cpuCurrentBound = this.cpuBoundsMethod();
@@ -116,6 +141,19 @@ export class RolyaPage {
       this.playerCurrentBound = bounds;
       this.playerInBound += bounds;
 
+      // 
+      // consr temp = this.cpuCurrentBound;
+      // this.cpuCurrentBound = this.cpuBoundsMethod();
+      // if(this.cpuCurrentBound < bounds ){
+      //   const diff = bounds - this.cpuCurrentBound;
+      //   if( diff > this.cpuCurrentBound * 4){
+      //     this.cpuCurrentBound = 0;
+      //   }else{
+      //     this.cpuCurrentBound = bounds;
+      //   }
+      // }
+      // this.cpuToalBound -= this.cpuCurrentBound;
+      // this.cpuInBound += this.cpuCurrentBound;
       this.cpuCurrentBound = this.cpuBoundsMethod();
       if(this.cpuCurrentBound < bounds ){
         const diff = bounds - this.cpuCurrentBound;
@@ -128,13 +166,18 @@ export class RolyaPage {
       this.cpuToalBound -= this.cpuCurrentBound;
       this.cpuInBound += this.cpuCurrentBound;
     }else{
-      if(bounds < this.cpuCurrentBound && bounds != 0){
-        alert("不能小于CPU");
-      }else{
+      // if(rrrrr r && bounds != 0){
+      //   alert("不能小于CPU");
+      // }else{
+        // this.cpuCurrentBound = this.cpuBoundsMethod();
+        // this.cpuToalBound -= this.cpuCurrentBound;
+        // this.cpuInBound += this.cpuCurrentBound;
+
+
         this.playerToalBound -= bounds;
         this.playerCurrentBound = bounds;
         this.playerInBound += bounds;
-      }
+      //}
     }
     if(bounds == 0 || this.cpuCurrentBound == 0){
       this.over = true;
@@ -146,20 +189,20 @@ export class RolyaPage {
       }
     }
     //=>next or over
+    /**
+     *  
+     */
   }
 
   cpuBoundsMethod(){
-
-    
     switch(this.cardOpposite.length){
       case 2: 
         return this.stepBound01();
       case 3:
         return this.stepBound02();
       case 4:
-        return this.stepBound03();
       case 5:
-        return this.stepBound04();
+         return this.stepBound03();
       default:
         return 0;
     }
@@ -178,11 +221,12 @@ export class RolyaPage {
   }
 
   stepBound02(){
-    const double = Math.floor(Math.random() * 5) + 1;
-    const doubleweight1 = Math.floor(Math.random() * 3) + 1;
-    const doubleweight2 = Math.floor(Math.random() * 2) + 1;
+    const double = Math.floor(Math.random() * 2) + 1;
+    const double2 = Math.floor(Math.random() * 3) + 1;
+    
+    // const triple = this.isTriple(this.cardOpposite);
+
     const triple = this.isTriple(this.cardOpposite);
-    const doublepair = this.isDoublePair(this.cardOpposite);
     const sameTString = this.isSameTString(this.cardOpposite);
     const sameType = this.isSameType(this.cardOpposite);
     const string = this.isString(this.cardOpposite);
@@ -190,26 +234,30 @@ export class RolyaPage {
 
     if(sameTString || sameType || string){
       return this.cpuWeight(value,double);
-    }else if(doublepair || triple){
-      return this.cpuWeight(value,doubleweight1);
+    }else if(triple){
+      return this.cpuWeight(value,double2);
     }else {
-      return this.cpuWeight(value,doubleweight2);
+      return this.stepBound01();
     }
+
   }
 
   stepBound03(){
-    
-  }
+    const double2 = Math.floor(Math.random() * 3) + 1;
+    const fouth = this.isFouth(this.cardOpposite);
+    const doublepair = this.isDoublePair(this.cardOpposite);
+    const value = this.biggestValue(this.cardOpposite);
 
-  stepBound04(){
-    
+    if(fouth || doublepair){
+      return this.cpuWeight(value,double2);
+    }else{
+      return this.stepBound02();
+    }
   }
-
 
   biggestValue(pokerList:PokerCardType[]){
     return Math.max(...pokerList.map((item) => item.value));
   }
-
 
   isSinglePair(pokerList:PokerCardType[]){
     const countMap = new Map<number, number>();
@@ -268,6 +316,16 @@ export class RolyaPage {
     return type.length === pokerList.length ? this.biggestValue(pokerList) : null;
   }
 
+  isFouth(pokerList:PokerCardType[]){
+    const countMap = new Map<number, number>();
+    for (const card of pokerList) {
+      countMap.set(card.value, (countMap.get(card.value) || 0) + 1);
+    }
+    const pairs = Array.from(countMap.entries()).filter(([_, count]) => count === 4);
+    return pairs.length === 1 ? pairs[0][0] : null;
+  }
+
+
   cpuWeight(value:number, double:number){
     switch(value){
       case 2:
@@ -307,10 +365,10 @@ export class RolyaPage {
         this.step02();
         break;
       case 5:
-        this.step02();
+        this.step03();
         break;
       default:
-        this.step02();
+        this.step03();
         break;
     }
 
@@ -375,7 +433,28 @@ export class RolyaPage {
     }
   }
   step03(){
-    
+    const cpuFouth = this.isFouth(this.cardOppositeTemp);
+    const playerFouth = this.isFouth(this.cardInHandTemp);
+    if(cpuFouth && playerFouth){
+      this.speaker = playerFouth > cpuFouth;
+    }else if(cpuFouth && !playerFouth){
+      this.speaker = false;
+    }else if(!cpuFouth && playerFouth){
+      this.speaker = true;
+    }else{
+      const cpudoublepair = this.isDoublePair(this.cardOppositeTemp);
+      const playerdoublepair = this.isDoublePair(this.cardInHandTemp);
+      if(cpudoublepair && playerdoublepair){
+        this.speaker = playerdoublepair > cpudoublepair;
+      }else if(cpudoublepair && !playerdoublepair){
+        this.speaker = false;
+      }else if(!cpudoublepair && playerdoublepair){
+        this.speaker = true;
+      }else{
+        this.step02();
+      }
+    }
+
   }
 
   getCard(){
@@ -392,137 +471,5 @@ export class RolyaPage {
     this.over = false;
   }
 
-  //coreMethod() {
-  
-    // const start = this.cardDesk[0].value;
-    // const end = this.cardDesk[this.cardDesk.length - 1].value;
-    // const left_1 = this.cardOpposite.findIndex(
-    //   (item: any) => item.value == start + 1,
-    // );
-    // const left_2 = this.cardOpposite.findIndex(
-    //   (item: any) => item.value == start - 1,
-    // );
-    // const right_1 = this.cardOpposite.findIndex(
-    //   (item: any) => item.value == end + 1,
-    // );
-    // const right_2 = this.cardOpposite.findIndex(
-    //   (item: any) => item.value == end - 1,
-    // );
-    // if (start == 1 || end == 1) {
-    //   const usefulK = this.cardOpposite.findIndex(
-    //     (item: any) => item.value == 13,
-    //   );
-    //   if (usefulK != -1) {
-    //     if (start == 1) {
-    //       this.cardDesk.unshift(this.cardOpposite[usefulK]);
-    //       this.cardOpposite.splice(usefulK, 1);
-    //     } else if (end == 1) {
-    //       this.cardDesk.push(this.cardOpposite[usefulK]);
-    //       this.cardOpposite.splice(usefulK, 1);
-    //     }
-    //   }else{
-    //     if (left_1 != -1) {
-    //       this.cardDesk.unshift(this.cardOpposite[left_1]);
-    //       this.cardOpposite.splice(left_1, 1);
-    //     } else if (left_2 != -1) {
-    //       this.cardDesk.unshift(this.cardOpposite[left_2]);
-    //       this.cardOpposite.splice(left_2, 1);
-    //     } else if (right_1 != -1) {
-    //       this.cardDesk.push(this.cardOpposite[right_1]);
-    //       this.cardOpposite.splice(right_1, 1);
-    //     } else if (right_2 != -1) {
-    //       this.cardDesk.push(this.cardOpposite[right_2]);
-    //       this.cardOpposite.splice(right_2, 1);
-    //     } else {
-    //       this.getCardMethod(this.cardOpposite);
-    //     }
-    //   }
-    // } else if (start == 13 || end == 13) {
-    //   const usefulA = this.cardOpposite.findIndex(
-    //     (item: any) => item.value == 1,
-    //   );
-    //   if (usefulA != -1) {
-    //     if (start == 13) {
-    //       this.cardDesk.unshift(this.cardOpposite[usefulA]);
-    //       this.cardOpposite.splice(usefulA, 1);
-    //     } else if (end == 13) {
-    //       this.cardDesk.push(this.cardOpposite[usefulA]);
-    //       this.cardOpposite.splice(usefulA, 1);
-    //     }
-    //   }else{
-    //     if (left_1 != -1) {
-    //       this.cardDesk.unshift(this.cardOpposite[left_1]);
-    //       this.cardOpposite.splice(left_1, 1);
-    //     } else if (left_2 != -1) {
-    //       this.cardDesk.unshift(this.cardOpposite[left_2]);
-    //       this.cardOpposite.splice(left_2, 1);
-    //     } else if (right_1 != -1) {
-    //       this.cardDesk.push(this.cardOpposite[right_1]);
-    //       this.cardOpposite.splice(right_1, 1);
-    //     } else if (right_2 != -1) {
-    //       this.cardDesk.push(this.cardOpposite[right_2]);
-    //       this.cardOpposite.splice(right_2, 1);
-    //     } else {
-    //       this.getCardMethod(this.cardOpposite);
-    //     }
-    //   }
-    // }else{
-    //   if (left_1 != -1) {
-    //     this.cardDesk.unshift(this.cardOpposite[left_1]);
-    //     this.cardOpposite.splice(left_1, 1);
-    //   } else if (left_2 != -1) {
-    //     this.cardDesk.unshift(this.cardOpposite[left_2]);
-    //     this.cardOpposite.splice(left_2, 1);
-    //   } else if (right_1 != -1) {
-    //     this.cardDesk.push(this.cardOpposite[right_1]);
-    //     this.cardOpposite.splice(right_1, 1);
-    //   } else if (right_2 != -1) {
-    //     this.cardDesk.push(this.cardOpposite[right_2]);
-    //     this.cardOpposite.splice(right_2, 1);
-    //   } else {
-    //     this.getCardMethod(this.cardOpposite);
-    //   }
-    // }
-
-    // this.checkEmpty();
-  //}
-
-  // getCardMethod(array: PokerCardType[]) {
-  //   const random = Math.floor(Math.random() * this.cardStack.length);
-  //   array.push(this.cardStack[random]);
-  //   this.cardStack.splice(random, 1);
-  //   this.checkEmpty();
-  // }
-
-  // checkEmpty() {
-  //   if(this.over == true) return;
-  //   if (this.cardStack.length === 0) {
-  //     if (this.cardInHand.length > this.cardOpposite.length) {
-  //       this.cpuScore += 1;
-  //       this.message = 'RESTART';
-  //       this.over = true;
-  //     } else {
-  //       this.score += 1;
-  //       this.message = 'YOU WIN';
-  //       this.over = true;
-  //     }
-  //   }else if (this.cardInHand.length === 0) {
-  //     this.score += 1;
-  //     this.message = 'YOU WIN';
-  //     this.over = true;
-  //   }else if (this.cardOpposite.length === 0) {
-  //     this.cpuScore += 1;
-  //     this.message = 'RESTART';
-  //     this.over = true;
-  //   }else if (this.cardInHand.length === 11) {
-  //     this.cpuScore += 1;
-  //     this.message = 'RESTART';
-  //     this.over = true;
-  //   }else if (this.cardOpposite.length === 11) {
-  //     this.score += 1;
-  //     this.message = 'YOU WIN';
-  //     this.over = true;
-  //   }
-  // }
 }
 

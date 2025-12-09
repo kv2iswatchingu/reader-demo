@@ -1,5 +1,5 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
-import { FunCard, FunCardType } from '../../../components/fun-card/fun-card';
+import { CardClass, FunCard, FunCardType } from '../../../components/fun-card/fun-card';
 import { UiButton } from '../../../components/ui-button/ui-button';
 import { MatIcon } from '@angular/material/icon';
 import  Sortable  from 'sortablejs';
@@ -89,9 +89,9 @@ export class CardEdit {
           
           const cardIndex = event.oldIndex;
           const card = this.cardLibaray[cardIndex!];
-          const count = this.cardEditing.filter((c) => (c.name === card.name && c.type !== 'hero')).length;
-          const heroCountAll = this.cardEditing.filter((c) => c.type === 'hero').length;
-          const heroCountSingle = this.cardEditing.filter((c) => (c.type === 'hero' && c.name === card.name)).length;
+          const count = this.cardEditing.filter((c) => (c.name === card.name && c.class !== CardClass.Hero )).length;
+          const heroCountAll = this.cardEditing.filter((c) => c.class !== CardClass.Hero ).length;
+          const heroCountSingle = this.cardEditing.filter((c) => ( c.class !== CardClass.Hero && c.name === card.name)).length;
           //console.log(cardIndex,card,count,17158);
           event.to.removeChild(event.item);
           if(count >= 3){

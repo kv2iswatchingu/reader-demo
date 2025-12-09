@@ -28,11 +28,44 @@ export interface FunCardType {
   name:string,//唯一
   orginCost:number,
   description:string,
-  effect?:string[],
+  effect?:Effect[],
   imageList?:FunCardImage,
-  type?:string,
+  class?:CardClass,
+  tag?:CardTag[],
   originAtk:number,
   originDef:number
+}
+
+export enum CardClass  {
+  Area = "Area",
+  Magic = "Magic",
+  Servent = "Servent",
+  Hero = "Hero",
+}
+
+export enum CardTag {
+  
+}
+
+export interface Effect {
+  effectTime:EffectTime,
+  effectType:EffectType,
+  firstValue:number,
+  secondValue?:number,
+  thirdValue?:number,
+  doTimes?:number
+}
+
+export enum EffectTime {
+  Enter = "Enter",
+  Leave = "Leave",
+  Begin = "Begin",
+  End = "End",
+  All = "All",
+}
+
+export enum EffectType {
+  
 }
 
 export interface FunCardImage {

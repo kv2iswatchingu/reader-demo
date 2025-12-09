@@ -8,6 +8,8 @@ import { ArrayThree } from '../core/pages/array-three/array-three';
 import { CardPage } from '../core/pages/card-page/card-page';
 import { CardEdit } from '../core/pages/card-page/card-edit/card-edit';
 import { CardBattle } from '../core/pages/card-page/card-battle/card-battle';
+import { RolyaPage } from '../core/pages/rolya-page/rolya-page';
+import { TetorisPage } from '../core/pages/tetoris-page/tetoris-page';
 
 export const routes: Routes = [
   { 
@@ -28,5 +30,9 @@ export const routes: Routes = [
     path: 'card-battle', component: CardBattle
   },{
     path: 'card-edit', component: CardEdit
+  },{
+    path: 'rolya-page', component: RolyaPage
+  },{
+    path: 'tetoris-page', component: TetorisPage
   }
 ];

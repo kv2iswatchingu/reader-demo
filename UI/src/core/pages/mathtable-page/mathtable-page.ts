@@ -15,32 +15,38 @@ import { DigitalNumber } from '../../components/digital-number/digital-number';
   imports: [UiButton,MatIcon,DigitalNumber],
 })
 export class MathTablePage {
+
   questionArray = Array.from({ length: 9 }, () => Array(9).fill(0));
   answerArray = Array.from({ length: 9 }, () => Array(9).fill(0));
   showArray = Array.from({ length: 9 }, () => Array(9).fill(0));
+
   sortbaleArray: Sortable[] = [];
   numberstoreSortable: Sortable | null = null;
   rubbishSortable: Sortable | null = null;
   initFlag: boolean = false;
   hintFlag: number = 0;
   score: string = 'none';
+  
   rank: {
     date: string,
     difficulty: number,
     score: string
   }[] = [];
+
   timer: number = 0;
   timer_minute: number = 0;
   timer_second: number = 0;
   timerInterval:any;
-  difficulty: number  = 0;
+  difficulty: number = 0;
   oldmarki: number = 0;
   oldmarkj: number = 0;
+
   ngOnInit() {
     if(localStorage.getItem('mathhidoriScore')){
       this.rank = JSON.parse(localStorage.getItem('mathhidoriScore')!);
     }
   }
+
   init(){
     this.initFlag = true;
     const initArray = Array.from({ length: 9 }, () => Array(9).fill(0));
@@ -49,6 +55,7 @@ export class MathTablePage {
     this.showArray = this.hideNumbers(initArray);
     this.questionArray = this.showArray.map((item) => [...item]);
   }
+
   domInit(){
     let noMathcell: number[] = []
     for (let i = 0; i < this.questionArray.length; i++) {
@@ -114,6 +121,7 @@ export class MathTablePage {
       chosenClass: 'mathtable-chosen-class',
     })
   }
+  
   fill(array: number[][]) {
     let isEmpty = false;
     let i, j = 0;
@@ -142,6 +150,7 @@ export class MathTablePage {
     }
     return false; 
   }
+
   checkOut(array: number[][], row: number, col: number, number: number) {
     // 检查行
     for (let n = 0; n < 9; n++) {
@@ -168,6 +177,7 @@ export class MathTablePage {
 
     return true;
   };
+
   hideNumbers(array: number[][]){
     let puzzle = array.map((row) => [...row]);
     let cells = [];
@@ -194,6 +204,7 @@ export class MathTablePage {
     this.difficulty = 81 - removed;
     return puzzle;
   };
+
   solutionToOne(fullarray: number[][]) {
     let count = 0;
     const solve = (array: number[][]) => {
@@ -218,6 +229,7 @@ export class MathTablePage {
     solve(arrCopy);
     return count;
   };
+
   getIJFromId(id: string): {i: number, j: number} | null {
     const match = id.match(/^mathcell(\d+)$/);
     if (!match) return null;
@@ -226,11 +238,13 @@ export class MathTablePage {
     const j = (n - 1) % 9;
     return { i, j };
   }
+
   start(){
     this.init();
     this.domInit();
     this.timerCount();
   }
+
   restart() {
     this.sortbaleArray.map((item) => {
       if(item.el.childNodes.length !== 0){
@@ -249,6 +263,7 @@ export class MathTablePage {
     this.timer = 0;
     this.timerCount();
   }
+
   hint(){
     this.hintFlag ++;
     for( let i = 0; i < 9 ; i++){
@@ -271,6 +286,7 @@ export class MathTablePage {
       // inputs.forEach((input, idx) => {
       //   const row = Math.floor(idx / 9);
       //   const col = idx % 9;
+      //   
       //   if (
       //     !askArray[row][col] && // 不是初始数字
       //     showArray[row][col] !== 0 &&
@@ -283,6 +299,7 @@ export class MathTablePage {
       // });
     
   }
+
   markable(i:number,j:number){
     if( this.oldmarki == i && this.oldmarkj == j){
       for(let x = 0; x < 9; x++){
@@ -321,6 +338,7 @@ export class MathTablePage {
     }
     
   }
+
   timerCount(){
     this.timerInterval = setInterval(() => {
       this.timer ++;
@@ -332,6 +350,7 @@ export class MathTablePage {
       }
     }, 1000);
   }
+
   checkAuto(){
     console.log(JSON.stringify(this.showArray) === JSON.stringify(this.answerArray));
     if( JSON.stringify(this.showArray) === JSON.stringify(this.answerArray) ){
@@ -339,6 +358,7 @@ export class MathTablePage {
       this.getScore();
     }
   }
+
   getScore(){
     switch(true){
       case this.timer <= 300 && this.timer > 0:
@@ -362,6 +382,7 @@ export class MathTablePage {
     this.rank.push(rank1);
     localStorage.setItem('mathhidoriScore',JSON.stringify(this.rank));
   }
+
   ngDestroy(){
     clearInterval(this.timerInterval);
   }

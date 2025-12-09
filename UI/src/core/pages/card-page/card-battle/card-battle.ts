@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
-import { FunCard, FunCardType } from '../../../components/fun-card/fun-card';
+import { Component, ElementRef, ViewChild } from '@angular/core';
+import { EffectTime, EffectType, FunCard, FunCardType } from '../../../components/fun-card/fun-card';
+import Sortable from 'sortablejs';
 
 @Component({
   selector: 'app-card-battle',
@@ -72,16 +73,47 @@ export class CardBattle {
       showDetail:false
     }
   ];
+  sortbaleUser: Sortable | undefined;
+  sortableCpu: Sortable | undefined;
+  @ViewChild('usercard') usercardRef?: ElementRef<HTMLDivElement>;
+  @ViewChild('cpucard') cpucardRef?: ElementRef<HTMLDivElement>;
 
-  areaCard:FunCardTypeExtend | null = null;
 
+  ngAfterViewInit(){
+    if(this.usercardRef){
+      this.sortbaleUser = new Sortable(this.usercardRef.nativeElement, {
+        group: 'card',
+        animation: 150,
+        ghostClass: 'ghost',
+        onAdd: (event) => {
+          console.log(event);
 
+        }
+      });
+    }
+    if(this.cpucardRef){
+      this.sortableCpu = new Sortable(this.cpucardRef.nativeElement, {
+        group: 'card',
+        animation: 150,
+        ghostClass: 'ghost',
+        onAdd: (event) => {
+          //override
+          const data= event.item.dataset;
+          const data2 = event.oldIndex
+          console.log(data,data2);
+          
+        }
+      });
+    }
+  }
+
+  areaCard:FunCardTypeExtend | null = null
   state:any = null;
   
 
   cpuCost = 1;
   userCost = 1;
-  
+  // 
 
   waitingForTarget = false;
 
@@ -120,7 +152,16 @@ export class CardBattle {
     
     /**
      * we abye to 
-     * wssss.///////////////
+     * wssss.
+     * //
+     * //
+     * //
+     * //
+     * //
+     * //
+     * //
+     * // U   U
+     * //   ^
      * ffcosnt = eff
      * >= prefe.
      * 2>L =a
@@ -163,6 +204,13 @@ export class CardBattle {
     }
   }
 
+  cardin(){
+    console.log(this.cpuOnCard);
+    console.log(this.userOnCard);
+    this.areaCard = null;
+
+  }
+
   //
   attackFrom(target:FunCardTypeExtend,self:FunCardTypeExtend){
     target.def = target.def - self.atk;
@@ -201,6 +249,51 @@ export class CardBattle {
     this.userCost ++;
     this.userOnCard.forEach(card => card.canAttack = true);
   }
+
+
+  //Status - Change 
+  observeEffect(card:FunCardTypeExtend,Status:string){
+    card.effect?.map(effect => {
+      switch(effect.effectTime){
+        case EffectTime.Enter:
+          switch(effect.effectType){
+            
+          }
+          break;
+        case EffectTime.Leave:
+          switch(effect.effectType){
+          
+          }
+          break;
+        case EffectTime.Begin:
+          switch(effect.effectType){
+          
+          }
+          break;
+        case EffectTime.End:
+          switch(effect.effectType){
+          
+          }
+          break;
+        default:
+          switch(effect.effectType){
+          
+          }
+          break;
+        
+      }
+    })
+  }
+
+
+  //Effect
+  switchEffectType(effectType:EffectType){
+    switch(effectType){
+      
+    }
+  }
+
+
 }
 
 export interface FunCardTypeExtend extends FunCardType{

@@ -4,7 +4,7 @@
             <div class="card-battle-cpu">
 
         </div>
-        <div class="card-page-cpucard">
+        <div class="card-page-cpucard" #cpucard>
         @for(cpucard of cpuOnCard; track cpucard){
             <fun-card
                 class="cpuCard"
@@ -14,7 +14,7 @@
             </fun-card>
         }
         </div>
-        <div class="card-battle-usercard">
+        <div class="card-battle-usercard" #usercard>
             @for(usercard of userOnCard; track usercard){
                 <fun-card
                     (click)="showDetail(usercard)"
