@@ -2,27 +2,88 @@
     width: 100%;
     height: 100%;
     display: flex;
+    min-height: 100vh;
+}
+.tetoris{
     &-main{
-        display: grid;
-        grid-template-rows: repeat(30, 25px);
-        grid-template-columns: repeat(14, 25px);
-        margin: 40px auto;
-        border-bottom: 1px solid #CCC;
-        border-right: 1px solid #CCC;
+        width: 30%;
+        padding: 60px;
+        &-table{
+            width: fit-content;
+            display: grid;
+            grid-template-rows: repeat(30, 25px);
+            grid-template-columns: repeat(14, 25px);
+            border-bottom: 1px solid #CCC;
+            border-right: 1px solid #CCC;
+        }
+        &-item{
+            width: 25px;
+            height: 25px;
+            border-left: 1px solid #CCC;
+            border-top: 1px solid #CCC;
+        }
     }
     &-borad{
-        width: 100%;
+        width: 30%;
+        padding: 60px;
         height: 100%;
+        text-align: center;
     }
     &-rank{
-        width: 100%;
+        width: 30%; 
         height: 100%;
+        padding: 60px;
     }
 }
 
-.tetoris-page-main-item{
-    width: 25px;
-    height: 25px;
-    border-left: 1px solid #CCC;
-    border-top: 1px solid #CCC;
+.tetoris-btn{
+    display: block;
+    width: 150px;
+    margin:20px auto;
+    font-size: 24px;
+    height: 42px;
+}
+.tetoris-pred{
+    width: fit-content;
+    display: grid;
+    grid-template-rows: repeat(4, 25px);
+    grid-template-columns: repeat(4, 25px);
+    margin: 40px auto;
+    &-item{
+        width: 25px;
+        height: 25px;
+    }
+}
+.tetoris-info{
+    margin-top: 100px;
+}
+.tetoris-timer{
+    display: flex;
+    width: fit-content;
+    height: 40px;
+    margin: auto;
+    font-size: 40px;
+    line-height: 28px;
+    color: red;
+}
+.tetoris-score{
+    font-size: 32px;
+    width: fit-content;
+    margin: 40px auto;
+    height: 52px;
+    padding: 10px;
+    line-height: 32px;
+}
+.tetoris-rank{
+    text-align: center;
+    margin-top: 20px;
+    &-title{
+        margin-top: 40px;
+        font-size: 36px;
+        text-align: center;
+    }
+    &-list-item{
+        margin-top: 10px;
+        font-size: 20px;
+    }
 }

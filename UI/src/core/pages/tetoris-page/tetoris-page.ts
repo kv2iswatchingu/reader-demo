@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { UiButton } from '../../components/ui-button/ui-button';
 import { DigitalNumber } from '../../components/digital-number/digital-number';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-tetoris-page',
@@ -9,6 +10,10 @@ import { DigitalNumber } from '../../components/digital-number/digital-number';
   styleUrl: './tetoris-page.scss',
 })
 export class TetorisPage {
+
+  startText: string = 'START';
+  stopText: string = 'STOP';
+
   tetoris: Tetoris[][] = Array.from({ length: 32 }, () =>
     Array.from({ length: 14 }, () => ({
       color: 'transparent',
@@ -16,19 +21,147 @@ export class TetorisPage {
     })),
   );
 
+  pred: Tetoris[][] = Array.from({ length: 4 }, () =>
+    Array.from({ length: 4 }, () => ({
+      color: 'transparent',
+      status: 0,
+    })),
+  );
+
   interval: any;
   currentBlock: ShapeBase = new ShapeBase(0, 0);
+  predBlock: ShapeBase | null = null;
+
   color: string = 'transparent';
   score: number = 0;
   timer: number = 0;
   timer_minute: number = 0;
   timer_second: number = 0;
   timerInterval:any;
-  listener:any;
 
+  overflag: boolean = false;
+  rank: {
+    date: string,
+    time: string,
+    score: number
+  }[] = [];
 
+  listener = (event: KeyboardEvent) => {
+    if (!this.currentBlock) return;
+    //if (  == 1) return;
+    let dx = 0, dy = 0;
+    if (event.key === 'a' || event.key === 'ArrowLeft' || event.key === 'A') {
+      dx = -1;
+      this.move(dx,dy);
+    }
+    else if (event.key === 'd' || event.key === 'ArrowRight' || event.key === 'D') {
+      dx = 1;
+      this.move(dx,dy);
+    }
+    else if (event.key === 's' || event.key === 'ArrowDown' || event.key === 'S') {
+      dy = 1;
+      this.moveDown(dx,dy);
+    }
+    else if (event.key === 'w' || event.key === 'ArrowUp' || event.key === 'W') {
+      this.rotate();
+    }     
+  }
+
+  ngOnInit() {
+    if(localStorage.getItem('tetorisScore')){
+      this.rank = JSON.parse(localStorage.getItem('tetorisScore')!);
+    }
+  }
+
+  ngDestroy() {
+    clearInterval(this.interval);
+    clearInterval(this.timerInterval);
+    removeEventListener('keydown', this.listener, true);
+  }
+
+  constructor(private _snackBar: MatSnackBar) {}
+
+  start(){
+    this.overflag = false;
+    this.predBlock = null;
+    removeEventListener('keydown', this.listener, true);
+    this.control();
+    this.clearAll();
+    this.init();
+    clearInterval(this.interval);
+    clearInterval(this.timerInterval);
+    this.timer = 0;
+    this.interval = setInterval(() => {
+      this.moveDown(0, 1);
+    }, 500);
+    this.timerCount();
+  }
+  stop(){
+    if(this.overflag) return;
+    //this.clearAll();
+    clearInterval(this.interval);
+    clearInterval(this.timerInterval);
+    this.overflag = true;
+    this._snackBar.open('GameStoped',"Close", {
+      duration: 3000,
+      horizontalPosition: "center",
+      verticalPosition: "top",
+    });
+    removeEventListener('keydown', this.listener, true);
+  }
+
+  init() {
+    this.clear(this.tetoris);
+    const newBlock = this.createRandomShape(5, 0);
+    const newpred = this.createRandomShape(5, 0);
+
+    const blocked = newpred.blocks.some(cell => {
+      return (
+        cell.y >= 0 &&
+        cell.y < this.tetoris.length &&
+        cell.x >= 0 &&
+        cell.x < this.tetoris[0].length &&
+        this.tetoris[cell.y][cell.x].status === 1
+      );
+    });
+
+    if (blocked) {
+      clearInterval(this.interval);
+      clearInterval(this.timerInterval);
+      this.overflag = true;
+      removeEventListener('keydown', this.listener,true);
+      this._snackBar.open('GameOver',"Close", {
+        duration: 3000,
+        horizontalPosition: "center",
+        verticalPosition: "top",
+      });
+      const currentRank = {
+        score: this.score,
+        date: new Date().toLocaleString(),
+        time: this.timer_minute + ':' + this.timer_second,
+      }
+      this.rank.push(currentRank);
+      localStorage.setItem('tetorisScore',JSON.stringify(this.rank));
+      return;
+    }
+    
+    if(this.predBlock){
+      this.currentBlock = this.predBlock;
+      this.predBlock = newpred;
+    }else{
+      this.currentBlock = newBlock;
+      this.predBlock = newpred;
+    }
+    this.color = this.randomRgbColor();
+    this.renderTetoris(this.color);
+    this.renderPred();
+  }
+
+  control() { 
+    addEventListener('keydown', this.listener, true);
+  }
   renderTetoris(color?: string) {
-    this.clear();
+    this.clear(this.tetoris);
     for (const cell of this.currentBlock.blocks) {
       if (
         cell.y >= 0 &&
@@ -39,22 +172,32 @@ export class TetorisPage {
         if(color) {
           this.tetoris[cell.y][cell.x].color = color;
         }
-        //this.tetoris[cell.y][cell.x].color = color; // 或其它颜色
-        this.tetoris[cell.y][cell.x].status = 2; // 2 表示活动块
+        this.tetoris[cell.y][cell.x].status = 2;
       }
     }
   }
 
-  clear(){
-    this.tetoris.forEach((row, rowIndex) => {
+  renderPred(){
+    this.clear(this.pred);
+    if(this.predBlock){
+      for (const cell of this.predBlock.blocks) {
+          this.pred[cell.y][cell.x - 5].color = "#CCC";
+          this.pred[cell.y][cell.x - 5].status = 2;
+      }
+    }
+  }
+
+  clear(array:Tetoris[][]){
+    array.forEach((row, rowIndex) => {
       row.forEach((cell, colIndex) => {
-        if (this.tetoris[rowIndex][colIndex].status === 2) {
-          this.tetoris[rowIndex][colIndex].color = 'transparent';
-          this.tetoris[rowIndex][colIndex].status = 0;
+        if (array[rowIndex][colIndex].status === 2) {
+          array[rowIndex][colIndex].color = 'transparent';
+          array[rowIndex][colIndex].status = 0;
         }
       });
     });
   }
+
 
   clearAll() {
     this.tetoris.forEach((row, rowIndex) => {
@@ -64,18 +207,8 @@ export class TetorisPage {
       });
     });
   }
-  //let a = new shapeI_1(0,0);
 
-  ngOnInit() {
-    this.control();
-  }
-
-  ngDestroy() {
-    clearInterval(this.interval);
-    clearInterval(this.timerInterval);
-    removeEventListener('keydown', this.listener);
-  }
-
+  
   createRandomShape(x: number, y: number): ShapeBase {
     const shapes = [
       ShapeI_1,
@@ -114,70 +247,13 @@ export class TetorisPage {
   }
 
   randomRgbColor() {
-    var r = Math.floor(Math.random() * 256);
-    var g = Math.floor(Math.random() * 256);
-    var b = Math.floor(Math.random() * 256);
+    var r = Math.floor(Math.random() * 150 + 50);
+    var g = Math.floor(Math.random() * 150 + 50);
+    var b = Math.floor(Math.random() * 150 + 50);
     return `rgb(${r},${g},${b})`;
   }
 
-  start(){
-    this.clearAll();
-    this.init();
-    clearInterval(this.interval);
-    clearInterval(this.timerInterval);
-    this.timer = 0;
-    this.interval = setInterval(() => {
-      this.moveDown(0, 1);
-    }, 750);
-    this.timerCount();
-  }
-
-  init() {
-    this.clear();
-    const newBlock = this.createRandomShape(5, 0);
-    const blocked = newBlock.blocks.some(cell => {
-      return (
-        cell.y >= 0 &&
-        cell.y < this.tetoris.length &&
-        cell.x >= 0 &&
-        cell.x < this.tetoris[0].length &&
-        this.tetoris[cell.y][cell.x].status === 1
-      );
-    });
-    if (blocked) {
-      clearInterval(this.interval);
-      clearInterval(this.timerInterval);
-      alert('失败：新方块位置已被占用');
-      return;
-    }
-    this.currentBlock = newBlock;
-    this.color = this.randomRgbColor();
-    this.renderTetoris(this.color);
-  }
-
-  control() { 
-    this.listener = addEventListener('keydown', (event) => {
-      if (!this.currentBlock) return;
-      //if (  == 1) return;
-      let dx = 0, dy = 0;
-      if (event.key === 'a' || event.key === 'ArrowLeft' || event.key === 'A') {
-        dx = -1;
-        this.move(dx,dy);
-      }
-      else if (event.key === 'd' || event.key === 'ArrowRight' || event.key === 'D') {
-        dx = 1;
-        this.move(dx,dy);
-      }
-      else if (event.key === 's' || event.key === 'ArrowDown' || event.key === 'S') {
-        dy = 1;
-        this.moveDown(dx,dy);
-      }
-      else if (event.key === 'w' || event.key === 'ArrowUp' || event.key === 'W') {
-        this.rotate();
-      }     
-    });
-  }
-
+  
 
   move(dx:number,dy:number){
     for (const cell of this.currentBlock.blocks) {
@@ -220,7 +296,7 @@ export class TetorisPage {
           this.tetoris[cell.y][cell.x].color = this.color;
         }
       });
-      this.init(); // 生成新块
+      this.init();
       this.clearLine();
       return;
     }
@@ -234,71 +310,90 @@ export class TetorisPage {
   }
 
   rotate(){
+    let nextBlock: ShapeBase;
     switch (this.currentBlock.constructor) {
       case ShapeI_1:
-        this.currentBlock = new ShapeI_2(this.currentBlock.x, this.currentBlock.y);
+        nextBlock = new ShapeI_2(this.currentBlock.x, this.currentBlock.y);
         break;
       case ShapeI_2:
-        this.currentBlock = new ShapeI_1(this.currentBlock.x, this.currentBlock.y);
+        nextBlock = new ShapeI_1(this.currentBlock.x, this.currentBlock.y);
         break;
 
       case ShapeT_1:
-        this.currentBlock = new ShapeT_2(this.currentBlock.x, this.currentBlock.y);
+       nextBlock = new ShapeT_2(this.currentBlock.x, this.currentBlock.y);
         break;
       case ShapeT_2:
-        this.currentBlock = new ShapeT_3(this.currentBlock.x, this.currentBlock.y);
+        nextBlock = new ShapeT_3(this.currentBlock.x, this.currentBlock.y);
         break;
       case ShapeT_3:
-        this.currentBlock = new ShapeT_4(this.currentBlock.x, this.currentBlock.y);
+        nextBlock = new ShapeT_4(this.currentBlock.x, this.currentBlock.y);
         break;
       case ShapeT_4:
-        this.currentBlock = new ShapeT_1(this.currentBlock.x, this.currentBlock.y);
+        nextBlock= new ShapeT_1(this.currentBlock.x, this.currentBlock.y);
         break;
       
       case ShapeJ_1:
-        this.currentBlock = new ShapeJ_2(this.currentBlock.x, this.currentBlock.y);
+        nextBlock = new ShapeJ_2(this.currentBlock.x, this.currentBlock.y);
         break;
       case ShapeJ_2:
-        this.currentBlock = new ShapeJ_3(this.currentBlock.x, this.currentBlock.y);
+        nextBlock = new ShapeJ_3(this.currentBlock.x, this.currentBlock.y);
         break;
       case ShapeJ_3:
-        this.currentBlock = new ShapeJ_4(this.currentBlock.x, this.currentBlock.y);
+        nextBlock = new ShapeJ_4(this.currentBlock.x, this.currentBlock.y);
         break;
       case ShapeJ_4:
-        this.currentBlock = new ShapeJ_1(this.currentBlock.x, this.currentBlock.y);
+       nextBlock = new ShapeJ_1(this.currentBlock.x, this.currentBlock.y);
         break;
 
       case ShapeL_1:
-        this.currentBlock = new ShapeL_2(this.currentBlock.x, this.currentBlock.y);
+        nextBlock = new ShapeL_2(this.currentBlock.x, this.currentBlock.y);
         break;
       case ShapeL_2:
-        this.currentBlock = new ShapeL_3(this.currentBlock.x, this.currentBlock.y);
+        nextBlock = new ShapeL_3(this.currentBlock.x, this.currentBlock.y);
         break;
       case ShapeL_3:
-        this.currentBlock = new ShapeL_4(this.currentBlock.x, this.currentBlock.y);
+        nextBlock = new ShapeL_4(this.currentBlock.x, this.currentBlock.y);
         break;
       case ShapeL_4:
-        this.currentBlock = new ShapeL_1(this.currentBlock.x, this.currentBlock.y);
+        nextBlock = new ShapeL_1(this.currentBlock.x, this.currentBlock.y);
         break;
 
       case ShapeN_1:
-        this.currentBlock = new ShapeN_2(this.currentBlock.x, this.currentBlock.y);
+        nextBlock = new ShapeN_2(this.currentBlock.x, this.currentBlock.y);
         break;
       case ShapeN_2:
-        this.currentBlock = new ShapeN_1(this.currentBlock.x, this.currentBlock.y);
+        nextBlock = new ShapeN_1(this.currentBlock.x, this.currentBlock.y);
         break;
 
       case ShapeZ_1:
-        this.currentBlock = new ShapeZ_2(this.currentBlock.x, this.currentBlock.y);
+        nextBlock = new ShapeZ_2(this.currentBlock.x, this.currentBlock.y);
         break;
       case ShapeZ_2:
-        this.currentBlock = new ShapeZ_1(this.currentBlock.x, this.currentBlock.y);
+        nextBlock = new ShapeZ_1(this.currentBlock.x, this.currentBlock.y);
         break;
 
       default:
+        nextBlock = this.currentBlock;
         break;
     }
-    this.renderTetoris(this.color);
+    const canRotate = nextBlock.blocks.every(cell => {
+      if(
+        cell.x < 0 &&
+        cell.x >= this.tetoris[0].length &&
+        cell.y < 0 &&
+        cell.y >= this.tetoris.length
+      ){
+        return false;
+      }
+      if( this.tetoris[cell.y][cell.x].status === 1 ){
+        return false;
+      }
+      return true;
+    })
+    if(canRotate){
+      this.currentBlock = nextBlock;
+      this.renderTetoris(this.color);
+    }
   }
 
   clearLine() {
@@ -348,13 +443,34 @@ export class TetorisPage {
 
   timerCount(){
     this.timerInterval = setInterval(() => {
-      this.timer ++;
-      //console.log(this.timer);
+      this.timer ++
       this.timer_minute = Math.floor(this.timer / 60);
       this.timer_second = Math.floor(this.timer % 60);
     }, 1000);
   }
-
+  /**
+    * 123/456/789/ABC/DEF/
+    *    08 09 10 11          10
+    *                         09
+    *       09 10             08
+    *       09 10      10     11
+    *                  09               08
+    *   08 09 10       08 08      11 11 08    08 08                  
+    *   08                                       11
+    *                  09                        11
+    *   08 09 10       09    11           10 11
+    *         11    11 10    10 09 09     09
+    *                                     09
+    *      09 10             09
+    *         10 11          10 10
+    *                           11  
+    *      09 10        10
+    *   11 10           09 10
+    *                      11
+    *      10       90       09 10 11     90
+    *   09 10 11    10 11       10     11 10  
+    *               10                    11
+    */
   /**
    * what makes sky blue who was the first ask
    * was he a fool a sage or just a lonely friend

@@ -1,26 +1,45 @@
 <div class="tetoris-page">
-    <div class="tetoris-page-main">
-        @for( rows of tetoris; track rows;let i = $index;) {
-            @if(i > 1){
+    <!-- <div class="tetoris-page-title">
+        {{ title }}
+    </div> -->
+    <div class="tetoris-main">
+        <div class="tetoris-main-table">
+            @for( rows of tetoris; track rows;let i = $index;) {
+                @if(i > 1){
+                    @for ( cell of rows; track $index;let j = $index) {
+                        <div 
+                            class="tetoris-main-item"
+                            [style.background-color]="cell.color"
+                            >
+                        </div>
+                    }
+                }
+            }
+        </div>
+        
+    </div>
+    <div class="tetoris-borad">
+        <!-- <div class="tetoris-diffculty">
+        </div> -->
+        <ui-button class="tetoris-btn" (btnClick)="start()">
+            {{ startText }}
+        </ui-button>
+        <ui-button class="tetoris-btn" (btnClick)="stop()">
+            {{ stopText }}
+        </ui-button>
+        <div class="tetoris-pred">
+            @for( rows of pred; track rows;let i = $index;) {
                 @for ( cell of rows; track $index;let j = $index) {
                     <div 
-                        class="tetoris-page-main-item"
+                        class="tetoris-pred-item"
                         [style.background-color]="cell.color"
                         >
                     </div>
                 }
             }
-        }
-    </div>
-    <div class="tetoris-page-borad">
-        <div class="tetoris-page-borad-pred">
-
         </div>
-        <div>
-            <ui-button (btnClick)="start()"></ui-button>
-        </div>
-        <div class="tetoris-page-borad-score">
-            <div>
+        <div class="tetoris-info">
+            <div class="tetoris-timer">
                 <digital-number 
                     [number]="timer_minute" 
                     id="minute"
@@ -35,36 +54,23 @@
                     digitalcolor="#FF0000">
                 </digital-number>
             </div>
-            <div>
+            <div class="tetoris-score">
                 {{score}}
             </div>
         </div>
     </div>
-    <div class="tetoris-page-rank">
-        
+    <div class="tetoris-rank">
+        <div class="tetoris-rank-title">
+            RANK
+        </div>
+         <div class="tetoris-rank-list">
+            @for(item of rank; track item;let i = $index) {
+                <div class="tetoris-rank-list-item">
+                {{ i + 1 }} | {{ item.time }} |{{ item.score }} | {{ item.date }}
+                </div>
+            }
+        </div>
     </div>
 </div>
 
-<!--
- /**123/456/789/ABC/DEF/
-*    08 09 10 11          10
-*                         09
-*       09 10             08
-*       09 10      10     11
-*                  09               08
-*   08 09 10       08 08      11 11 08    08 08                  
-*   08                                       11
-*                  09                        11
-*   08 09 10       09    11           10 11
-*         11    11 10    10 09 09     09
-*                                     09
-*      09 10             09
-*         10 11          10 10
-*                           11  
-*      09 10        10
-*   11 10           09 10
-*                      11
-*      10       90       09 10 11     90
-*   09 10 11    10 11       10     11 10  
-*               10                    11
-*/ -->
+
