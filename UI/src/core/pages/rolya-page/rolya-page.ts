@@ -55,32 +55,6 @@ export class RolyaPage {
     this.init();
   }
 
-  /**
-   * getAllCard(){
-   *    payload = {
-          const that = _this;    
-          do{
-            vivaviva happy chyuruchyuchyu
-
-          }while(that.cardStack.length > 0);
-           dxol
-        }
-   * }  all p==e2wa123qp32=eeeeehj
-        bdsfii = rank.protype.find((item)htd3ccccccč3============================================≠≠≠================================================================================
-        1      
-        frguhedid =>{
-          throwerr()=>{
-          
-          p[[feê]]} 0X00FF45;
-
-          2fg-ere=ggg.gwfw
-          const rank = e. target;fff
-          -p[12n3]
-
-        })
-   * 
-   * 
-   */
   init() {
     this.initCardStack();
     this.initCardFirst(); 
@@ -133,27 +107,15 @@ export class RolyaPage {
       this.cpuToalBound -= this.cpuCurrentBound;
       this.cpuInBound += this.cpuCurrentBound;
     }
+    
   }
 
   doBounds(bounds: number, allin?: boolean) {
+    bounds = Number(bounds); 
     if(this.speaker){
       this.playerToalBound -= bounds;
       this.playerCurrentBound = bounds;
       this.playerInBound += bounds;
-
-      // 
-      // consr temp = this.cpuCurrentBound;
-      // this.cpuCurrentBound = this.cpuBoundsMethod();
-      // if(this.cpuCurrentBound < bounds ){
-      //   const diff = bounds - this.cpuCurrentBound;
-      //   if( diff > this.cpuCurrentBound * 4){
-      //     this.cpuCurrentBound = 0;
-      //   }else{
-      //     this.cpuCurrentBound = bounds;
-      //   }
-      // }
-      // this.cpuToalBound -= this.cpuCurrentBound;
-      // this.cpuInBound += this.cpuCurrentBound;
       this.cpuCurrentBound = this.cpuBoundsMethod();
       if(this.cpuCurrentBound < bounds ){
         const diff = bounds - this.cpuCurrentBound;
@@ -179,18 +141,21 @@ export class RolyaPage {
         this.playerInBound += bounds;
       //}
     }
-    if(bounds == 0 || this.cpuCurrentBound == 0){
-      this.over = true;
-    }else{
-      if(this.cardOpposite .length == 5 || this.cardInHand.length == 5){
+    //if(bounds == 0 || this.cpuCurrentBound == 0){
+      //this.over = true;
+    //}else{
+    // 
+    // rebirth and destruction
+    if(this.cardOpposite .length == 5 || this.cardInHand.length == 5){
         
       }else{
         this.nextStep();
       }
-    }
+    //}
     //=>next or over
     /**
-     *  
+     * 
+     * -> next -> ??? -> crash -> log 
      */
   }
 
@@ -204,7 +169,7 @@ export class RolyaPage {
       case 5:
          return this.stepBound03();
       default:
-        return 0;
+        return 1000;
     }
   }
 
@@ -354,8 +319,11 @@ export class RolyaPage {
     this.cpuCurrentBound = 0;
     this.playerCurrentBound = 0;
     this.getCard();
-    this.cardOppositeTemp = this.cardOpposite.splice(0,1);
-    this.cardInHandTemp = this.cardInHand.splice(0,1);
+    this.cardOppositeTemp = [...this.cardOpposite]
+    this.cardInHandTemp = [...this.cardInHand]
+
+    this.cardOppositeTemp.splice(0,1);
+    this.cardInHandTemp.splice(0,1);
 
     switch(this.cardOpposite.length){
       case 3:                       
@@ -458,12 +426,14 @@ export class RolyaPage {
   }
 
   getCard(){
+    console.log("ido");
     const random1 = Math.floor(Math.random() * this.cardStack.length);
     this.cardInHand.push(this.cardStack[random1]);
     this.cardStack.splice(random1, 1);
     const random2 = Math.floor(Math.random() * this.cardStack.length);
     this.cardOpposite.push(this.cardStack[random2]);
     this.cardStack.splice(random2, 1);
+    console.log(this.cardInHand,this.cardOpposite);
   }
 
   restart() {

@@ -26,8 +26,7 @@
               class="rolya-main-content-hand"
               [cardData]="item">
             </poker-card>
-          }ol
-          
+          }
         }
       </div>
       <div class="rolya-main-self">
@@ -53,17 +52,18 @@
               </ui-button>
             </div>
           </div>
+          <!-- 
+            
           
+          -->
           
         </div>
         <div class="rolya-main-self-hand" >
-          
           @for (item of cardInHand;let i = $index ;track item) {
             <poker-card  
               class="rolya-main-content-hand"
               [allowHover]="true"
               [cardData]="item">
-              
             </poker-card>
           }
         </div>
