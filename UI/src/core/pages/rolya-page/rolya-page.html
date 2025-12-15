@@ -1,34 +1,40 @@
 <div class="rolya">
     <div class="rolya-main">
 
-      <div class="rolya-main-opposite" >
-        <div class="rolya-main-opposite-info">
-          <div>
-            cpu: {{ cpuScore }}
-            total: {{ cpuToalBound }}
-            in: {{ cpuInBound }}
-            current: {{ cpuCurrentBound}}
-          </div>
-          <div>
-            number: {{ cardOpposite.length }}
-          </div>
+      <div class="rolya-opposite" >
+        <div class="rolya-opposite-state">
+            <div class="rolya-opposite-info">
+              total: {{ cpuToalBound }}
+              in: {{ cpuInBound }}
+              current: {{ cpuCurrentBound}}
+            </div>  
+            <div class="rolya-opposite-chips">
+              <!-- tbd -->
+            </div>
         </div>
-        @for (item of cardOpposite;let i = $index ;track item) {
-          @if( i == 0){
-            <poker-card  
-              class="rolya-main-content-hand"
-              [backshow]="true"
-              [cardData]="item">
-            </poker-card>
+       
+        <div clas="rolya-opposite-card">
+          @for (item of cardOpposite;let i = $index ;track item) {
+            @if( i == 0){
+              <poker-card  
+                class="rolya-main-content-hand"
+                [backshow]="true"
+                [cardData]="item">
+              </poker-card>
+            }
+            @else{
+              <poker-card  
+                class="rolya-main-content-hand"
+                [cardData]="item">
+              </poker-card>
+            }
           }
-          @else{
-            <poker-card  
-              class="rolya-main-content-hand"
-              [cardData]="item">
-            </poker-card>
-          }
-        }
+        </div>
+
+        
       </div>
+      
+
       <div class="rolya-main-self">
         <div class="rolya-main-self-info">
           <div class="rolya-main-self-score">
@@ -68,6 +74,23 @@
           }
         </div>
       </div>
-      
+       
+    </div>
+    <div class="rolya-card">
+
     </div>
 </div>
+
+
+
+
+<!-- 
+| info     |/anidebt      rank
+|          |           | rank
+|         poker        | 
+|___ __    |__/debt    card
+| /debet   |           | new..
+|          |           |
+| opreation| 
+|          |
+-->

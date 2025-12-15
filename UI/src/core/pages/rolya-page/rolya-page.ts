@@ -204,7 +204,6 @@ export class RolyaPage {
     }else {
       return this.stepBound01();
     }
-
   }
 
   stepBound03(){
@@ -347,6 +346,7 @@ export class RolyaPage {
     const playerPair = this.isSinglePair(this.cardInHandTemp);
     if(cpuPair && playerPair){
       this.speaker = playerPair > cpuPair;
+      //sleep(5000);
     }else if( cpuPair && !playerPair){
       this.speaker = false;
     }else if(!cpuPair && playerPair){

@@ -1,5 +1,4 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
-import { FunCard, FunCardType } from '../../components/fun-card/fun-card';
 import { UiButton } from "../../components/ui-button/ui-button";
 import { Router } from '@angular/router';
 

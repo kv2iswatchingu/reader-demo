@@ -1,10 +1,12 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
-import { CardClass, FunCard, FunCardType } from '../../../components/fun-card/fun-card';
 import { UiButton } from '../../../components/ui-button/ui-button';
 import { MatIcon } from '@angular/material/icon';
 import  Sortable  from 'sortablejs';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { UiInput } from '../../../components/ui-input/ui-input';
+import { FunCard } from '../fun-card/fun-card';
+import { CardList, FunCardType, CardClass, CardLibJson, CardListJson } from '../card.interface';
+import { MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-card-edit',
@@ -39,7 +41,7 @@ export class CardEdit {
   @ViewChild('cardBin') cardBinRef?:ElementRef<HTMLDivElement>;
   @ViewChild('cardEdit') cardEditRef?:ElementRef<HTMLDivElement>;
  
-
+  constructor(private _snackBar:MatSnackBar) {}
   //
   ngOnInit() {
     if(localStorage.getItem('jsonLibarayPath')){
@@ -75,6 +77,8 @@ export class CardEdit {
         },
         onAdd: (event) => {
           event.to.removeChild(event.item);
+          const cardIndex = event.oldIndex;
+          this.cardEditing.splice(cardIndex!,1);
         },
         animation: 150,
       });
@@ -86,29 +90,40 @@ export class CardEdit {
         },
         sort: false,
         onAdd: (event) => {
-          
           const cardIndex = event.oldIndex;
           const card = this.cardLibaray[cardIndex!];
           const count = this.cardEditing.filter((c) => (c.name === card.name && c.class !== CardClass.Hero )).length;
-          const heroCountAll = this.cardEditing.filter((c) => c.class !== CardClass.Hero ).length;
-          const heroCountSingle = this.cardEditing.filter((c) => ( c.class !== CardClass.Hero && c.name === card.name)).length;
-          //console.log(cardIndex,card,count,17158);
+          const heroCountAll = this.cardEditing.filter((c) => c.class === CardClass.Hero ).length;
+          const heroCountSingle = this.cardEditing.filter((c) => ( c.class === CardClass.Hero && c.name === card.name)).length;
           event.to.removeChild(event.item);
           if(count >= 3){
-            alert("每个卡片最多只能有3个相同卡片");
+            this._snackBar.open('每个卡片最多只能有3个相同卡片',"Close", {
+              duration: 3000,
+              horizontalPosition: "center",
+              verticalPosition: "top",
+            });
           }else if(this.cardEditing.length >= 30){
-            alert("最多只能有30个卡片");
+            this._snackBar.open('最多只能有30个卡片',"Close", {
+              duration: 3000,
+              horizontalPosition: "center",
+              verticalPosition: "top",
+            });
           }else if( heroCountAll >= 3){
-            alert("最多只能有3个英雄卡片");
+            this._snackBar.open('最多只能有3个英雄卡片',"Close", {
+              duration: 3000,
+              horizontalPosition: "center",
+              verticalPosition: "top",
+            });
           }else if( heroCountSingle >= 1){
-            alert("每个英雄卡片最多只能有1个");
+            this._snackBar.open('每个英雄卡片最多只能有1个',"Close", {
+              duration: 3000,
+              horizontalPosition: "center",
+              verticalPosition: "top",
+            });
           }else{
             this.cardEditing.push(card);
             this.cardEditing.sort((a, b) => a.orginCost - b.orginCost);
           }
-          //console.log(this.cardEditing,13356);
-          //const count = this.cardEditing.filter((c) => c.name === c.name).length;
-          
         },
         animation: 150,
       });
@@ -233,20 +248,3 @@ scrolledIndexChange(event:any){
 
 }
 
-export interface CardLibJson {
-  createTime?: string;
-  updateTime?: string;
-  cards: FunCardType[];
-}
-
-export interface CardListJson {
-  createTime?: string;
-  updateTime: string;
-  cardList: CardList[];
-}
-
-export interface CardList {
-  name: string;
-  time: string;
-  card: FunCardType[];
-}

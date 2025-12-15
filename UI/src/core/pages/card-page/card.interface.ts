@@ -1,26 +1,30 @@
-import { Component, Input } from '@angular/core';
-import { MatIcon } from '@angular/material/icon';
-import { UiDialog } from '../ui-dialog/ui-dialog';
-import { FunCardTypeExtend } from '../../pages/card-page/card-battle/card-battle';
+export interface CardLibJson {
+  createTime?: string;
+  updateTime?: string;
+  cards: FunCardType[];
+}
 
-@Component({
-  selector: 'fun-card',
-  imports: [MatIcon],
-  templateUrl: './fun-card.html',
-  styleUrl: './fun-card.scss'
-})
-export class FunCard {;
-  @Input() cardData?: FunCardTypeExtend;
-  @Input() orignCardData?: FunCardType;
+export interface CardListJson {
+  createTime?: string;
+  updateTime: string;
+  cardList: CardList[];
+}
 
-  hover = false
-  destroy = false
+export interface CardList {
+  name: string;
+  time: string;
+  card: FunCardType[];
+}
 
+export interface FunCardTypeExtend extends FunCardType{
+  id: string;
+  atk: number;
+  def: number;
+  cost: number;
+  canAttack?:boolean;
+  showDetail?:boolean;
 
-
-  
- 
-
+  //.....
 }
 
 
@@ -72,5 +76,4 @@ export interface FunCardImage {
   normalImage?:string,
   changeImage?:string,
   overImage?:string,
-  //and ...
 }

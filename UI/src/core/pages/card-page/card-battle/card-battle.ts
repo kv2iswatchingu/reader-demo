@@ -1,6 +1,7 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
-import { EffectTime, EffectType, FunCard, FunCardType } from '../../../components/fun-card/fun-card';
 import Sortable from 'sortablejs';
+import { EffectTime, EffectType, FunCardTypeExtend } from '../card.interface';
+import { FunCard } from '../fun-card/fun-card';
 
 @Component({
   selector: 'app-card-battle',
@@ -296,13 +297,3 @@ export class CardBattle {
 
 }
 
-export interface FunCardTypeExtend extends FunCardType{
-  id: string;
-  atk: number;
-  def: number;
-  cost: number;
-  canAttack?:boolean;
-  showDetail?:boolean;
-
-  //.....
-}

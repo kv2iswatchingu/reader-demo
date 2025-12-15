@@ -20,6 +20,9 @@
     height: 100px;
     background-color: red;
     animation: linear myfun 1s infinite;
+    //animation: alternate;
+    //animation: ;
+    
 }
 
 @keyframes myfun {
@@ -30,3 +33,126 @@
         transform: rotate3d(0,1,0, 360deg);
     }
 }
+
+
+body {
+  perspective: 800px;
+}
+
+.normal{
+  width: 80px;
+  height: 80px;
+  position: fixed;
+  top: 0px;
+  background-color: skyblue;
+  animation: linear myfun2 2s infinite,
+            step-end next2 2s infinite;
+}
+
+.rotated {
+  width: 80px;
+  height: 80px;
+  position: fixed;
+  top: 0px;
+  animation: linear myfun 2s infinite,
+            step-end next 2s infinite;
+  background-color: pink;
+}
+
+@keyframes myfun {
+    0% {
+        transform: rotate3d(0,1,0, 0deg);
+    }
+    25% {
+        transform: rotate3d(0,1,0, 90deg);
+    }
+    50%{
+        transform: rotate3d(0,1,0, 180deg);
+    }
+    75%{
+        transform: rotate3d(0,1,0, 270deg);
+    }
+    100%{
+        transform: rotate3d(0,1,0, 360deg);
+    }
+}
+
+@keyframes next{
+    0% {
+        opacity: 1;
+    }
+    25% {
+        opacity: 0;
+    }
+    50%{
+        opacity: 0;
+    }
+    75%{
+       opacity: 1;
+    }
+    100%{
+       opacity: 1;
+    }
+}
+
+@keyframes next2{
+    0% {
+        opacity: 0;
+    }
+    25% {
+        opacity: 1;
+    }
+    50%{
+        opacity: 1;
+    }
+    75%{
+       opacity: 0;
+    }
+    100%{
+       opacity: 0;
+    }
+}
+
+@keyframes myfun2 {
+    0% {
+        transform: rotate3d(0,1,0, 180deg);
+    }
+    25% {
+        transform: rotate3d(0,1,0, 90deg);
+    }
+    50%{
+        transform: rotate3d(0,1,0, 0deg);
+    }
+    75%{
+        transform: rotate3d(0,1,0, -90deg);
+    }
+    100%{
+        transform: rotate3d(0,1,0, -180deg);
+    }
+}
+
+// <div>
+//   <div class="normal">Normal</div>
+//   <div class="rotated">Rotated</div>
+// </div>
+
+
+// .normal{
+//   width: 80px;
+//   height: 80px;
+//   position: fixed;
+//   top: 0px;
+//   background-color: skyblue;
+//   animation: linear myfun2 2s infinite,
+//             step-end next2 2s infinite;
+// }
+
+// .rotated {
+//   width: 80px;
+//   height: 80px;
+//   position: fixed;
+//   top: 0px;
+//   animation: linear myfun 2s infinite,
+//             step-end next 2s infinite;
+//   background-color: pink;
+// }

@@ -1,4 +1,4 @@
-.test{
+.rolya{
   display: flex;
   height: 100vh;
   width: 100%;
@@ -10,7 +10,7 @@
   }
 }
 
-.test-main{
+.rolya-main{
   width: 100%;
   &-self{
     width: 100%;
@@ -26,7 +26,7 @@
       position: absolute;
       top: 20px;
       left: 20px;
-      background: #017e22;
+      //background: #017e22;
       border: #FFF 2px solid;
       text-align: center;
     }
@@ -38,7 +38,7 @@
       width: 80px;
       height: 80px;
       cursor: pointer;
-      background: #017e22;
+      //background: #017e22;
       border: #000 2px solid;
     }
     &-hand{
@@ -55,17 +55,17 @@
     height: 200px;
     overflow: hidden;
     position: relative;
-    display: flex;
+    //display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(#01490c, #017e22);
+    //background: linear-gradient(#01490c, #017e22);
     &-info{
       height: 120px;
       width: 100px;
       position: absolute;
       top: 20px;
       left:20px;
-      background: #017e22;
+      //background: #017e22;
       border: #FFF 2px solid;
       text-align: center;
       color: #FFF;
@@ -79,7 +79,7 @@
     align-items: center;
     justify-content: center;
     overflow-y: auto;
-    background: #017e22;
+    //background: #017e22;
     &-restart{
       position: absolute;
       top: 50%;
@@ -87,7 +87,7 @@
       transform: translate(-50%,-50%);
       font-size: 100px;
       z-index: 50;
-      color: #daa520;
+      //color: #daa520;
       cursor: pointer;
     }
     &-item:first-child{
