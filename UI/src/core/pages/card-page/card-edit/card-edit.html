@@ -1,21 +1,28 @@
 <div class="card-edit">
     <div class="card-edit-title">
-        <ui-button
-            modeType="icon" 
-            (btnClick)="chooseLibaray()">
-            <mat-icon>menu_book</mat-icon>
-        </ui-button>
-        <ui-button
-            modeType="icon" 
-            (btnClick)="chooseList()">
-            <mat-icon>playlist_add</mat-icon>
-        </ui-button>
-        @if(noLibaray || cardLibaray.length == 0){
+        <div class="card-edit-btngroup">
+            <ui-button 
+                modeType="icon"
+                (btnClick)="goBack()">
+                <mat-icon>arrow_back</mat-icon>
+            </ui-button>
+            <ui-button
+                modeType="icon" 
+                (btnClick)="chooseLibaray()">
+                <mat-icon>menu_book</mat-icon>
+            </ui-button>
+            <ui-button
+                modeType="icon" 
+                (btnClick)="chooseList()">
+                <mat-icon>playlist_add</mat-icon>
+            </ui-button>
+        </div>
+        
+        @if( noLibaray || cardLibaray.length === 0 ){
             <div class="card-edit-warning">
                 no libaray
             </div>
         }
-        
     </div>
     <div class="card-edit-content">
         <div class="card-edit-main">
@@ -23,9 +30,11 @@
             <cdk-virtual-scroll-viewport
                 class="card-edit-all"
                 itemSize="140"
-                (scrolledIndexChange)="scrolledIndexChange($event)"
                 orientation="horizontal">
-                <div #cardLib class="card-edit-all-inner">
+                <!--  (scrolledIndexChange)="scrolledIndexChange($event)" -->
+                <div 
+                    #cardLib 
+                    class="card-edit-all-inner">
                     <fun-card
                         *cdkVirtualFor="let card of cardLibaray;let i = index"
                         [orignCardData]="card">
@@ -34,14 +43,21 @@
             </cdk-virtual-scroll-viewport>
         
             
-            <div class="card-edit-buttom">
-                <div>
-                    <div class="card-edit-bin" #cardBin>
-                        <mat-icon>delete</mat-icon>
+            <div class="card-edit-board">
+
+                <div class="card-edit-left">
+                    <div class="card-edit-left-info">
+
                     </div>
-                    <ui-button class="card-edit-done" (btnClick)="saveJson()" [disabled]="!editing">
-                        <mat-icon (click)="saveJson()">done-outline</mat-icon>
-                    </ui-button>
+                    <div class="card-edit-left-operation">
+                        <div class="card-edit-bin" #cardBin>
+                            <mat-icon>delete</mat-icon>
+                        </div>
+                        <ui-button class="card-edit-done" (btnClick)="saveJson()" [disabled]="!editing">
+                            <mat-icon (click)="saveJson()">done-outline</mat-icon>
+                        </ui-button>
+                    </div>
+                  
                 </div>
                 
                 <div 
@@ -53,13 +69,16 @@
                             [orignCardData]="card">
                         </fun-card>
                     }
-                    
                 </div>
                 
             </div> 
             
             
         </div>
+
+
+
+
         <!-- drag & drop -->
         <div class="card-edit-list">
             @for( cardgroup of cardList;track cardgroup){
@@ -84,3 +103,11 @@
         </div>
     </div>
 </div>
+
+<!-- 
+
+
+
+
+
+-->

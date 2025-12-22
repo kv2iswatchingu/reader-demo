@@ -2,9 +2,7 @@
   display: flex;
   height: 100vh;
   width: 100%;
-  &-main{
-    background: #EEE;
-  }
+  position: relative;
   &-right{
     background: #EEE;
   }
@@ -12,65 +10,8 @@
 
 .rolya-main{
   width: 100%;
-  &-self{
-    width: 100%;
-    height: 200px;
-    position: relative;
-    display: flex;
-    overflow: hidden;
-    align-items: center;
-   //background: linear-gradient(#017e22,#01490c);
-    &-info{
-      width: 100px;
-      height: 120px;
-      position: absolute;
-      top: 20px;
-      left: 20px;
-      //background: #017e22;
-      border: #FFF 2px solid;
-      text-align: center;
-    }
-    &-score{
-      height: 25px;
-      color: #FFF;
-    }
-    &-btn{
-      width: 80px;
-      height: 80px;
-      cursor: pointer;
-      //background: #017e22;
-      border: #000 2px solid;
-    }
-    &-hand{
-      width: 100%;
-      height: 200px;
-      display: flex;
-      overflow: hidden;
-      justify-content: center;
-      align-items: center;
-    }
-  }
-  &-opposite{
-    width: 100%;
-    height: 200px;
-    overflow: hidden;
-    position: relative;
-    //display: flex;
-    align-items: center;
-    justify-content: center;
-    //background: linear-gradient(#01490c, #017e22);
-    &-info{
-      height: 120px;
-      width: 100px;
-      position: absolute;
-      top: 20px;
-      left:20px;
-      //background: #017e22;
-      border: #FFF 2px solid;
-      text-align: center;
-      color: #FFF;
-    }
-  }
+ 
+  
   &-content{
     width: 100%;
     height: calc( 100% - 400px);
@@ -103,9 +44,89 @@
     
   }
 }
-.cdk-drag-placeholder {
-  opacity: 0.3;
+.rolya-opposite{
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+  position: relative;
+  //display: flex;
+  align-items: center;
+  justify-content: center;
+  //background: linear-gradient(#01490c, #017e22);
+  &-info{
+    height: 120px;
+    width: 100px;
+    position: absolute;
+    top: 20px;
+    left:20px;
+    //background: #017e22;
+    border: #000 2px solid;
+    text-align: center;
+    //color: #FFF;
+  }
 }
 
+.rolya-self{
+  width: 100%;
+  height: 200px;
+  position: relative;
+  overflow: hidden;
+  align-items: center;
+  //background: linear-gradient(#017e22,#01490c);
+  &-info{
+    width: 100px;
+    height: 120px;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    //background: #017e22;
+    //border: #FFF 2px solid;
+    border: #000 2px solid;
+    text-align: center;
+  }
+  &-score{
+    height: 25px;
+    //color: #FFF;
+  }
+  &-btn{
+    width: 80px;
+    height: 80px;
+    cursor: pointer;
+    //background: #017e22;
+    border: #000 2px solid;
+  }
+  &-card{
+    width: 100%;
+    height: 200px;
+    display: flex;
+    overflow: hidden;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+
+.rolya-speaker{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  font-size: 72px;
+  animation: linear flash 2s forwards;
+}
+
+@keyframes flash {
+  0%{
+    transform: translate(-200%,-50%);
+  }
+  25%{
+    transform: translate(-50%,-50%);
+  }
+  75%{
+    transform: translate(-50%,-50%);
+  }
+  100%{
+    transform: translate(200%,-50%);
+  }
+}
 
 

@@ -73,6 +73,17 @@ export class TetorisPage {
     }
   }
 
+  // ngAfterViewInit() {
+  //   this.start();
+  // }
+  /** 
+   *  
+   * 
+   * 
+   * 
+   * 
+  */
+
   ngDestroy() {
     clearInterval(this.interval);
     clearInterval(this.timerInterval);
@@ -253,8 +264,6 @@ export class TetorisPage {
     return `rgb(${r},${g},${b})`;
   }
 
-  
-
   move(dx:number,dy:number){
     for (const cell of this.currentBlock.blocks) {
       const newX = cell.x + dx;
@@ -307,7 +316,37 @@ export class TetorisPage {
     this.currentBlock.x += dx;
     this.currentBlock.y += dy;
     this.renderTetoris(this.color);
+
+    //
+    
   }
+  /**8
+   * from a shape to another
+   * const afunction = () => {
+   *     this.currentBlock = new ShapeI_1(this.currentBlock.x, this.currentBlock.y);
+   *     this.renderTetoris(this.color);
+   *     this.renderPred();CMINE
+   *     this.renderNext();
+   *     this.renderScore();//??
+   *    if(this.overflag) this.init();
+   * switch (this.currentBlock.constructor) {
+   *   case ShapeI_1:
+   *     this.currentBlock = new ShapeI_2(this.currentBlock.x, this.currentBlock.y);  
+   *     break;
+   *   case ShapeI_2:
+   *     this.currentBlock = new ShapeI_1(this.currentBlock.x, this.currentBlock.y);
+   *     break;
+   *   22//
+   *     case ShapeI_1:
+   *     this.currentBlock = new ShapeI_2(this.currentBlock.x, this.currentBlock.y);
+   *     break;
+   *   case ShapeI_2:
+   *     this.currentBlock = new ShapeI_1(this.currentBlock.x, this.currentBlock.y);
+   *     break;
+   *
+   }
+   * }
+   */
 
   rotate(){
     let nextBlock: ShapeBase;

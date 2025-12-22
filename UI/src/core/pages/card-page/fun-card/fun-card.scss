@@ -53,3 +53,20 @@
     height: 100%;
     object-fit: cover;
 }
+
+.fun-card-detail{
+    //position: absolute;
+    position: fixed;
+    width: 280px;
+    height: 200px;
+    top: 100px;//?
+    left: 100px;//?
+    border-radius: 12px;
+    padding: 10px;
+    &-name{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+}
+

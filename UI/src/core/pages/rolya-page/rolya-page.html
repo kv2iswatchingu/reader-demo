@@ -2,17 +2,19 @@
     <div class="rolya-main">
 
       <div class="rolya-opposite" >
-        <div class="rolya-opposite-state">
-            <div class="rolya-opposite-info">
-              total: {{ cpuToalBound }}
-              in: {{ cpuInBound }}
-              current: {{ cpuCurrentBound}}
-            </div>  
-            <div class="rolya-opposite-chips">
-              <!-- tbd -->
-            </div>
-        </div>
-       
+        <div class="rolya-opposite-info">
+          <div>
+            turn: {{ turn }}
+          </div>
+          <div>
+            total: {{ cpuToalBound }}
+          </div>
+          <div>
+            in: {{ cpuInBound }}
+            current: {{ cpuCurrentBound}}
+          </div>
+        </div>  
+            
         <div clas="rolya-opposite-card">
           @for (item of cardOpposite;let i = $index ;track item) {
             @if( i == 0){
@@ -35,8 +37,20 @@
       </div>
       
 
-      <div class="rolya-main-self">
-        <div class="rolya-main-self-info">
+      <div class="rolya-self">
+       
+        <div class="rolya-self-card" >
+          @for (item of cardInHand;let i = $index ;track item) {
+            <poker-card  
+              class="rolya-main-content-hand"
+              [allowHover]="true"
+              [cardData]="item">
+            </poker-card>
+          }
+        </div>
+
+
+         <div class="rolya-self-info">
           <div class="rolya-main-self-score">
             u: {{ score }}
             total: {{ playerToalBound }}
@@ -64,20 +78,15 @@
           -->
           
         </div>
-        <div class="rolya-main-self-hand" >
-          @for (item of cardInHand;let i = $index ;track item) {
-            <poker-card  
-              class="rolya-main-content-hand"
-              [allowHover]="true"
-              [cardData]="item">
-            </poker-card>
-          }
-        </div>
+
       </div>
        
     </div>
-    <div class="rolya-card">
+    
 
+
+    <div class="rolya-speaker">
+       speaker: {{ speaker ? 'cpu' : 'player' }}
     </div>
 </div>
 
@@ -85,12 +94,16 @@
 
 
 <!-- 
-| info     |/anidebt      rank
-|          |           | rank
-|         poker        | 
-|___ __    |__/debt    card
-| /debet   |           | new..
-|          |           |
+| info      poker             
+|          |           
+|               | 
+|
+|  
+      POKER
+|          |
 | opreation| 
 |          |
+
+
+
 -->

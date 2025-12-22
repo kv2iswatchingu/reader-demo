@@ -11,8 +11,26 @@ import { FunCardType, FunCardTypeExtend } from '../card.interface';
 export class FunCard {
   @Input() cardData?: FunCardTypeExtend;
   @Input() orignCardData?: FunCardType;
+  @Input() detailPosition: string = '';
 
-  hover = false
-  destroy = false
+  showDetail:boolean = false;
+  delay:number = 1500;
+  delayTimer?:any;
+
+  mouseEnter(){
+    console.log('mouseEnter');
+    clearTimeout(this.delayTimer);
+    this.delayTimer = setTimeout(() => {
+      this.showDetail = true;
+    },this.delay)
+  }
+  mouseLeave(){
+    clearTimeout(this.delayTimer);
+    this.showDetail = false;
+  }
+
+  ngDestory(){
+    clearTimeout(this.delayTimer);
+  }
 }
 

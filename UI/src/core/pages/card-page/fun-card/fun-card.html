@@ -1,5 +1,5 @@
 @if(cardData){
-    <div class="fun-card">
+    <div class="fun-card" (mouseenter)="mouseEnter()" (mouseleave)="mouseLeave()">
         <mat-icon class="fun-card-icon fun-card-cost">{{ cardData.orginCost}}</mat-icon>
         <mat-icon class="fun-card-icon fun-card-atk">{{ cardData.atk}}</mat-icon>
         <mat-icon class="fun-card-icon fun-card-def">{{ cardData.def}}</mat-icon>
@@ -15,10 +15,31 @@
                 }
             </div>
         </div>
+         @if( showDetail ){
+            <div 
+                class="fun-card-detail" 
+                [style.background]="
+                    'linear-gradient(rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.9)), 
+                    url('+ cardData.imageList?.normalImage +')'">
+                <div>
+                    {{ cardData.name }}{{ cardData.class}}
+                    @for(tag of cardData.tag; track $index) {
+                        {{ tag }}
+                    }
+                </div> 
+                <div>
+                    <!-- pingjie effect -->
+                </div>
+                <div>
+                    {{ cardData.description }}
+                </div>
+            </div>
+        }
     </div>
+   
 }
 @if( orignCardData ){
-    <div class="fun-card">
+    <div class="fun-card" (mouseenter)="mouseEnter()" (mouseleave)="mouseLeave()">
         <mat-icon class="fun-card-icon fun-card-cost">{{ orignCardData.orginCost }}</mat-icon>
         <mat-icon class="fun-card-icon fun-card-atk">{{ orignCardData.originAtk }}</mat-icon>
         <mat-icon class="fun-card-icon fun-card-def">{{ orignCardData.originDef }}</mat-icon>
@@ -32,4 +53,25 @@
             </div>
         </div>
     </div>
+    @if( showDetail ){
+        <div 
+            class="fun-card-detail" 
+            [style.background]=
+                "'linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.95)), 
+                center / cover no-repeat url('+ orignCardData.imageList?.normalImage +')'"
+            >
+            <div class="fun-card-detail-name">
+                <div>
+                    {{ orignCardData.name }}
+                </div>
+                <!-- {{ orignCardData.class}} -->
+                @for(tag of orignCardData.tag; track $index) {
+                    {{ tag }}
+                }
+            </div> 
+            
+            <div>
+              {{ orignCardData.description }}  </div>
+        </div>
+    }
 }

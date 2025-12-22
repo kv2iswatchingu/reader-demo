@@ -43,13 +43,12 @@ export class RolyaPage {
 
   inputNumber: number = 0;
 
-  /**
-   * oh my lonely friend come weatiness? the new form
-   * see that sight and those of ruins
-   * will you knee for me or just go mad with jeasusous
-   * neither of them are my wishes,but when it come true will satisfy me
-   */
+  thinkingTime:any;
+  //turn: number = 0;
+
+
   constructor() {}
+  //
 
   ngOnInit() {
     this.init();
@@ -125,9 +124,11 @@ export class RolyaPage {
           this.cpuCurrentBound = bounds;
         }
       }
+      // 
       this.cpuToalBound -= this.cpuCurrentBound;
       this.cpuInBound += this.cpuCurrentBound;
     }else{
+      //over
       // if(rrrrr r && bounds != 0){
       //   alert("不能小于CPU");
       // }else{
@@ -139,7 +140,8 @@ export class RolyaPage {
         this.playerToalBound -= bounds;
         this.playerCurrentBound = bounds;
         this.playerInBound += bounds;
-      //}
+      //}11//forge 
+      //
     }
     //if(bounds == 0 || this.cpuCurrentBound == 0){
       //this.over = true;
@@ -154,6 +156,26 @@ export class RolyaPage {
     //}
     //=>next or over
     /**
+     * -start 
+     * turn 
+     * -b db
+     * -getcard 
+     * -judege speaker 
+     * 1. speaker db                 2. speak gp
+     * a. another db b. another gp      change db
+     * -next get card   change db        over nexr turn
+     * card == 5...     turn over
+     * open card        nexr turn
+     * change db
+     * turn over
+     * next turn
+     * 
+     * 
+     * 
+     *    o  o  
+     *     /\
+     *    /  \
+     * 
      * 
      * -> next -> ??? -> crash -> log 
      */
@@ -188,7 +210,6 @@ export class RolyaPage {
   stepBound02(){
     const double = Math.floor(Math.random() * 2) + 1;
     const double2 = Math.floor(Math.random() * 3) + 1;
-    
     // const triple = this.isTriple(this.cardOpposite);
 
     const triple = this.isTriple(this.cardOpposite);
@@ -314,6 +335,15 @@ export class RolyaPage {
     }
   }
 
+  
+  cpuFakeThinking(){
+    clearTimeout(this.thinkingTime);
+    this.thinkingTime = setTimeout(() => {   
+      //??
+    }, 5000);
+  }
+
+  //
   nextStep(){
     this.cpuCurrentBound = 0;
     this.playerCurrentBound = 0;
@@ -439,7 +469,18 @@ export class RolyaPage {
   restart() {
     this.init();
     this.over = false;
-  }
+  }    
+
+  /**        
+   *  | |      | |      
+   *  | |      | |  
+   *  | |______| |                                ___              _____
+   *  | |______| |     /\       |     |      |   /   \    |\   |  |
+   *  | |      | |    /__\   ___|___  |      |  (_____    | \  |  |_____
+   *  | |      | |   /    \     |     |      |        )   |  \ |  |
+   *  | |      | |  /      \     \_/   \____/|   \___/    |   \|  |_____
+   */
+
 
 }
 

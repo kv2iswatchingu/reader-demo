@@ -2,25 +2,44 @@
     width: 100%;
     min-height: 100vh;
     height: 100%;
-    &-title{
-        display: flex;
-    }
     &-content{
         display: flex;
         flex-wrap: wrap;
         height: 100%;
     }
-    &-main{
-        width: 88%;
-        height: 100%;
-    }
+    
     &-list{
         width: 12%;
         height: 100%;
     }
+   
 }
 
 .card-edit{
+    &-title{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 32px;
+    }
+    &-btngroup{
+        display: flex;
+        height: 32px;
+    }
+    &-warning{
+        color: red;
+        height: 32px;
+        font-size: 28px;
+        line-height: 28px;
+    }
+
+}
+
+.card-edit{
+    &-main{
+        width: 88%;
+        height: 100%;
+    }
     &-all{
         width: 100%;
         margin-top: 20px;
@@ -31,11 +50,32 @@
             margin-left: 20px;
         }
     }
-    &-buttom{
+}
+
+
+
+.card-edit{
+    
+    &-board{
         width: 100%;
         display: flex;
         height: calc(100% - 240px);
     }
+    &-left{
+        //width: 140px;
+        //height: 100%;
+        border: 1px solid #000;
+        margin-left: 20px;
+        &-info{
+
+        }
+        &-operation{
+            display: flex;
+        }
+    }
+
+
+
     &-bin{
         width: 140px;
         height: 220px;

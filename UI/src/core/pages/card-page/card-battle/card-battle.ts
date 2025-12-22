@@ -80,6 +80,17 @@ export class CardBattle {
   @ViewChild('cpucard') cpucardRef?: ElementRef<HTMLDivElement>;
 
 
+  /**
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   *    
+   */
+
   ngAfterViewInit(){
     if(this.usercardRef){
       this.sortbaleUser = new Sortable(this.usercardRef.nativeElement, {
@@ -92,6 +103,13 @@ export class CardBattle {
         }
       });
     }
+    /**
+     * franement(){
+     *   const data= event.item.dataset;
+     *   const data2 = event.oldIndex
+     *   console.log(data,data2);
+     * }
+     */
     if(this.cpucardRef){
       this.sortableCpu = new Sortable(this.cpucardRef.nativeElement, {
         group: 'card',
@@ -102,7 +120,18 @@ export class CardBattle {
           const data= event.item.dataset;
           const data2 = event.oldIndex
           console.log(data,data2);
-          
+          //
+          /**
+           * revange!? revange!
+           * I will show you what is a revange
+           * 
+           * 
+           * 
+           * 
+           * 
+           * 
+           * 
+           */
         }
       });
     }
@@ -155,10 +184,8 @@ export class CardBattle {
      * we abye to 
      * wssss.
      * //
-     * //
-     * //
-     * //
-     * //
+     * // 
+    
      * //
      * //
      * // U   U
@@ -293,6 +320,7 @@ export class CardBattle {
       
     }
   }
+  
 
 
 }

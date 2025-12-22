@@ -7,6 +7,7 @@ import { UiInput } from '../../../components/ui-input/ui-input';
 import { FunCard } from '../fun-card/fun-card';
 import { CardList, FunCardType, CardClass, CardLibJson, CardListJson } from '../card.interface';
 import { MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-card-edit',
@@ -41,8 +42,12 @@ export class CardEdit {
   @ViewChild('cardBin') cardBinRef?:ElementRef<HTMLDivElement>;
   @ViewChild('cardEdit') cardEditRef?:ElementRef<HTMLDivElement>;
  
-  constructor(private _snackBar:MatSnackBar) {}
-  //
+  constructor(
+    private _snackBar:MatSnackBar,
+    private router: Router ) {
+
+  }
+
   ngOnInit() {
     if(localStorage.getItem('jsonLibarayPath')){
       this.noLibaray = false;
@@ -56,7 +61,6 @@ export class CardEdit {
     this.getLibarayFromJson();
     this.getListFromJson();
   }
-
   ngAfterViewInit() {
     if(this.cardLibRef){
       this.sortableLib = Sortable.create(this.cardLibRef.nativeElement, {
@@ -129,7 +133,14 @@ export class CardEdit {
       });
     }
   }                                             
+  ngDestory(){
 
+  }
+
+
+  goBack(){
+    this.router.navigate(['card-page']);
+  }
   async chooseLibaray(){
     //@ts-ignore
     const result = await window.electronAPI.getFile();
@@ -146,7 +157,6 @@ export class CardEdit {
       localStorage.setItem('jsonListPath',this.jsonListPath);
     }
   }
-
   async getLibarayFromJson(){
     //@ts-ignore
     const result = await window.electronAPI.readOut(this.jsonLibarayPath);
@@ -168,11 +178,6 @@ export class CardEdit {
       console.log(result.message);
     }
   }
-
-  selectEditing(cardgroup: CardList){
-    
-  }
-
   async deleteGroup(cardgroup: CardList){
     //@ts-ignore
     const result = await window.electronAPI.readOut(this.jsonListPath);
@@ -202,7 +207,6 @@ export class CardEdit {
       alert(result.message);
     }
   }
-
   async saveJson(){
     if(this.cardEditing.length < 30){
       alert("至少需要30个卡片");
@@ -241,9 +245,69 @@ export class CardEdit {
     this.editing = false;
   }
 
-scrolledIndexChange(event:any){
-    console.log(event,123456789);
+
+  method(){
+    //edit -> save -> read
+
+    
   }
+  // 
+  //
+  //
+
+
+
+  selectEditing(cardgroup: CardList){
+    
+  }
+
+  // scrolledIndexChange(event:any){
+  //     console.log(event,123456789);
+  //   }
+  /**
+   * -10
+   * >50 lljf ->hlr
+   * 30 + 20 rt
+   * >15 ->clys
+   * 25 ->hsl
+   * >30 jsds //->lel
+   * >15 tzz // 20 
+   * 
+   * 20 + 50 + 25 + 15 - 10 = 100
+   * 30 + 50 + 15 + 15 - 10 =  100
+   * 
+   * //bz hl cl wqnull lv2 lv1 1 nlhf2 rt1  nxnull
+   * clb hlr clb hlr byr 402
+   * 
+   * //bz hl cl  bzwq lv1 2 rt 1
+   * clb hlr hlb clb byr 394
+   * 
+   * 
+   * //bz hl hs  hsbzwq nx3 ts2 hf1 hx1 lv1 jljh--
+   * bcb hlr hlb hsb byr 402 
+   * 
+   * //dwg
+   * bcb hlr bcb hlr byr
+   * 
+   * //
+   * rt
+   * 30 + 15 + 30 + 25 - 10 = 90 - ?15 + 20 =  
+   * 
+   * 
+   * jj2 hs2 bz 
+   * wq -> bz + msl
+   * 
+   * 10 + 25 + 20 
+   * 
+   * lj5 lj5 tz5 qj? rt?
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+  */
 
 
 }
