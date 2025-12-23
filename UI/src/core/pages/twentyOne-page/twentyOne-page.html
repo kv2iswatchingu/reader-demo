@@ -1,0 +1,90 @@
+<div class="rolya">
+    <div class="rolya-main">
+
+      <div class="rolya-opposite" >
+        <div class="rolya-opposite-info">
+          Round: {{ round }}
+          cpuScore: {{ cpuScore }}
+          @if (gameover) {
+            Number: {{ cpuCard }}
+          }
+        </div>  
+        <div class="rolya-opposite-card">
+          @if(gameover){
+            @for (item of cardOpposite;let i = $index ;track item) {
+              <poker-card  
+                class="rolya-cardgroup"
+                [cardData]="item">
+              </poker-card>
+            }
+          }
+          @else {
+             @for (item of cardOpposite;let i = $index ;track item) {
+                <poker-card  
+                  class="rolya-cardgroup"
+                  [backshow]="true"
+                  [cardData]="item">
+                </poker-card>
+            }
+          }
+         
+        </div>
+      </div>
+      
+
+      <div class="rolya-self">
+        <div class="rolya-self-card" >
+          @for (item of cardInHand;let i = $index ;track item) {
+            <poker-card  
+              class="rolya-cardgroup"
+              [cardData]="item">
+            </poker-card>
+          }
+        </div>
+
+        <div class="rolya-self-info">
+          <div class="rolya-self-score">
+            Round: {{ round }}
+            Score: {{ score }}
+            @if(gameover){
+              Number: {{ playerCard}}
+            }
+          </div>
+          <div class="rolya-self-btn">
+            <ui-button 
+              modeType="text"
+              [disabled]="gameover || allOver"
+              (btnClick)="playerGetCard()">
+              GET CARD
+            </ui-button>
+
+            <ui-button 
+              modeType="text"
+              [disabled]="gameover || allOver"
+              (btnClick)="playerGiveup()">
+              STAY
+            </ui-button>
+
+          </div>
+          
+        </div>
+
+      </div>
+       
+    </div>
+    @if ( gameover || allOver){
+      <div class="rolya-next">
+        <ui-button 
+          modeType="text"
+          class="rolya-bound"
+          (btnClick)="allOver ? restart() : nextRound()">
+          @if( !allOver ){
+            {{ winner }}
+          }
+          {{ message }}
+        </ui-button>
+      </div>   
+    }
+   
+</div>
+

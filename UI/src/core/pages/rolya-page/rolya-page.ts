@@ -38,20 +38,37 @@ export class RolyaPage {
   playerInBound: number = 0;
   playerCurrentBound: number = 0;
 
-  turn: number = 0;
   speaker: boolean = true;
 
   inputNumber: number = 0;
 
   thinkingTime:any;
-  //turn: number = 0;
+  round: number = 0;
+
+  //showSpeaker: boolean = true;
 
 
   constructor() {}
   //
 
   ngOnInit() {
-    this.init();
+    //this.init();
+  }
+
+  globalInit(){
+    
+  }
+
+  roundInit(){
+
+  }
+
+  
+
+  confirm(){
+    const q = 0;
+    //this.biggestValue(this.cardOpposite);
+
   }
 
   init() {
@@ -111,6 +128,7 @@ export class RolyaPage {
 
   doBounds(bounds: number, allin?: boolean) {
     bounds = Number(bounds); 
+    
     if(this.speaker){
       this.playerToalBound -= bounds;
       this.playerCurrentBound = bounds;

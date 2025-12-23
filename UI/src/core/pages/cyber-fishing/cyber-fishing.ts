@@ -3,7 +3,7 @@ import { UiSlider } from '../../components/ui-slider/ui-slider';
 
 @Component({
   selector: 'app-cyber-fishing',
-  imports: [UiSlider],
+  imports: [],
   templateUrl: './cyber-fishing.html',
   styleUrl: './cyber-fishing.scss'
 })

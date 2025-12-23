@@ -86,8 +86,8 @@
   align-items: center;
   //background: linear-gradient(#017e22,#01490c);
   &-info{
-    width: 100px;
-    height: 120px;
+    width: 100%;
+    height: 300px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -96,19 +96,24 @@
     border: #000 2px solid;
     text-align: center;
   }
-  // &-score{
-  //   height: 25px;
-  //   //color: #FFF;
-  // }
-  // &-btn{
-  //   width: 80px;
-  //   height: 80px;
-  //   cursor: pointer;
-  //   //background: #017e22;
-  //   border: #000 2px solid;
-  // }
+  &-score{
+    height: 300px;
+    width: 30%;
+    //background: #017e22;
+    //border: #000 2px solid;
+    text-align: center;
+    //color: #FFF;
+    font-size: 32px;
+  }
+  &-btn{
+    width: 200px;
+    height: 200px;
+    cursor: pointer;
+    //background: #017e22;
+    border: #000 2px solid;
+  }
   &-card{
-    width: 100%;
+    width: 70%;
     height: 300px;
     display: flex;
     overflow: hidden;
@@ -118,12 +123,13 @@
 }
 
 
-.rolya-speaker{
+.rolya-next{
   position: absolute;
   top: 50%;
   left: 50%;
-  font-size: 72px;
-  animation: linear flash 2s forwards;
+  transform: translate(-50%,-50%);
+  font-size: 56px;
+  //animation: linear flash 2s forwards;
 }
 
 @keyframes flash {

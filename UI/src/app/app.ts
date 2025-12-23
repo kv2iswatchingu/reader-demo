@@ -39,8 +39,8 @@ export class App {
     this.router.navigate(['card-page']);
   }
 
-  go2RolyaPage(){
-    this.router.navigate(['rolya-page']);
+  go2TwentyOne(){
+    this.router.navigate(['twentyOne-page']);
   }
 
   go2Tetoris(){

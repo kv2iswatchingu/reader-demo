@@ -10,6 +10,7 @@ import { CardEdit } from '../core/pages/card-page/card-edit/card-edit';
 import { CardBattle } from '../core/pages/card-page/card-battle/card-battle';
 import { RolyaPage } from '../core/pages/rolya-page/rolya-page';
 import { TetorisPage } from '../core/pages/tetoris-page/tetoris-page';
+import { TwentyOnePage } from '../core/pages/twentyOne-page/twentyOne-page';
 
 export const routes: Routes = [
   { 
@@ -31,7 +32,7 @@ export const routes: Routes = [
   },{
     path: 'card-edit', component: CardEdit
   },{
-    path: 'rolya-page', component: RolyaPage
+    path: 'twentyOne-page', component: TwentyOnePage
   },{
     path: 'tetoris-page', component: TetorisPage
   }

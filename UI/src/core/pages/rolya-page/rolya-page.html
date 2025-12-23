@@ -3,79 +3,69 @@
 
       <div class="rolya-opposite" >
         <div class="rolya-opposite-info">
-          <div>
-            turn: {{ turn }}
-          </div>
-          <div>
-            total: {{ cpuToalBound }}
-          </div>
-          <div>
-            in: {{ cpuInBound }}
-            current: {{ cpuCurrentBound}}
-          </div>
+          Total: {{ cpuToalBound }}
+          Turn: {{ cpuInBound }}
+          Current: {{ cpuCurrentBound}}
         </div>  
-            
         <div clas="rolya-opposite-card">
           @for (item of cardOpposite;let i = $index ;track item) {
             @if( i == 0){
               <poker-card  
-                class="rolya-main-content-hand"
+                class="rolya-cardgroup"
                 [backshow]="true"
                 [cardData]="item">
               </poker-card>
             }
             @else{
               <poker-card  
-                class="rolya-main-content-hand"
+                class="rolya-cardgroup"
                 [cardData]="item">
               </poker-card>
             }
           }
         </div>
-
-        
       </div>
       
 
       <div class="rolya-self">
-       
         <div class="rolya-self-card" >
           @for (item of cardInHand;let i = $index ;track item) {
             <poker-card  
-              class="rolya-main-content-hand"
+              class="rolya-cardgroup"
               [allowHover]="true"
               [cardData]="item">
             </poker-card>
           }
         </div>
 
-
-         <div class="rolya-self-info">
-          <div class="rolya-main-self-score">
+        <div class="rolya-self-operator">
+          <div class="rolya-self-info">
             u: {{ score }}
             total: {{ playerToalBound }}
             in: {{ playerInBound }}
             current: {{ playerCurrentBound}}
           </div>
-          <div class="rolya-main-self-btn">
-            <div>
+          <div class="rolya-self-input">
               <ui-input type="number" [numberStep]="1000" [(value)]="inputNumber">
               </ui-input>
-            </div>
-            <div>
-              <ui-button 
-                modeType="text"
-                [disabled]="inputNumber < cpuCurrentBound"
-                class="rolya-main-content-restart"
-                (btnClick)="doBounds(inputNumber)">
-                {{ message }}
-              </ui-button>
-            </div>
           </div>
-          <!-- 
-            
-          
-          -->
+          <div class="rolya-self-btn">
+            <ui-button 
+              modeType="text"
+              [disabled]="inputNumber < cpuCurrentBound"
+              class="rolya-bound"
+              (btnClick)="doBounds(inputNumber)">
+              {{ message }}
+            </ui-button>
+
+            <ui-button 
+              modeType="text"
+              [disabled]="inputNumber < cpuCurrentBound"
+              class="rolya-restart"
+              (btnClick)="doBounds(inputNumber)">
+              {{ message }}
+            </ui-button>
+          </div>
           
         </div>
 
@@ -83,11 +73,20 @@
        
     </div>
     
+    
 
+    <!-- @if(){
+      <div class="rolya-speaker">
+        speaker: {{ speaker ? 'cpu' : 'player' }}
+      </div>
+    } -->
+    
 
-    <div class="rolya-speaker">
-       speaker: {{ speaker ? 'cpu' : 'player' }}
+    <div class="rolya-round">
+      round: {{ round }}
     </div>
+
+    
 </div>
 
 
@@ -96,13 +95,12 @@
 <!-- 
 | info      poker             
 |          |           
-|               | 
-|
-|  
       POKER
 |          |
 | opreation| 
 |          |
+
+
 
 
 
