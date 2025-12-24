@@ -46,6 +46,9 @@ export class App {
   go2Tetoris(){
     this.router.navigate(['tetoris-page']);
   }
+  go2ClearPage(){
+    this.router.navigate(['clear-page']);
+  }
 
   ngOnDestroy() {
     // @ts-ignore

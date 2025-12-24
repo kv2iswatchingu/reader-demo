@@ -63,7 +63,7 @@ export class TwentyOnePage {
     this.cardStack = [];
     for(let x = 1;  x <= 2; x++){
       for (let j = 1; j <= 4; j++) {
-        for (let i = 2; i <= 14; i++) {
+        for (let i = 1; i <= 13; i++) {
           const item: PokerCardType = {
             label:
               i == 13
@@ -72,7 +72,7 @@ export class TwentyOnePage {
                   ? 'Q'
                   : i == 11
                     ? 'J'
-                    : i == 14
+                    : i == 1
                       ? 'A'
                       : i.toString(),
             value: i,
@@ -190,7 +190,19 @@ export class TwentyOnePage {
     if(this.gameover || this.allOver){
       return;
     }
-    const need = 21 - this.cpuCard;
+    let tempCpuCard = this.cpuCard;
+    if (this.cardOpposite.some((item: any) => item.label == 'A')) {
+      let temp = 0;
+      this.cardOpposite.map((item: any) => {
+        if(item.value >= 10){
+          temp += 10;
+        }else{
+          temp += item.value;
+        }
+      })
+      tempCpuCard = temp;
+    }
+    const need = 21 - tempCpuCard;
     let needup = 0;
     this.cardStack.map((item) => {
       if(item.value < 10){

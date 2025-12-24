@@ -125,7 +125,7 @@ export class RolyaPage {
     }
     
   }
-
+  
   doBounds(bounds: number, allin?: boolean) {
     bounds = Number(bounds); 
     

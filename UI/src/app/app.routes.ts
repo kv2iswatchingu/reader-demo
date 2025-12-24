@@ -11,6 +11,7 @@ import { CardBattle } from '../core/pages/card-page/card-battle/card-battle';
 import { RolyaPage } from '../core/pages/rolya-page/rolya-page';
 import { TetorisPage } from '../core/pages/tetoris-page/tetoris-page';
 import { TwentyOnePage } from '../core/pages/twentyOne-page/twentyOne-page';
+import { ClearPage } from '../core/pages/clear-page/clear-page';
 
 export const routes: Routes = [
   { 
@@ -35,5 +36,7 @@ export const routes: Routes = [
     path: 'twentyOne-page', component: TwentyOnePage
   },{
     path: 'tetoris-page', component: TetorisPage
+  },{
+    path: 'clear-page', component: ClearPage
   }
 ];
