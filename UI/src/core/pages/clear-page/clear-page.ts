@@ -3,6 +3,7 @@ import { UiButton } from '../../components/ui-button/ui-button';
 import { MatIcon } from '@angular/material/icon';
 import { get } from 'sortablejs';
 import { DigitalNumber } from '../../components/digital-number/digital-number';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'clear-page',
@@ -27,7 +28,7 @@ export class ClearPage {
    * charpter 7  standard / finish    +0second
    * 
   */
-  emptycell = { x: -1, y: -1, isEdge: true, label: '', clicked: false};
+  emptycell = { x: -1, y: -1, isEdge: true, label: '', clicked: false, showPath: false };
 
   firstChoose:Cell = this.emptycell;
   secondChoose:Cell = this.emptycell;
@@ -47,9 +48,20 @@ export class ClearPage {
   timer_second: number = 0;
   timerInterval:any;
 
+  waiting:any
+
+  rank: {
+    state: string,
+    chapter: number,
+    date: string,
+    score: number,
+    combo: number,
+    extraTime: string
+  }[] = [];
+
   combo:number = 0;
   score:number = 0;
-  constructor() {}
+  constructor(private _snackBar:MatSnackBar) {}
 
   ngOnInit() {
     if(localStorage.getItem('jsonLibarayPath')){
@@ -59,8 +71,16 @@ export class ClearPage {
       this.noLibaray = true;
     }
     this.getLibarayFromJson();
+    if(localStorage.getItem('clearScore')){
+      this.rank = JSON.parse(localStorage.getItem('clearScore')!);
+    }
     //this.init();
   } 
+
+  ngDestroy() {
+    clearInterval(this.timerInterval);
+    clearInterval(this.waiting);
+  }
 
   start(){
     this.charpter = 0
@@ -90,16 +110,87 @@ export class ClearPage {
     this.firstChoose = this.emptycell;
     this.secondChoose = this.emptycell;
   }
-   afterClear() {
-    if (this.checkChapterClear()) {
+
+
+  resetCharpter() {
+    this.init();
+    if(this.timer - 60 > 90){
+      this.timer -= 90;
+      clearInterval(this.timerInterval);
+      clearInterval(this.waiting)
+      this._snackBar.open('Waiting to reset Chapter',"", {
+        duration: 3000,
+        horizontalPosition: "center",
+        verticalPosition: "top",
+      });
+      this.waiting = setTimeout(() => {
+        this.nextChapter();
+        this.tickTimer();
+      },3000);
+    }else{
+      this.timer = 60;
+    }
+  }
+  afterClear() {
+    switch (this.charpter) {
+      case 0:
+        break;
+      case 1:
+        this.alignClearArray('left');
+        break;
+      case 2:
+        this.alignClearArray('right');
+        break;
+      case 3:
+        this.alignClearArray('down');
+        break;
+      case 4:
+        this.alignClearArray('up');
+        break;
+      case 5:
+        this.alignClearArray('left');
+        this.alignClearArray('up');
+        break;
+      case 6:
+        this.alignClearArray('right');
+        this.alignClearArray('down');
+        break;
+      case 7:
+        break;
+    }
+    if (this.checkChapterClear() && this.charpter < 7) {
       this.charpterOver = true;
       this.score += 10000;
       clearInterval(this.timerInterval);
-      this.nextChapter();
-      this.tickTimer();
+      clearInterval(this.waiting);
+      this.waiting = setTimeout(() => {
+        this.nextChapter();
+        this.tickTimer();
+      },3000);
+      this._snackBar.open('Waiting to Next Chapter',"", {
+        duration: 3000,
+        horizontalPosition: "center",
+        verticalPosition: "top",
+      });
+    }else if( this.charpter === 7 && this.checkChapterClear()){
+      this.gameOver = true;
+      this._snackBar.open('Win!!',"", {
+        duration: 10000,
+        horizontalPosition: "center",
+        verticalPosition: "top",
+      });
+      const currentRank = {
+        state: 'WIN',
+        score: this.score,
+        combo: this.combo,
+        chapter: this.charpter + 1,
+        date: new Date().toLocaleString(),
+        extraTime: this.timer_minute + ':' + this.timer_second
+      }
+      this.rank.push(currentRank);
+      localStorage.setItem('clearScore',JSON.stringify(this.rank));
     }
   }
-
   init(){
 
     this.clearArray = Array.from({ length: this.arrayLength }, (_,y) =>
@@ -109,7 +200,8 @@ export class ClearPage {
         y: y,
         isEdge: (x === 0 || y === 0 || x === this.arrayLength - 1 || y === this.arrayLength - 1),
         label: '',
-        clicked: false
+        clicked: false,
+        showPath: false
       }))
     );
    //console.log(this.clearArray);
@@ -121,10 +213,6 @@ export class ClearPage {
     }
     const X = 15; //
     const total = positions.length;
-    if (total % 2 !== 0) {
-      alert('可用格子数不是偶数，无法配对！');
-      return;
-    }
     let icons: string[] = [];
     let pairCounts = Array(X).fill(0);
     for (let i = 0; i < total / 2; i++) {
@@ -140,7 +228,6 @@ export class ClearPage {
       this.clearArray[pos.y][pos.x].label = icons[idx];
     });
   }
-
   async chooseLibaray(){
     //@ts-ignore
     const result = await window.electronAPI.getFile();
@@ -159,7 +246,7 @@ export class ClearPage {
      }else{
        console.log(result.message);
      }
-   } 
+  } 
 
 
   
@@ -168,8 +255,12 @@ export class ClearPage {
 
   clickCell(cell:any){
     if(cell === this.firstChoose){
+      this.firstChoose = this.emptycell;
+      cell.clicked = false;
       return;
     }
+    if(this.gameOver) return;
+    if(cell.isEdge) return;
     cell.clicked = true;
     if(!this.isEmpty(this.firstChoose)){
 
@@ -188,11 +279,12 @@ export class ClearPage {
         this.combo = 0;
 
       }else{
+        //this.showPath(pathRight.path);
         this.clearArray[this.firstChoose.y][this.firstChoose.x].isEdge = true;
         this.clearArray[this.secondChoose.y][this.secondChoose.x].isEdge = true;
         this.firstChoose = this.emptycell;
         this.secondChoose = this.emptycell;
-        const bounds = this.combo < 4 ? Math.floor(this.combo * 0.5) : 4;
+        const bounds = this.combo < 3 ? Math.floor(this.combo * 0.5) : 3;
         this.timer +=  bounds;
         this.combo++;
         this.score += 200 + this.combo * 5;
@@ -202,6 +294,17 @@ export class ClearPage {
       this.firstChoose = cell;
     }
   }
+
+  // showPath(path: {x: number, y: number}[]) {
+  //   for (const pos of path) {
+  //     this.clearArray[pos.y][pos.x].showPath = true;
+  //   }
+  //   setTimeout(() => {
+  //     for (const pos of path) {
+  //       this.clearArray[pos.y][pos.x].showPath = false;
+  //     }
+  //   }, 500);
+  // }
 
 
 
@@ -358,38 +461,102 @@ export class ClearPage {
       } else {
         clearInterval(this.timerInterval);
         this.gameOver = true;
-        alert('游戏结束');
-      }
+        this._snackBar.open('TimesUp Game Over',"", {
+          duration: 10000,
+          horizontalPosition: "center",
+          verticalPosition: "top",
+        });
+        const currentRank = {
+          state: 'LOSE',
+          score: this.score,
+          combo: this.combo,
+          chapter: this.charpter + 1,
+          date: new Date().toLocaleString(),
+          extraTime: this.timer_minute + ':' + this.timer_second
+        }
+        this.rank.push(currentRank);
+        localStorage.setItem('clearScore',JSON.stringify(this.rank));
+        }
     }, 1000);
   }
 
   
-  // left(){
-  //   for (let y = 1; y < this.arrayLength - 1; y++) {
-  //     // 1. 取出当前行的所有可用格子
-  //     const row = this.clearArray[y];
-  //     const cells = [];
-  //     // 收集所有未消除的非边缘格子
-  //     for (let x = 1; x < this.arrayLength - 1; x++) {
-  //       if (!row[x].isEdge && row[x].label !== '') {
-  //         cells.push(row[x].label);
-  //       }
-  //     }
-  //     // 2. 左对齐填充
-  //     let idx = 1;
-  //     for (let label of cells) {
-  //       row[idx].label = label;
-  //       row[idx].isEdge = false;
-  //       idx++;
-  //     }
-  //     // 3. 剩余位置清空
-  //     for (; idx < this.arrayLength - 1; idx++) {
-  //       row[idx].label = '';
-  //       row[idx].isEdge = false;
-  //     }
-  //   }
-  // }
-
+  alignClearArray(direction: 'left' | 'right' | 'up' | 'down') {
+    if (direction === 'left' || direction === 'right') {
+      for (let y = 1; y < this.arrayLength - 1; y++) {
+        const row = this.clearArray[y];
+        const cells = [];
+        for (let x = 1; x < this.arrayLength - 1; x++) {
+          if (!row[x].isEdge && row[x].label !== '') {
+            cells.push(row[x].label);
+          }
+        }
+        if (direction === 'left') {
+          let idx = 1;
+          for (let label of cells) {
+            row[idx].label = label;
+            row[idx].isEdge = false;
+            row[idx].clicked = false;
+            idx++;
+          }
+          for (; idx < this.arrayLength - 1; idx++) {
+            row[idx].label = '';
+            row[idx].isEdge = true;
+            row[idx].clicked = false;
+          }
+        } else if (direction === 'right') {
+          let idx = this.arrayLength - 2;
+          for (let i = cells.length - 1; i >= 0; i--) {
+            row[idx].label = cells[i];
+            row[idx].isEdge = false;
+            row[idx].clicked = false;
+            idx--;
+          }
+          for (; idx >= 1; idx--) {
+            row[idx].label = '';
+            row[idx].isEdge = true;
+            row[idx].clicked = false;
+          }
+        }
+      }
+    } else if (direction === 'up' || direction === 'down') {
+      for (let x = 1; x < this.arrayLength - 1; x++) {
+        const cells = [];
+        for (let y = 1; y < this.arrayLength - 1; y++) {
+          if (!this.clearArray[y][x].isEdge && this.clearArray[y][x].label !== '') {
+            cells.push(this.clearArray[y][x].label);
+          }
+        }
+        if (direction === 'up') {
+          let idx = 1;
+          for (let label of cells) {
+            this.clearArray[idx][x].label = label;
+            this.clearArray[idx][x].isEdge = false;
+            this.clearArray[idx][x].clicked = false;
+            idx++;
+          }
+          for (; idx < this.arrayLength - 1; idx++) {
+            this.clearArray[idx][x].label = '';
+            this.clearArray[idx][x].isEdge = true;
+            this.clearArray[idx][x].clicked = false;
+          }
+        } else if (direction === 'down') {
+          let idx = this.arrayLength - 2;
+          for (let i = cells.length - 1; i >= 0; i--) {
+            this.clearArray[idx][x].label = cells[i];
+            this.clearArray[idx][x].isEdge = false;
+            this.clearArray[idx][x].clicked = false;
+            idx--;
+          }
+          for (; idx >= 1; idx--) {
+            this.clearArray[idx][x].label = '';
+            this.clearArray[idx][x].isEdge = true;
+            this.clearArray[idx][x].clicked = false;
+          }
+        }
+      }
+    }
+  }
 
 }
 
@@ -400,4 +567,5 @@ export interface Cell  {
   isEdge: boolean;
   label: string;
   clicked: boolean;
+  showPath: boolean;
 }
