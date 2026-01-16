@@ -66,6 +66,10 @@ export class TetorisPage {
       this.rotate();
     }     
   }
+  // E A V Y N O  
+  //  
+  //    
+  //    
 
   ngOnInit() {
     if(localStorage.getItem('tetorisScore')){
@@ -77,10 +81,35 @@ export class TetorisPage {
   //   this.start();
   // }
   /** 
-   *  
+   *  kowaiitanki
+   *  kyowa shenshekaidianohi
+   *  kora
+   *  ...
+   *  wasurededa⭐️
+   *  Cookie✨
+   *  wotashinotabesaseru
+   * 
+   * 
+   * maiikorinnodesetsu
    * 
    * 
    * 
+   * seika ide ichibanno himesama
+   * yone
+   * 
+   * NOCHONA-CHO ???NNNNNNN
+   * 
+   * 
+   * function - > CH-N number -> # ?
+   * meoagere 
+   * 
+   * The little flower growing on the hill
+   * her name is 
+   * Erika
+   * 
+   * suki cookie biki
+   * 
+   * ----- > 
    * 
   */
 
@@ -94,6 +123,8 @@ export class TetorisPage {
 
   start(){
     this.overflag = false;
+    //rebitrh and display ledc aslsd owner score 
+    /// i cannot beleive you 
     this.predBlock = null;
     removeEventListener('keydown', this.listener, true);
     this.control();
@@ -108,6 +139,7 @@ export class TetorisPage {
     this.timerCount();
   }
   stop(){
+    //id = 1 or next els comecover,jpg from 1000dd cover 102
     if(this.overflag) return;
     //this.clearAll();
     clearInterval(this.interval);
@@ -118,6 +150,7 @@ export class TetorisPage {
       horizontalPosition: "center",
       verticalPosition: "top",
     });
+
     removeEventListener('keydown', this.listener, true);
   }
 
@@ -126,6 +159,9 @@ export class TetorisPage {
     const newBlock = this.createRandomShape(5, 0);
     const newpred = this.createRandomShape(5, 0);
 
+    // fire ,XX, donimation 
+    // žæŵßðęķōì wsdxzsaw
+    //
     const blocked = newpred.blocks.some(cell => {
       return (
         cell.y >= 0 &&
@@ -173,6 +209,8 @@ export class TetorisPage {
   }
   renderTetoris(color?: string) {
     this.clear(this.tetoris);
+    // this.clear(this.pred);
+    // lx 
     for (const cell of this.currentBlock.blocks) {
       if (
         cell.y >= 0 &&
@@ -489,6 +527,12 @@ export class TetorisPage {
   }
   /**
     * 123/456/789/ABC/DEF/
+    * 
+    * 
+    * 
+    * 
+    * 
+    * 
     *    08 09 10 11          10
     *                         09
     *       09 10             08

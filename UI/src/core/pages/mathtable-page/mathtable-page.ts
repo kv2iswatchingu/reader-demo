@@ -243,6 +243,7 @@ export class MathTablePage {
     this.init();
     this.domInit();
     this.timerCount();
+    // 1 -7 -15
   }
 
   restart() {

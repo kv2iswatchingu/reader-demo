@@ -5,7 +5,6 @@ const { dialog } = require('electron');
 const { BrowserWindow } = require('electron');
 //const { setTimeout, clearTimeout,setInterval,clearInterval } = require('timers');
 const fastglob = require('fast-glob');
-const { Console } = require("console");
 
 function registerIpcHandlers() {
 
@@ -37,6 +36,44 @@ function registerIpcHandlers() {
         //}
       });
       return { success: true, files };
+
+      // Stream read
+      // if( !fs.existsSync(dirPath) ){
+      //   return { success: false, message: '路径不存在' };
+      // }
+      // await new Promise((resolve, reject) => {
+      //   let data = '';
+      //   const stream = fs.createReadStream(dirPath);
+      //   stream.on('data', (chunk) => {
+      //     data += chunk;
+      //   });
+      //   stream.on('end', () => {
+      //     try{
+      //       const contents = JSON.parse(data);
+      //       const files = {
+      //         // name: contents.name,
+      //         // path: fullPath,
+      //         // size: stat.size,
+      //         // sizeText: formatSize(stat.size),
+      //         // isDirectory: stat.isDirectory(),
+      //         // isImage: stat.isFile() && /\.(png|jpe?g|gif|bmp|webp)$/i.test(name),
+      //         // isVideo: stat.isFile() && /\.(mp4|mkv|avi|mov|wmv|flv)$/i.test(name),
+      //         // isJson: stat.isFile() && /^config\.json$/i.test(name),
+      //         // isPdf: stat.isFile() && /\.(pdf)$/i.test(name),
+      //         // birthtime: stat.birthtime,
+      //         // birthtimeText: formatDate(stat.birthtime),
+      //         // mtime: stat.mtime,
+      //         // mtimeText: formatDate(stat.mtime)
+      //       }
+      //       resolve({ success,contents});
+      //     }catch(e){
+      //       resolve({ success: false, message: e.message });
+      //     }
+      //   });
+      //   stream.on('error', (err) => {
+      //     reject(err);
+      //   });
+      // });
     } catch (e) {
       return { success: false, message: e.message };
     }
@@ -96,6 +133,7 @@ function registerIpcHandlers() {
     } catch (e) {
       return { success: false, message: e.message };
     }
+    //
   });
   // 删除文件/文件夹
   ipcMain.handle('remove-path', async (event, targetPath) => {
@@ -259,11 +297,18 @@ function registerIpcHandlers() {
       return { isDirectory: false, isFile: false };
     }
   });
-  //
+  // -> 
   ipcMain.handle('get-pathsep',()=>{
     return path.sep
   })
   // //nodejs 的计时器
+  /**
+   *  在下一者是为主公悲伤，二者是为主公道喜
+   *  
+   * 
+   * 
+   * 
+  */
   // ipcMain.handle('timer', async (event) => {
   //   try {
   //     //return { success: true, time: Date.now() + time };
@@ -272,7 +317,7 @@ function registerIpcHandlers() {
   //     return { success: false, message: e.message };
   //   }
   // })
-  //
+  // -------------
   /**
    * ipcMain.handle('read-out', async (event, targetPath) => {
     try {

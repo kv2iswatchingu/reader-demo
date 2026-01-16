@@ -12,6 +12,7 @@ import { RolyaPage } from '../core/pages/rolya-page/rolya-page';
 import { TetorisPage } from '../core/pages/tetoris-page/tetoris-page';
 import { TwentyOnePage } from '../core/pages/twentyOne-page/twentyOne-page';
 import { ClearPage } from '../core/pages/clear-page/clear-page';
+import { TouhoPage } from '../core/pages/touho-page/touho-page';
 
 export const routes: Routes = [
   { 
@@ -38,5 +39,7 @@ export const routes: Routes = [
     path: 'tetoris-page', component: TetorisPage
   },{
     path: 'clear-page', component: ClearPage
+  },{
+    path: 'touho-page', component: TouhoPage
   }
 ];

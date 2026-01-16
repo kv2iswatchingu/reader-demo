@@ -1,1 +1,23 @@
-<p>touho-page works!</p>
+<div>
+
+    <div class="timer">
+    <digital-number
+        [number]="timer_minute"
+        id="minute"
+        [limitedigit]="2"
+        digitalcolor="#FF0000"
+    >
+    </digital-number>
+    :
+    <digital-number
+        [number]="timer_second"
+        id="second"
+        [limitedigit]="2"
+        digitalcolor="#FF0000"
+    >
+    </digital-number>
+    </div>
+    <div>
+        <button (click)="reset()">reset</button>
+    </div>
+</div>

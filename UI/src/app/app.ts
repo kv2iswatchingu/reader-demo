@@ -49,6 +49,9 @@ export class App {
   go2ClearPage(){
     this.router.navigate(['clear-page']);
   }
+  go2TouhoPage(){
+    this.router.navigate(['touho-page']);
+  }
 
   ngOnDestroy() {
     // @ts-ignore
