@@ -14,6 +14,16 @@ export interface CardList {
   name: string;
   time: string;
   card: FunCardType[];
+  //
+  //                 ｜
+  //                 ｜
+  //                 ｜
+  //      -----------｜-----------
+  //                 ｜
+  //                 ｜
+  //                 ｜
+  //
+  //
 }
 
 export interface FunCardTypeExtend extends FunCardType{
@@ -77,3 +87,84 @@ export interface FunCardImage {
   changeImage?:string,
   overImage?:string,
 }
+
+export class Card {
+  public cardData?:FunCardTypeExtend;
+
+  constructor(cardData?:FunCardTypeExtend) {
+    this.cardData = cardData
+  }
+  
+  private enterSpecial() {
+    
+  }
+
+  private leaveSpecial() {
+    
+  }
+
+  private onSpecial() {
+    
+  }
+
+  private useSpecial() {
+    
+  }
+
+  private endSpecial() {
+    
+  }
+
+  private mamori() {
+    
+  }
+
+  private () {
+    
+  }
+
+
+
+
+  private switchSpecial() {
+    
+  }
+
+
+
+
+
+  public Attack() {
+    
+  }
+
+  public Defend() {
+    
+  }
+
+  public Effect() {
+    
+  }
+
+
+  
+  
+}
+
+/** 
+ * ->interface -data - class -new()?
+ * 1.BaseEffect 通过data词缀直接生效，类方法？继承，重写？
+ *  词缀类型 emnu 时间/效果？
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+*/

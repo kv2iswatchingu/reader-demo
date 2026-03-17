@@ -6,8 +6,8 @@
 }
 .tetoris{
     &-main{
-        width: 30%;
-        padding: 60px;
+        //width: 30%;
+        padding: 30px;
         &-table{
             width: fit-content;
             display: grid;
@@ -24,15 +24,15 @@
         }
     }
     &-borad{
-        width: 30%;
-        padding: 60px;
+        //width: 30%;
+        padding: 30px;
         height: 100%;
         text-align: center;
     }
     &-rank{
-        width: 30%; 
+        //width: 30%; 
         height: 100%;
-        padding: 60px;
+        padding: 30px;
     }
 }
 

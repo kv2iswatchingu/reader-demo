@@ -66,10 +66,18 @@ export class TetorisPage {
       this.rotate();
     }     
   }
-  // E A V Y N O  
-  //  
-  //    
-  //    
+
+  // D A I S U K E
+  // 
+  // T E T O R I S   
+  //
+  // . . _   
+  // 
+  // CRASH DOMINATION 
+  // 
+  // WINGS OF TERROR
+
+  
 
   ngOnInit() {
     if(localStorage.getItem('tetorisScore')){
@@ -135,7 +143,7 @@ export class TetorisPage {
     this.timer = 0;
     this.interval = setInterval(() => {
       this.moveDown(0, 1);
-    }, 500);
+    }, 400);
     this.timerCount();
   }
   stop(){
@@ -264,6 +272,10 @@ export class TetorisPage {
       ShapeI_2,
       ShapeI_1,
       ShapeI_2,
+      ShapeI_1,
+      ShapeI_2,
+      ShapeO,
+      ShapeO,
       ShapeO,
       ShapeO,
       ShapeT_1,
@@ -272,8 +284,6 @@ export class TetorisPage {
       ShapeT_4,
       ShapeT_1,
       ShapeT_2,
-      ShapeT_3,
-      ShapeT_4,
       ShapeL_1,
       ShapeL_2,
       ShapeL_3,
@@ -287,8 +297,6 @@ export class TetorisPage {
       ShapeZ_1,
       ShapeZ_2,
       ShapeN_1,
-      ShapeN_2,
-      ShapeZ_1,
       ShapeZ_2,
     ];
     const idx = Math.floor(Math.random() * shapes.length);
@@ -358,7 +366,8 @@ export class TetorisPage {
     //
     
   }
-  /**8
+  /**
+   * a fozen denisty into liberity
    * from a shape to another
    * const afunction = () => {
    *     this.currentBlock = new ShapeI_1(this.currentBlock.x, this.currentBlock.y);
@@ -382,7 +391,7 @@ export class TetorisPage {
    *     this.currentBlock = new ShapeI_1(this.currentBlock.x, this.currentBlock.y);
    *     break;
    *
-   }
+   }    ishatter thisskywhenthelastchainbreaks
    * }
    */
 
@@ -528,7 +537,9 @@ export class TetorisPage {
   /**
     * 123/456/789/ABC/DEF/
     * 
-    * 
+    * Spuer Ultimate Bahamut
+    * Dark Raputrue · Zero
+    * TianYuanLiuSeZhiLi 
     * 
     * 
     * 

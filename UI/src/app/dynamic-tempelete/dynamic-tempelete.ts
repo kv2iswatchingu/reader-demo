@@ -16,16 +16,16 @@ export class DynamicTempelete {
   public isLoading = true;
   public hasMask: boolean = true;
 
-  constructor(
-    private route: ActivatedRoute,
-    private componentFactoryResolver: ComponentFactoryResolver) {
-  }
+  // constructor(
+  //   private route: ActivatedRoute,
+  //   private componentFactoryResolver: ComponentFactoryResolver) {
+  // }
 
-  ngOnInit() {
-    const componentFactory = this.componentFactoryResolver.resolveComponentFactory(this.route.snapshot.component);
-    this.formContainerRef = this.formContainer?.createComponent(componentFactory);
-    this.isLoading = false;
-  }
+  // ngOnInit() {
+  //   const componentFactory = this.componentFactoryResolver.resolveComponentFactory(this.route.snapshot.component);
+  //   this.formContainerRef = this.formContainer?.createComponent(componentFactory);
+  //   this.isLoading = false;
+  // }
 
   
 }

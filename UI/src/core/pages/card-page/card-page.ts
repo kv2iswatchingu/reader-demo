@@ -1,6 +1,7 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { UiButton } from "../../components/ui-button/ui-button";
 import { Router } from '@angular/router';
+import { Card } from './card.interface';
 
 @Component({
   selector: 'app-card-page',
@@ -20,4 +21,10 @@ export class CardPage {
   go2CardEditPage(){
     this.router.navigate(['card-edit']);
   }
+
+  myfun(){
+    //const card = new Card();
+    //card.enterSpecial();
+  }
 }
+
