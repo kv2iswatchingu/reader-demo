@@ -1,16 +1,18 @@
 import { Component, Input } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
-import { FunCardType, FunCardTypeExtend } from '../card.interface';
+//import { FunCardType, FunCardTypeExtend } from '../card.interface';
 
 @Component({
   selector: 'fun-card',
-  imports: [MatIcon],
+  imports: [
+    //MatIcon
+  ],
   templateUrl: './fun-card.html',
   styleUrl: './fun-card.scss'
 })
 export class FunCard {
-  @Input() cardData?: FunCardTypeExtend;
-  @Input() orignCardData?: FunCardType;
+  //@Input() cardData?: FunCardTypeExtend;
+  //@Input() orignCardData?: FunCardType;
   @Input() detailPosition: string = '';
 
   showDetail:boolean = false;

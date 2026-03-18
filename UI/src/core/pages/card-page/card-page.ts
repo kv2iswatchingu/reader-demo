@@ -1,7 +1,7 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { UiButton } from "../../components/ui-button/ui-button";
 import { Router } from '@angular/router';
-import { Card } from './card.interface';
+import { Card } from './card.core';
 
 @Component({
   selector: 'app-card-page',
